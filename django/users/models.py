@@ -1,9 +1,5 @@
 from django.db import models
 
-class Image(models.Model):
-    image_id = models.AutoField(primary_key=True)
-    image = models.ImageField(upload_to='images/', null=True)
-
 class User(models.Model):
 
     PROFILE_IMGS = [
@@ -16,7 +12,8 @@ class User(models.Model):
     username = models.CharField(max_length=10)
     password = models.CharField(max_length=20)
     nickname = models.CharField(max_length=10)
-    user_image_id = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
+    profile_img = models.IntegerField(choices=PROFILE_IMGS, default=1)
+    exp = models.IntegerField(default=0)
     macrotext1 = models.CharField(max_length=20, blank=True, default="good game")
     macrotext2 = models.CharField(max_length=20, blank=True, default="thanks")
     macrotext3 = models.CharField(max_length=20, blank=True, default="bye bye")
