@@ -16,14 +16,13 @@ class Match(models.Model):
         ('match', '1대1경기'),
     ]
 
-    match_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_id')
-    rival_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rival_id')
+    user1_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='matches_as_user1')
+    user2_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='matches_as_user2')
     match_result = models.CharField(max_length=40, choices=RESULT_CHOICES, blank=True, default='pending_result')
     match_start_time = models.DateTimeField(auto_now_add=True)
     match_end_time = models.DateTimeField(default=timezone.now)
-    match_user_grade = models.IntegerField(blank=True, default=0)
-    match_rival_grade = models.IntegerField(blank=True, default=0)
+    user1_grade = models.IntegerField(blank=True, default=0)
+    user2_grade = models.IntegerField(blank=True, default=0)
     match_type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='match')
 
     def __str__(self):
@@ -31,8 +30,7 @@ class Match(models.Model):
 
 class Tournament(models.Model):
 
-    tournament_id = models.AutoField(primary_key=True)
-    semifinal_id1 = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='semifinal_id1')
-    semifinal_id2 = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='semifinal_id2')
-    bonus_match_id = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='bonus_match_id')
-    final_id = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='final_id')
+    semifinal1 = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='semifinal_matches1')
+    semifinal2 = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='semifinal_matches2')
+    bonus_match = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='bonus_matches')
+    final = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='final_matches')

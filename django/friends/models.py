@@ -8,6 +8,6 @@ class Friend(models.Model):
         ('accepted', '친구상태'),
     ]
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fuser_id')
-    friend_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_id')
-    friend_relation = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    user1_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends_initiated')
+    user2_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends_received')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
