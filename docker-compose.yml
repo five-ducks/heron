@@ -3,7 +3,6 @@ version: "3"
 services:
   django:
     build: django/
-    image: django
     container_name: django
     command: python manage.py runserver 0:8000
     ports:
@@ -24,14 +23,11 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - "./data/db:/var/lib/postgresql/data"
-    ports:
-      - "5432:5432"
     container_name: postgres
     env_file: .env
 
   nginx:
     build: nginx/
-    image: nginx
     ports:
       - '1443:443'
     container_name: nginx
