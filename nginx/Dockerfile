@@ -1,10 +1,16 @@
 FROM nginx
 
-RUN apt-get update && apt-get -y install openssl
-RUN openssl req -x509 -newkey rsa:4096 -days 365 -nodes \
-    -keyout /etc/ssl/private/test.kr_key.pem \
-    -out /etc/ssl/certs/test.kr_cert.pem -sha256 \
-    -subj "/C=KR/ST=Seoul/L=Seoul/O=42 Seoul/CN=test.kr"
+RUN apt-get -y update && \
+	apt-get -y upgrade && \
+	apt-get -y install openssl
 
+RUN	openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
+	-subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Gun/CN=localhost" \
+	-keyout /etc/ssl/private/localhost.dev.key \
+	-out /etc/ssl/certs/localhost.dev.crt && \
+	chmod 600 /etc/ssl/certs/localhost.dev.crt /etc/ssl/private/localhost.dev.key
 
-COPY nginx.conf /usr/local/etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

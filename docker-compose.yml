@@ -2,15 +2,14 @@ version: "3"
 
 services:
   django:
-    build: django/
+    build: backend/
     container_name: django
-    command: python manage.py runserver 0:8000
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - type: bind
-        source: ./django
-        target: /web
+        source: ./backend
+        target: /app
     environment:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
     depends_on:
@@ -19,18 +18,22 @@ services:
   db:
     image: postgres
     environment:
+      - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - "./data/db:/var/lib/postgresql/data"
+    expose:
+      - "5432"
     container_name: postgres
     env_file: .env
 
   nginx:
     build: nginx/
     ports:
-      - '1443:443'
+      - 80:80
+      - 443:443
     container_name: nginx
+    volumes:
+      - "./frontend:/usr/share/nginx/html:ro"
     restart: always
     depends_on:
       - django
