@@ -25,15 +25,15 @@ SECRET_KEY = 'django-insecure-zfc8_i1(e)xhnm6rk+g+hm1of9bwr$j+h_3)9vt3q_r#m1_l5-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'users',
-    'games',
-    'friends',
+    'users.apps.UsersConfig',
+    'games.apps.GamesConfig',
+    'friends.apps.FriendsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,7 +82,7 @@ DATABASES = {
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "postgres",
+        "HOST": "db",
         "PORT": "5432",
     }
 }
