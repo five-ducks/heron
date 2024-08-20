@@ -4,8 +4,10 @@ services:
   django:
     build: backend/
     container_name: django
-    expose:
-      - "8000"
+    # expose:
+    #   - "8000"
+    ports:
+      - "8000:8000"
     volumes:
       - type: bind
         source: ./backend
