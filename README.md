@@ -9,6 +9,8 @@ Heron/
 │
 ├── frontend/                  # 프론트엔드 애플리케이션
 │   ├── public/                # 정적 파일 (HTML, 이미지 등)
+|   |    ├── fonts/            # 폰트 파일
+|   |    ├── images/           # 이미지 파일
 │   ├── src/                   # 소스 코드 (JavaScript, CSS, React/Vue/Angular 등
 |   |    ├── core/             # 공통 컴포넌트
 |   |    ├── routes/           # 페이지
