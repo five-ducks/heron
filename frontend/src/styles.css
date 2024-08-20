@@ -23,10 +23,36 @@
 	text-align: center;
 }
 
-.button-row {
+.gate .button-row {
 	display: flex;
 	justify-content: center;
 	margin-top: 20px;
 	font-family: 'Pixeboy';
 	font-size: 100px;
+}
+
+.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100%;
+	background-image: url('../public/images/space_bg.png'); /* 배경 이미지 경로 */
+	background-size: cover; /* 이미지가 컨테이너에 맞게 조정됨 */
+}
+
+.login h1 {
+	font-size: 250px;
+	line-height: 70%;
+	font-family: 'Pixeboy';
+	color: white;
+	text-align: center;
+}
+
+.login .button-row {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+	gap: 30px;
+	font-family: 'Pixeboy';
 }
