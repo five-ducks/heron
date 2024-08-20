@@ -8,6 +8,15 @@
 Heron/
 │
 ├── frontend/                  # 프론트엔드 애플리케이션
+│   ├── public/                # 정적 파일 (HTML, 이미지 등)
+│   ├── src/                   # 소스 코드 (JavaScript, CSS, React/Vue/Angular 등
+|   |    ├── core/             # 공통 컴포넌트
+|   |    ├── routes/           # 페이지
+|   |    ├── components/       # 컴포넌트
+│   ├── package.json           # 프론트엔드 패키지 설정
+│   ├── Dockerfile             # 프론트엔드용 Dockerfile
+|   ├── index.html             # 시작 html 파일  
+│   └── .env                   # 프론트엔드 환경 변수 설정 파일
 │
 ├── backend/                   # 백엔드 애플리케이션
 │   ├── config/                # Django 프로젝트 설정 파일들
