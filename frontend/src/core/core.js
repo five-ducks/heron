@@ -4,7 +4,8 @@ export class Component {
 		const {
 			tagName = 'div', // 최상위 요소의 태그 이름
 			props = {},
-			state = {}
+			state = {},
+			style = {},
 		} = payload
 		this.el = document.createElement(tagName) // 컴포넌트의 최상위 요소
 		this.state = state // 컴포넌트 안에서 사용할 데이터

@@ -1,0 +1,14 @@
+
+
+.gate {
+	background-image: url('../public/images/space_bg.png');
+	background-size: cover;
+	height: 100vh;
+	width: 100%;
+}
+
+.button-row {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
