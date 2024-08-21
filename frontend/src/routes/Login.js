@@ -1,5 +1,6 @@
 import { Component } from "../core/core.js"
 import { Button } from "../components/Button.js";
+import { JoinModal } from "../components/JoinModal.js";
 
 export default class Login extends Component {
 	render() {
@@ -43,10 +44,18 @@ export default class Login extends Component {
 		width: '300px',
 		height: '169px',
 		size: '70px',},
-		'Sign Up', () => {
-			console.log('sign up')
+		'JOIN', () => {
+			joinModal.open();
+			console.log('join')
 		});
 
 		this.el.querySelector('.button-row').append(loginButton.el, authButton.el, signUpButton.el);
+
+		const joinModal = new JoinModal(() => {
+			console.log('closed');
+			// 모달 창 닫힐 때 처리할 내용
+		});
+
+		this.el.appendChild(joinModal.el);
 	}
 }

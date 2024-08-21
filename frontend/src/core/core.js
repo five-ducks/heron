@@ -8,6 +8,9 @@ export class Component {
 			style = {},
 		} = payload
 		this.el = document.createElement(tagName) // 컴포넌트의 최상위 요소
+		if (props.className) {
+			this.el.className = props.className;
+		}
 		this.state = state // 컴포넌트 안에서 사용할 데이터
 		this.render()
 	}
