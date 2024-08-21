@@ -1,5 +1,5 @@
 import { Modal } from "../../core/modal.js";
-import { CharactorContainer } from "../SelectCharactor/CharactorContainer.js";
+import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
 
 export class JoinModal extends Modal {
@@ -36,7 +36,7 @@ export class JoinModal extends Modal {
 
 	addCharactors() {
 		const charactorRow = this.el.querySelector('.charactor-row');
-		const charactors = new CharactorContainer();
+		const charactors = new SelectCharactor();
 		charactorRow.appendChild(charactors.el);
 		console.log(charactors.el);
 	}

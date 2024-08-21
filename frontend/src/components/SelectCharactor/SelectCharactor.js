@@ -1,12 +1,12 @@
 import { Component } from "../../core/core.js";
 import { Charactor } from "./Charactor.js";
 
-export class CharactorContainer extends Component {
+export class SelectCharactor extends Component {
 	constructor() {
 		super({
 			tagName: 'div',
 			props: {
-				className: 'charactor-container'
+				className: 'select-charactor'
 			}
 		});
 
