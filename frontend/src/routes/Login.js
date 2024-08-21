@@ -1,6 +1,6 @@
 import { Component } from "../core/core.js"
 import { Button } from "../components/Button.js";
-import { JoinModal } from "../components/JoinModal.js";
+import { JoinModal } from "../components/JoinModal/JoinModal.js";
 
 export default class Login extends Component {
 	render() {

@@ -1,0 +1,29 @@
+.charactor {
+    width: 90px;
+    height: 90px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid black;
+    border-radius: 10px;
+    display: inline-block;
+    font-size: 15px;
+	margin: 5px;
+}
+
+.charactor img {
+    width: 65px;
+    height: 65px;
+    display: block;
+    margin: 0 auto;
+}
+
+.charactor span {
+    display: block;
+    text-align: center;
+	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+}
+
+.charactor.selected {
+	background-image: url('../../../public/images/ui/select_cursor.png');
+	background-size: 100% 100%;
+	z-index: 1;
+}
