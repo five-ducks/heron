@@ -1,0 +1,123 @@
+@font-face {
+	font-family: 'Pixeboy';
+	src: url('../public/fonts/Pixeboy.ttf');
+}
+
+@font-face {
+	font-family: 'DungGeunMo';
+	src: url('../public/fonts/DungGeunMo.ttf');
+}
+
+.gate {
+	background-image: url('../public/images/space_bg.png');
+	background-size: cover;
+	height: 100vh;
+	width: 100%;
+	font-family: 'Pixeboy';
+	color: white;
+}
+
+.gate .row  h1{
+	font-size: 250px;
+	line-height: 70%;
+	text-align: center;
+}
+
+.gate .button-row {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	font-family: 'Pixeboy';
+	font-size: 100px;
+}
+
+.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100%;
+	background-image: url('../public/images/space_bg.png'); /* 배경 이미지 경로 */
+	background-size: cover; /* 이미지가 컨테이너에 맞게 조정됨 */
+}
+
+.login h1 {
+	font-size: 250px;
+	line-height: 70%;
+	font-family: 'Pixeboy';
+	color: white;
+	text-align: center;
+}
+
+.login .button-row {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+	gap: 30px;
+	font-family: 'Pixeboy';
+}
+
+.modal {
+    display: none;
+    position: fixed;
+	font-family: 'DungGeunMo';
+    z-index: 1;
+    left: 50%; /* 가로 중앙 정렬 */
+    top: 5%;
+    transform: translateX(-50%);
+    width: 443px;
+    height: 600px;
+    background-image: url('../public/images/signup_bg.png');
+	background-size: 100% 100%;
+}
+
+.modal-content {
+	position: relative;
+    margin: 0 auto;
+    animation-name: modalopen;
+	background-color: transparent;
+	border: none;
+    animation-duration: 0.4s;
+}
+
+@keyframes modalopen {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+.modal-content h1 {
+	font-size: 50px;
+	font-weight: bold;
+	color: black;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.modal-content .input_row {
+	margin-top: 10px;
+	padding: 10px 25px 10px 10px;
+}
+
+.modal-content .input_row input {
+    display: block; 
+    width: 100%; 
+    margin-bottom: 10px; 
+    box-sizing: border-box;
+}
+
+.close-button {
+	position: absolute;
+    top: 10px; 
+    right: 10px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
