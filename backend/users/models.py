@@ -62,4 +62,4 @@ class User(models.Model):
     )
 
     def __str__(self):
-        return self.nickname
+        return f"{self.username} ({self.nickname})"

@@ -26,3 +26,6 @@ class Friend(models.Model):
         default='pending',
         help_text="Current status of the friend request."
     )
+
+    def __str__(self):
+        return f"{self.user1_id.username} - {self.user2_id.username} ({self.status})"

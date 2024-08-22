@@ -63,7 +63,7 @@ class Match(models.Model):
     )
 
     def __str__(self):
-        return f"{self.user1_id} vs {self.user2_id} is {self.match_result} at {self.match_end_time}"
+        return f"{self.user1_id} vs {self.user2_id}"
 
 
 class Tournament(models.Model):
@@ -91,3 +91,6 @@ class Tournament(models.Model):
         related_name='final_matches',
         help_text="Reference to the final match."
     )
+
+    def __str__(self):
+        return f"Tournament with matches: {self.semifinal1}, {self.semifinal2}, {self.bonus_match}, {self.final}"
