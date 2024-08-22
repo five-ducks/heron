@@ -162,10 +162,10 @@ class UserViewSet(viewsets.ViewSet):
         # Step 2: Get the online status for each friend
         friends_data = []
         for friend in friends:
-            if friend.user1_id == user.id:
-                friend_user = friend
+            if friend.user1_id == user:
+                friend_user = friend.user2_id
             else:
-                friend_user = friend
+                friend_user = friend.user1_id
 
             friend_status = get_online_status(friend_user.id)  # Assuming this method exists
 
@@ -173,7 +173,7 @@ class UserViewSet(viewsets.ViewSet):
             friends_data.append({
                 'friend_nickname': friend_user.nickname,
                 'friend_status': friend_status,  # Online status from the external service
-                'friend_profile_image_url': friend_user.profile.image_id if friend_user.profile else None
+                'friend_profile_image_url': friend_user.profile_img if friend_user.profile_img else None
             })
 
         # Serialize the data
