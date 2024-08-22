@@ -1,0 +1,81 @@
+.modal {
+    display: none;
+    position: fixed;
+	font-family: 'DungGeunMo';
+    z-index: 1;
+    left: 50%; /* 가로 중앙 정렬 */
+    top: 5%;
+    transform: translateX(-50%);
+    width: 443px;
+    height: 600px;
+    background-image: url('../../../public/images/modal_bg.png');
+	background-size: 100% 100%;
+}
+
+.modal-content {
+	position: relative;
+    animation-name: modalopen;
+	background-color: transparent;
+	border: none;
+    animation-duration: 0.4s;
+	margin-left: 15px;
+}
+
+@keyframes modalopen {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+.modal-content h1 {
+	font-family: 'DungGeunMo';
+	font-size: 40px;
+	font-weight: bold;
+	color: black;
+	margin-top: 5px;
+}
+
+.modal-content .input_row {
+	margin-top: 10px;
+	padding: 0 40px 0 10px;
+}
+
+.modal-content .input_row div {
+	margin-bottom: 10px;
+}
+
+.modal-content .input_row .label {
+	margin-bottom: 0;
+    margin-top: 0;
+	font-size: 20px;
+}
+
+.modal-content .input_row input {
+    display: block; 
+    width: 100%; 
+    box-sizing: border-box;
+	font-size: 15px;
+}
+
+.close-button {
+	position: absolute;
+    top: 7px;
+    right: 56px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.modal .finish-button {
+	display: inline-block;
+    margin-top: 20px;
+    margin-left: 70%;
+}

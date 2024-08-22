@@ -1,0 +1,34 @@
+.selectpage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* 전체 화면 높이에 맞추기 */
+}
+
+.contents {
+    text-align: center;
+    width: 1500px;
+}
+
+.title {
+    font-size: 2rem; /* 제목 크기 조절 */
+    margin-bottom: 20px;
+}
+
+.game-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* 게임 버튼 간격 조절 */
+}
+
+.game {
+    width: 455px;
+    height: 455px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px; /* 버튼 텍스트 크기 조절 */
+    cursor: pointer; /* 마우스 커서가 버튼 위에 올 때 손가락 모양으로 변경 */
+    border: none;
+    background: none; /* 이름의 배경을 투명으로 설정 */
+}

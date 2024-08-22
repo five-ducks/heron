@@ -12,7 +12,7 @@ export class Button extends Component {
 			height = '246.25px',
 			background = "url('../public/images/button.png')",
 			color = 'white',
-			size = '100px',
+			size = '100px'
 		} = style;
 
 		this.el.style.width = width;
