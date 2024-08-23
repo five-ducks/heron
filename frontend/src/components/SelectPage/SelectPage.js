@@ -7,8 +7,8 @@ export class SelectPage extends Component {
 			<div class="contents">
 				<div class="title">게임 선택</div>
 				<div class="game-list">
-					<button class="game">1 : 1</button>
-					<button class="game">토너먼트</button>
+					<button class="game1">1 : 1</button>
+					<button class="game2">토너먼트</button>
 				</div>
 			</div>
 		`;

@@ -30,6 +30,6 @@
 .charactor-profile span {
     font-family: 'Pixeboy', sans-serif; /* 폰트 설정 (예시) */
     font-size: 40px; /* 폰트 크기 */
-    color: var(--color-white); /* 텍스트 색상 (CSS 변수 사용) */
+    color: white; /* 폰트 색상 */
     background: none; /* 이름의 배경을 투명으로 설정 */
 }
