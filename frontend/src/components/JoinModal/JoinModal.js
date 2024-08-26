@@ -33,7 +33,7 @@ export class JoinModal extends Modal {
 		this.el.querySelector('#nickInput').appendChild(nickInput.el);
 		this.el.querySelector('#pwInput').appendChild(pwInput.el);
 		this.el.querySelector('#curpwInput').appendChild(curpwInput.el);
-		
+
 		const finishButton = new Button({ background: "url('../public/images/button.png')", width: '100px', height: '50px', size: '30px' }, '완료', () => {
 			this.close();
 			// 모달창 닫힐 때 처리할 내용
