@@ -48,8 +48,22 @@ class UserViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            username = serializer.validated_data["username"]
+            password = serializer.validated_data["password"]
+            profile_image = serializer.validated_data["profile_img"]
+            print(username, password, profile_image)
+            if User.objects.filter(username=username).exists():
+                serializer.add_error("username", "입력한 사용자명은 이미 사용중입니다")
+            if serializer.errors:
+                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                user = User.objects.create_user(
+                    username=username,
+                    password=password,
+                    profile_img=profile_image,
+                )
+                login(request, user)
+                return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
     @extend_schema(
