@@ -7,10 +7,10 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from django.contrib import admin
 router = DefaultRouter()
-router.register(r'user', UserViewSet, basename='user')
-router.register(r'friend', FriendViewSet, basename='friend')
-router.register(r'match', MatchViewSet, basename='match')
-router.register(r'tournament', TournamentViewSet, basename='tournament')
+router.register(r'users', UserViewSet, basename='user')
+router.register(r'friends', FriendViewSet, basename='friend')
+router.register(r'matchs', MatchViewSet, basename='match')
+router.register(r'tournaments', TournamentViewSet, basename='tournament')
 
 urlpatterns = [
     # API 스키마 생성 엔드포인트
