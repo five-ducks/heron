@@ -4,19 +4,7 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-        write_only_fields = ('password',)
-        read_only_fields = ('id',)
-
-    def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            nickname=validated_data['nickname'],
-            profile_img=validated_data['profile_img']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+        fields = ['username', 'password', 'profile_img']
 
 class UserResponseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,7 +44,7 @@ class AuthTokenSerializer(serializers.Serializer):
 class CreateUserRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'password', 'nickname', 'profile_img']
+        fields = ['username', 'password', 'profile_img']
 
 class FriendListSerializer(serializers.Serializer):
     friend_nickname = serializers.CharField(read_only=True, help_text="Friend's nickname")
