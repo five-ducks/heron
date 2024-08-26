@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.contrib.auth import authenticate, login, logout
 
 from .models import User
 from friends.models import Friend
@@ -14,7 +15,6 @@ from .serializers import (
 
     AuthTokenSerializer, 
     CreateUserRequestSerializer,
-    UpdateUserRequestSerializer,
     UserResponseSerializer, 
     LoginRequestSerializer, 
     LoginResponseSerializer,
@@ -40,7 +40,7 @@ class UserViewSet(viewsets.ViewSet):
         description="Endpoint to create a new user in the system.",
         request=CreateUserRequestSerializer,
         responses={
-            201: UserResponseSerializer,
+            201: UserSerializer,
             400: OpenApiTypes.OBJECT,
         },
         tags=["User"]
@@ -106,10 +106,7 @@ class UserViewSet(viewsets.ViewSet):
     @extend_schema(
         summary="User login",
         description="Endpoint to log in a user and return an authentication token.",
-        parameters=[
-            OpenApiParameter(name='user_login_id', description="The user name for login", required=True, type=str),
-            OpenApiParameter(name='user_login_password', description="The password for login in clear text", required=True, type=str),
-        ],
+        request=LoginRequestSerializer,
         responses={
             200: LoginResponseSerializer,
             400: OpenApiTypes.OBJECT,
@@ -117,17 +114,22 @@ class UserViewSet(viewsets.ViewSet):
         },
         tags=["User"]
     )
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['post'])
     def login(self, request):
-        # TODO: Implement the login logic
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+        serializer = LoginRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            # print(serializer.validated_data['username'], serializer.validated_data['password'])
+            user = authenticate(username=serializer.validated_data['username'], password=serializer.validated_data['password'])
+            if user is not None:
+                login(request, user)
+                return Response({"token": "dummy_token", "expires_at": "dummy_date"}, status=status.HTTP_200_OK)
+            return Response({"message": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @extend_schema(
         summary="User logout",
         description="Endpoint to log out a user and invalidate the session.",
-        parameters=[
-            AuthTokenSerializer
-        ],
+        request=AuthTokenSerializer,
         responses={
             200: OpenApiTypes.OBJECT,
             400: OpenApiTypes.OBJECT,
@@ -135,10 +137,15 @@ class UserViewSet(viewsets.ViewSet):
         },
         tags=["User"]
     )
-    @action(detail=False, methods=['delete'])
+    @action(detail=False, methods=['post'])
     def logout(self, request):
-        # TODO: Implement the logout logic
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+        # TODO: Implement the logout logic.
+        # serializer = AuthTokenSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     user = self.request.user
+            logout(request)
+            return Response(status=status.HTTP_200_OK)
+        # return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
     @extend_schema(
         summary="Retrieve all friends for a specific user",

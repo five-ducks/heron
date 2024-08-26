@@ -1,6 +1,7 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class User(models.Model):
+class User(AbstractUser):
 
     PROFILE_IMGS = [
         (1, '피카츄'),
@@ -9,14 +10,6 @@ class User(models.Model):
         (4, '잉어킹'),
     ]
 
-    username = models.CharField(
-        max_length=10,
-        help_text="Username used as the login ID for the user."
-    )
-    password = models.CharField(
-        max_length=20,
-        help_text="Password for the user login."
-    )
     nickname = models.CharField(
         max_length=10,
         help_text="Nickname for the user."
