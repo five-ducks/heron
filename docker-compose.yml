@@ -4,10 +4,10 @@ services:
   django:
     build: backend/
     container_name: django
-    # expose:
+    # expose: # 개발완료시 해당 주석 해제 후 ports 제거 필요합니다
     #   - "8000"
-    ports:
-      - "8000:8000"
+    ports: 
+      - "8000:8000
     volumes:
       - type: bind
         source: ./backend
