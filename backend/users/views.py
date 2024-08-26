@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
@@ -11,13 +11,9 @@ from friends.models import Friend
 
 from .serializers import (
     UserSerializer,
+    SignUpSerializer,
     ProfileUpdateSerializer,
-
-    AuthTokenSerializer, 
-    CreateUserRequestSerializer,
-    UserResponseSerializer, 
-    LoginRequestSerializer, 
-    LoginResponseSerializer,
+    LoginSerializer,
     FriendListSerializer
 )
 
@@ -38,24 +34,24 @@ class UserViewSet(viewsets.ViewSet):
     @extend_schema(
         summary="Create a new user",
         description="Endpoint to create a new user in the system.",
-        request=CreateUserRequestSerializer,
+        request=SignUpSerializer,
         responses={
-            201: UserSerializer,
-            400: OpenApiTypes.OBJECT,
+            201: OpenApiResponse(description="User created successfully"),
+            400: OpenApiResponse(description="Bad request"),
         },
         tags=["User"]
     )
-    def create(self, request):
+    @action(detail=False, methods=['post'])
+    def signup(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data["username"]
             password = serializer.validated_data["password"]
             profile_image = serializer.validated_data["profile_img"]
-            print(username, password, profile_image)
             if User.objects.filter(username=username).exists():
                 serializer.add_error("username", "입력한 사용자명은 이미 사용중입니다")
             if serializer.errors:
-                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 user = User.objects.create_user(
                     username=username,
@@ -64,14 +60,14 @@ class UserViewSet(viewsets.ViewSet):
                 )
                 login(request, user)
                 return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @extend_schema(
         summary="Get a user by ID",
         description="Endpoint to retrieve a user by their unique ID.",
         responses={
-            200: UserResponseSerializer,
-            404: OpenApiTypes.OBJECT,
+            200: OpenApiResponse(description="User retrieved successfully"),
+            404: OpenApiResponse(description="User not found"),
         },
         tags=["User"]
     )
@@ -79,16 +75,16 @@ class UserViewSet(viewsets.ViewSet):
         queryset = self.get_queryset()
         user = get_object_or_404(queryset, pk=pk)
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Update a user by ID",
         description="Endpoint to update a user's information by their unique ID.",
         request=ProfileUpdateSerializer,
         responses={
-            200: UserResponseSerializer,
-            400: OpenApiTypes.OBJECT,
-            404: OpenApiTypes.OBJECT,
+            200: OpenApiResponse(description="User updated successfully"),
+            400: OpenApiResponse(description="Bad request"),
+            404: OpenApiResponse(description="User not found"),
         },
         tags=["User"]
     )
@@ -99,15 +95,15 @@ class UserViewSet(viewsets.ViewSet):
         serializer = ProfileUpdateSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @extend_schema(
         summary="Delete a user by ID",
         description="Endpoint to delete a user by their unique ID.",
         responses={
-            204: OpenApiTypes.OBJECT,
-            404: OpenApiTypes.OBJECT,
+            204: OpenApiResponse(description="User deleted successfully"),
+            404: OpenApiResponse(description="User not found"),
         },
         tags=["User"]
     )
@@ -120,53 +116,45 @@ class UserViewSet(viewsets.ViewSet):
     @extend_schema(
         summary="User login",
         description="Endpoint to log in a user and return an authentication token.",
-        request=LoginRequestSerializer,
+        request=LoginSerializer,
         responses={
-            200: LoginResponseSerializer,
-            400: OpenApiTypes.OBJECT,
-            401: OpenApiTypes.OBJECT,
+            200: OpenApiResponse(description="User logged in successfully"),
+            400: OpenApiResponse(description="Bad request"),
+            401: OpenApiResponse(description="Unauthorized"),
         },
         tags=["User"]
     )
     @action(detail=False, methods=['post'])
     def login(self, request):
-        serializer = LoginRequestSerializer(data=request.data)
+        serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             # print(serializer.validated_data['username'], serializer.validated_data['password'])
             user = authenticate(username=serializer.validated_data['username'], password=serializer.validated_data['password'])
             if user is not None:
                 login(request, user)
-                return Response({"token": "dummy_token", "expires_at": "dummy_date"}, status=status.HTTP_200_OK)
-            return Response({"message": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response(status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @extend_schema(
         summary="User logout",
         description="Endpoint to log out a user and invalidate the session.",
-        request=AuthTokenSerializer,
         responses={
-            200: OpenApiTypes.OBJECT,
-            400: OpenApiTypes.OBJECT,
-            401: OpenApiTypes.OBJECT,
+            200: OpenApiResponse(description="User logged out successfully"),
         },
         tags=["User"]
     )
     @action(detail=False, methods=['post'])
     def logout(self, request):
-        # TODO: Implement the logout logic.
-        # serializer = AuthTokenSerializer(data=request.data)
-        # if serializer.is_valid():
-        #     user = self.request.user
-            logout(request)
-            return Response(status=status.HTTP_200_OK)
-        # return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Retrieve all friends for a specific user",
         description="Retrieve all friends associated with a specific user ID.",
         responses={
             200: FriendListSerializer(many=True),
-            404: OpenApiTypes.OBJECT,  # Assuming you return an object with an error message
+            404: OpenApiResponse(description="User not found"),
         },
         tags=["User"]
     )
@@ -178,7 +166,7 @@ class UserViewSet(viewsets.ViewSet):
         # Step 1: Fetch the friend relationships
         friends = Friend.objects.filter((Q(user1_id=user) | Q(user2_id=user)) & Q(status="accepted"))
         if not friends.exists():
-            return Response({"message": "This user has no friends."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
         # Step 2: Get the online status for each friend
         friends_data = []
