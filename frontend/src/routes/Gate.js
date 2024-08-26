@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js"
 import { Button } from "../components/Button.js";
 
-export default class gate extends Component {
+export default class Home extends Component {
 	render() {
 		// this.el.innerHTML = /*html*/`
 		// <div class="gate">

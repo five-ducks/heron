@@ -21,7 +21,7 @@ export class Component {
 
 function routeRender(routes) {
 	if (!location.hash) {
-		history.replaceState(null, '', '/#/gate') // (상태, 제목, 주소)
+		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
 	}
 	const routerView = document.querySelector('router-view')
 	const [hash, queryString = ''] = location.hash.split('?') // 물음표를 기준으로 해시 정보와 쿼리스트링을 구분

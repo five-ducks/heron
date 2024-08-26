@@ -9,6 +9,9 @@
 }
 
 .gate {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	background-image: url('../public/images/space_bg.png');
 	background-size: cover;
 	height: 100vh;
@@ -55,4 +58,103 @@
 	margin-top: 50px;
 	gap: 30px;
 	font-family: 'Pixeboy';
+}
+
+.input_row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.input_label {
+	width: 60px; /* Adjust the width as needed */
+	font-family: 'Pixeboy';
+	color: white;
+	font-size: 90px; /* Adjust the font size as needed */
+	margin-right: 60px; /* Space between the label and input */
+}
+
+.input_field {
+	flex-grow: 1;
+	max-width: 440px;
+	max-height: 80px;
+}
+
+.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.inputLogin {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.input-group {
+	margin-bottom: 20px; /* Adjust as needed */
+}
+
+.joinInputLabel{
+	display: block;
+	font-family: 'DungGeunMo';
+	color: black;
+	font-size: 20px; /* Adjust the font size as needed */
+	margin-bottom: 5px; /* Space between the label and input */
+}
+
+.join_row {
+	align-items: center;
+	padding-left: 30px;
+	/* margin-top: 55px; 모달 ui 바꾸면 수정 */
+}
+
+/* mainpage 영역 스타일 */
+.main {
+	background-image: url('../public/images/abyss_bg.png');
+	background-size: cover;
+	height: 100vh;
+	width: 100%;
+	font-family: 'Pixeboy';
+	color: white;
+	display: flex; /* 전체 레이아웃을 flexbox로 설정 */
+	flex-direction: column; /* 세로 방향으로 정렬 */
+	overflow: hidden; /* 스크롤 막기 */
+}
+
+/* header 영역 스타일 */
+.headerpos {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+}
+
+/* body 영역 스타일 */
+.body {
+	position: relative;
+	display: flex; /* mainpage와 sidebar를 가로로 배치하기 위해 flexbox 사용 */
+	flex: 1;
+	background-color: transparent;
+	padding-top: 120px; /* header 높이만큼 padding 추가 */
+}
+
+/* mainpage 영역 스타일 */
+.selectpage {
+	flex: 1;
+	overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
+	background-color: transparent;
+	transform: translateY(-60px); /* 위로 120px 이동 */
+}
+
+/* sidebar 영역 스타일 */
+.sidebar {
+	width: 300px; /* 사이드바 너비 설정 */
+	padding: 10px;
+	overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
+	background-color: transparent;
+	border-left: 1px solid #dee2e6; /* 왼쪽 테두리 설정 */
 }
