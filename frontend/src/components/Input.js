@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js";
 
 export class Input extends Component {
-	constructor(placeholder = 'Input', type = 'text', style = {}) {
+	constructor(placeholder = 'Input', type = 'text', style = {}, defaultValue = '') {
 		super({
 			tagName: 'input'
 		});
@@ -29,7 +29,12 @@ export class Input extends Component {
 		this.el.style.marginBottom = marginBottom;
 
 		// placeholder 및 type 설정
-		this.el.setAttribute('placeholder', placeholder);
+		if (defaultValue !== '') {
+			this.el.value = defaultValue;
+		}
+		if (placeholder !== 'Input') {
+			this.el.setAttribute('placeholder', placeholder);
+		}
 		this.el.setAttribute('type', type);
 
 		this.render();
