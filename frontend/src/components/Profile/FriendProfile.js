@@ -1,7 +1,7 @@
 import { Component } from "../../core/core.js";
 
 export class FriendProfile extends Component {
-    constructor(nick = 'unknown', image = "../public/images/charactors/pikachu.png", onSelect = () => {}) {
+    constructor(nick = 'unknown', image = "../public/images/charactors/pikachu.png", onSelect = () => {console.log('none')}) {
 		super({
 			tagName: 'button'
 		});
@@ -19,10 +19,7 @@ export class FriendProfile extends Component {
 		this.el.appendChild(span);
 
 		this.isSelected = false;
-		this.el.addEventListener('click', () => {
-			onSelect(this);
-		});
-
+		this.el.addEventListener('click', onSelect);
 		this.render();
 	}
 
