@@ -126,32 +126,30 @@
 
 /* header 영역 스타일 */
 .headerpos {
-	position: fixed;
 	top: 0;
 	left: 0;
+	height: 120px; /* header 높이 설정 */
 	width: 100%;
 	z-index: 1000;
 }
 
 /* body 영역 스타일 */
 .body {
-	position: relative;
+	flex-grow: 1;
 	display: flex; /* mainpage와 sidebar를 가로로 배치하기 위해 flexbox 사용 */
-	flex: 1;
 	background-color: transparent;
-	padding-top: 120px; /* header 높이만큼 padding 추가 */
 }
 
 /* mainpage 영역 스타일 */
-.selectpage {
-	flex: 1;
+.selectpagepos {
+	flex: 7;
 	overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
 	background-color: transparent;
-	transform: translateY(-60px); /* 위로 120px 이동 */
 }
 
 /* sidebar 영역 스타일 */
 .sidebar {
+	flex: 1;
 	width: 300px; /* 사이드바 너비 설정 */
 	padding: 10px;
 	overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */

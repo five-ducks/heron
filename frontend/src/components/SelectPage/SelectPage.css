@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* 전체 화면 높이에 맞추기 */
+    height: 84vh
 }
 
 .contents {
@@ -44,4 +44,55 @@
     border-image: url('../../../public/images/ui/tnmtborder.png') 40; /* 이미지 경로 설정 */
     font-size: 80px; /* 버튼 텍스트 크기 조절 */
     font-family: 'DungGeunMo';
+}
+
+@media (max-width: 1840px) {
+    .title {
+        font-size: 100px; /* 작은 화면에서 제목 크기 조절 */
+    }
+    .game1, .game2 {
+        width: 250px;
+        height: 250px;
+        font-size: 60px; /* 작은 화면에서 버튼 텍스트 크기 조절 */
+    }
+}
+
+@media (max-width: 1200px) {
+    .title {
+        font-size: 100px; /* 작은 화면에서 제목 크기 조절 */
+    }
+    .game1, .game2 {
+        width: 200px;
+        height: 200px;
+        font-size: 50px; /* 작은 화면에서 버튼 텍스트 크기 조절 */
+    }
+}
+
+@media (max-width: 800px) {
+    .title {
+        font-size: 80px; /* 더 작은 화면에서 제목 크기 조절 */
+    }
+    .game1, .game2 {
+        width: 200px;
+        height: 200px;
+        font-size: 40px; /* 더 작은 화면에서 버튼 텍스트 크기 조절 */
+    }
+}
+
+@media (max-width: 600px) {
+    .title {
+        font-size: 60px; /* 모바일 화면에서 제목 크기 조절 */
+    }
+    .contents {
+        width: 100%; /* 모바일 화면에서 콘텐츠 너비 조절 */
+    }
+    .game-list {
+        flex-direction: column; /* 모바일 화면에서 버튼을 세로로 배치 */
+        align-items: center;
+    }
+    .game1, .game2 {
+        width: 200px;
+        height: 200px;
+        font-size: 40px; /* 모바일 화면에서 버튼 텍스트 크기 조절 */
+    }
 }
