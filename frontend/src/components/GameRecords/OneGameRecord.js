@@ -15,7 +15,6 @@ export class OneGameRecord extends Component {
 		const myName = "Ava"; // 내 아이디 (임시)
 		console.log(gameRecord);
 		if (gameRecord) {
-			const match_type = gameRecord.match_type;
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;
 			const match_result = gameRecord.match_result;
@@ -33,9 +32,18 @@ export class OneGameRecord extends Component {
 				}
 			}
 
+			let match_type = 'single';
+
+			if (gameRecord.match_type === 'single') {
+				match_type = '1 : 1';
+			} else {
+				match_type = '토너먼트';
+			}
+
 			this.el.innerHTML = /*html*/`
 				<div class="game-type">${match_type}</div>
 				<div class="left-user"></div>
+				<span>VS</span>
 				<div class="right-user"></div>
 				<div class="match-time">${match_time}</div>
 			`
