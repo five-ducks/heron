@@ -1,6 +1,7 @@
 import { Component } from "../../core/core.js";
 import { ProfileSummary } from "./ProfileSummary.js";
 import { MyMacro } from "./MyMacro.js";
+import { GameRecords } from "../GameRecords/GameRecords.js";
 
 export class MyProfileContent extends Component {
 	constructor() {
@@ -16,5 +17,6 @@ export class MyProfileContent extends Component {
 		`
 		this.el.appendChild(new ProfileSummary().el);
 		this.el.appendChild(new MyMacro().el);
+		this.el.appendChild(new GameRecords().el);
 	}
 }

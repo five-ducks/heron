@@ -9,10 +9,10 @@ export class GameRecords extends Component {
 			}
 		});
 		// 데이터 불러오기
-		fetch('../../temp/gameRecords.json')
+		fetch('https://localhost/src/temp/gameRecords.json')
 		.then(res => res.json())
-		.then(data => {
-			console.log(data);
+		.then(gameRecords => {
+			console.log(gameRecords);
 		})
 		.catch(error => {
 			console.error('Error:', error);
