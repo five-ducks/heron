@@ -5,14 +5,17 @@ export class InfoFriendModal extends Modal {
     constructor(onClose = () => {}) {
         const content = /*html*/`
             <h1 class="title">친구 정보</h1>
-            <div class="info_match">here</div>
+            <div class="info_record"></div>
         `;
         super(content, onClose);
+        
+        this.el.classList.add("info_friend_modal");
+        const matchRecordList = this.el.querySelector(".info_record");
+        const matchRecord = new MatchRecord();
+        console.log(matchRecordList);
+        matchRecordList.appendChild(matchRecord.el);
+        this.render();
     }
     render() {
-        this.el.classList.add("info_friend_modal");
-        const matchRecord = new MatchRecord();
-        // this.el.querySelector(".info_match").append(matchRecord.el);
-        // this.el.querySelector(".info_match").append(new MatchRecord().el);
     }
 }

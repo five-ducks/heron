@@ -1,9 +1,41 @@
-.match_recoerd {
+.match-record {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: #f5f5f5;
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: space-between; /* 각 요소 사이에 공간을 균등하게 배치 */
+  gap: 10px; /* 요소들 사이의 간격 */
+}
+
+.match-record .type,
+.match-record .my_profile,
+.match-record .vs,
+.match-record .friend_profile,
+.match-record .result,
+.match-record .date {
+  /* 각 요소에 대한 스타일을 여기에서 추가할 수 있습니다 */
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: center; /* 가로 가운데 정렬 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  height: 50px;
+  font-family: 'Pixeboy';
+  /* 필요에 따라 추가적인 스타일 지정 가능 */
+}
+
+.match-record .type {
+  width: 50px;
+}
+
+.match-record .my_profile, .match-record .friend_profile {
+  width: 100px;
+}
+
+.match-record .vs {
+  width: 50px;
+}
+
+.match-record .result {
+  width: 100px;
+}
+
+.match-record .date {
+  width: 100px;
 }

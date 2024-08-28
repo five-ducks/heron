@@ -1,13 +1,8 @@
-.modal {
-    display: none;
-    position: fixed;
-	font-family: 'DungGeunMo';
-    z-index: 1000;
-    left: 50%; /* 가로 중앙 정렬 */
-    top: 5%;
-    transform: translateX(-50%);
+.info_friend_modal {
     width: 443px;
     height: 600px;
-    background-image: url('../../../public/images/modal_bg.png');
-	background-size: 100% 100%;
+}
+.info_record {
+    width: 443px;
+    height: 600px !important;
 }
