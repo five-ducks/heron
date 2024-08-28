@@ -10,30 +10,19 @@ export class GameRecords extends Component {
 				className: 'game-records',
 			}
 		});
-
-		// store의 gameRecords 상태를 구독하고, 변경 시 렌더링
-		store.subscribe('gameRecords', () => {
-			this.render();
-		});
-
-		// 데이터가 로드되지 않은 경우에만 로드
-		if (store.state.gameRecords.length === 0) {
-			this.loadData();
-		}
 	}
 
-	async loadData() {
+	async render() {
 		await loadGameRecords();
-	}
 
-	render() {
 		this.el.innerHTML = /*html*/``;
 
 		const gameRecords = store.state.gameRecords.gameRecords;
-		console.log(gameRecords);
 		if (gameRecords) {
-			gameRecords.forEach(gameRecord=> {
-				this.el.appendChild(new OneGameRecord(gameRecord).el);
+			gameRecords.forEach(gameRecord => {
+				const oneGameRecord = new OneGameRecord();
+				oneGameRecord.render(gameRecord);
+				this.el.appendChild(oneGameRecord.el);
 			});
 		}
 	}
