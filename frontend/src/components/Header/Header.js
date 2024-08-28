@@ -13,5 +13,8 @@ export class Header extends Component {
         this.el.querySelector('.return').addEventListener('click', () => {
             location.href = '/#/login';
         });
+        this.el.querySelector('.charactor-profile').addEventListener('click', () => {
+            location.href = '/#/myprofile';
+        });
     }
 }

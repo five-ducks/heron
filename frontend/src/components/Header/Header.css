@@ -1,3 +1,7 @@
+.headerpos {
+    position: relative;
+}
+
 .header {
 	padding: 10px; /* 패딩 설정 */
 	border-bottom: 1px solid #dee2e6; /* 하단 테두리 설정 */

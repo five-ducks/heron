@@ -1,0 +1,56 @@
+.profile-summary {
+	margin-left: 30px;
+    display: flex;
+    align-items: center;
+	gap: 30px;
+    font-family: 'DungGeunMo';
+}
+
+.profile-summary .profile-summary-img {
+	width: 100px;
+	height: 100px;
+	background-color: #dee2e6;
+	border: 3px solid green;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.profile-summary .profile-summary-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	margin-left: 10px;
+}
+
+.profile-summary .profile-summary-name {
+	font-size: 40px;
+}
+
+.profile-summary .profile-summary-name img {
+	width: 30px;
+	height: 40px;
+}
+
+.profile-summary .profile-summary-win {
+	justify-content: center;
+}
+
+.profile-summary .profile-summary-win p {
+	font-size: 30px;
+}
+
+.profile-summary .button-container {
+	gap: 10px;
+}
+
+.profile-summary .button-container button {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.vertical-line {
+    width: 3px;
+    height: 120px;
+    background-color: #dee2e6; 
+    margin: 0 5px;
+}
