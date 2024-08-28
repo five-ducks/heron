@@ -4,10 +4,10 @@ services:
   django:
     build: backend/
     container_name: django
-    # ports:
-    #   - 8000:8000 # API 문서 확인을 위한 포트포워딩
-    expose:
-      - "8000" # 개발완료시 해당 주석 해제 후 ports 제거 필요합니다
+    # expose: # 개발완료시 해당 주석 해제 후 ports 제거 필요합니다
+    #   - "8000"
+    ports: 
+      - "8000:8000
     volumes:
       - type: bind
         source: ./backend
