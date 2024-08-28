@@ -1,5 +1,6 @@
 import { Component } from "../../core/core.js";
-import { OneGameResult } from "./OneGameResult.js";
+import { OneGameRecord } from "./OneGameRecord.js";
+import store, { loadGameRecords } from "../../store/game.js"; 
 
 // 전적 영역
 export class GameRecords extends Component {
@@ -9,29 +10,31 @@ export class GameRecords extends Component {
 				className: 'game-records',
 			}
 		});
-	}
-	// 데이터 불러오기
-	// 비동기로 수정
-	async loadData() {
-		try {
-			const response = await fetch('https://localhost/src/temp/gameRecords.json');
-			const data = await response.json();
-			this.gameRecords = data.gameRecords;
-			console.log('gameRecords:', this.gameRecords);
-		} catch (error) {
-			console.error('Error loading game records:', error);
+
+		// store의 gameRecords 상태를 구독하고, 변경 시 렌더링
+		store.subscribe('gameRecords', () => {
+			this.render();
+		});
+
+		// 데이터가 로드되지 않은 경우에만 로드
+		if (store.state.gameRecords.length === 0) {
+			this.loadData();
 		}
 	}
-	
-	async render() {
-		this.el.innerHTML = /*html*/`
-		`
 
-		// 데이터 불러오기까지 기다림
-		await this.loadData();
+	async loadData() {
+		await loadGameRecords();
+	}
 
-		this.gameRecords.forEach(gameResult => {
-			this.el.appendChild(new OneGameResult(gameResult).el);
-		});
+	render() {
+		this.el.innerHTML = /*html*/``;
+
+		const gameRecords = store.state.gameRecords.gameRecords;
+		console.log(gameRecords);
+		if (gameRecords) {
+			gameRecords.forEach(gameRecord=> {
+				this.el.appendChild(new OneGameRecord(gameRecord).el);
+			});
+		}
 	}
 }
