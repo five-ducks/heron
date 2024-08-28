@@ -1,0 +1,10 @@
+.macro-input {
+	margin-bottom: 10px;
+	font-family: 'DungGeunMo';
+	font-size: 30px;
+	color: white;
+}
+
+.macro-input input {
+	color: white;
+}
