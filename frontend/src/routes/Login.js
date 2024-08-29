@@ -62,10 +62,10 @@ export default class Login extends Component {
                     alert('Please enter your password.');
                     return;
                 }
-
+				console.log(JSON.stringify({ username, password }));
                 try {
                     // Send login request
-                    const response = await fetch('/api/user/login', {
+                    const response = await fetch('/api/users/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -74,13 +74,14 @@ export default class Login extends Component {
                     });
 
                     // Handle response
-                    if (response.ok) {
-                        const data = await response.json();
-						console.log(data); // debug
+					console.log(response); // debug
+                    if (response.status === 200) {
+                        const data = await response;
+						console.log('data: ', data); // debug
                         alert('Login successful!');
-                        // Perform actions after successful login (e.g., redirect, close modal, etc.)
+						window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
-                        const error = await response.json();
+                        const error = await response;
                         alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
                     }
                 } catch (error) {
@@ -88,6 +89,9 @@ export default class Login extends Component {
                 }
             }
         );
+
+		// nginx 받고 보냄
+		// 어떻게? 
 
         const authButton = new Button(
             { 
