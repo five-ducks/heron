@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
@@ -28,12 +29,10 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(help_text="Password for the user login.")
 
     def validate(self, data):
-        user = User.objects.filter(username=data['username']).first()
+        user = authenticate(username=data['username'], password=data['password'])
         if user is None:
             raise serializers.ValidationError("User not found.")
-        if not user.check_password(data['password']):
-            raise serializers.ValidationError("Invalid password.")
-        return data
+        return {'user': user}
 
 class SignUpSerializer(serializers.ModelSerializer):
     class Meta:
