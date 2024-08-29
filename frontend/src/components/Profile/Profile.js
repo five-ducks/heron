@@ -13,7 +13,7 @@ export class CharactorProfile extends Component {
 		frame.classList.add('frame');
 		this.el.appendChild(frame);
 		frame.appendChild(img);
-		
+
 		const span = document.createElement('span');
 		span.textContent = name;
 		this.el.appendChild(span);

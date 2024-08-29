@@ -18,9 +18,9 @@ export default class Login extends Component {
 					<div class="input_row" id="input_PW">
 						<div class="input_label"> PW </div>
 					</div>
-					</div>
-					<div class="button-row">
-					</div>
+				</div>
+				<div class="button-row">
+				</div>
 				<div class="button-row">
 				</div>
 			</div>
@@ -49,23 +49,29 @@ export default class Login extends Component {
 			'Login',
 			() => { console.log('login') }
 		);
-		const authButton = new Button({ 
-			background: "url('../public/images/button.png')",
-			width: '300px',
-			height: '169px',
-			size: '70px', },
-		'42 Auth', 
-		() => {
-			console.log('42 auth')
-		});
-		const signUpButton = new Button({ background: "url('../public/images/button.png')",
-		width: '300px',
-		height: '169px',
-		size: '70px',},
-		'JOIN', () => {
-			joinModal.open();
-			console.log('join')
-		});
+		const authButton = new Button(
+			{ 
+				background: "url('../public/images/button.png')",
+				width: '300px',
+				height: '169px',
+				size: '70px', 
+			},
+			'42 Auth', 
+			() => {	console.log('42 auth') }
+		);
+		const signUpButton = new Button(
+			{
+				background: "url('../public/images/button.png')",
+				width: '300px',
+				height: '169px',
+				size: '70px',
+			},
+			'JOIN',
+			() => {	
+				joinModal.open();
+				console.log('join')
+			}
+		);
 		input_ID.el.classList.add('input_field');
 		input_PW.el.classList.add('input_field');
 		this.el.querySelector('#input_ID').append(input_ID.el);
@@ -76,7 +82,6 @@ export default class Login extends Component {
 			console.log('closed');
 			// 모달 창 닫힐 때 처리할 내용
 		});
-
 		this.el.appendChild(joinModal.el);
 	}
 }
