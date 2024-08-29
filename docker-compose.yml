@@ -15,7 +15,10 @@ services:
     env_file:
       ./.env
     environment:
-      - POSTGRES_HOST=${POSTGRES_HOST}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=1234
     depends_on:
       - db
 
