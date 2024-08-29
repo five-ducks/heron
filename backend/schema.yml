@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info:
+  title: Gaming Tournament API
+  version: 1.0.0
+  description: API for managing users, matches, tournaments, and friendships in a
+    gaming platform.
+paths: {}
+components: {}
