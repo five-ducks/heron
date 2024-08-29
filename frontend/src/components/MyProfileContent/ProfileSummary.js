@@ -60,9 +60,20 @@ export class ProfileSummary extends Component {
 		'회원탈퇴',
 		() => {
 			// 회원 탈퇴 로직
-		}
-		);
+		});
+
+		const saveBtn = new Button({
+			width: '200px',
+			height: '100px',
+			size: '25px',
+			background : "url('../../../public/images/ui/profile-button.png')",
+		},
+		'저장하기',
+		() => {
+			// 저장하기 로직
+		});
 		this.el.querySelector('.button-container').appendChild(logoutBtn.el);
 		this.el.querySelector('.button-container').appendChild(withdrawalBtn.el);
+		this.el.appendChild(saveBtn.el);
 	}
 }
