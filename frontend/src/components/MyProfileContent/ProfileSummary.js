@@ -21,9 +21,7 @@ export class ProfileSummary extends Component {
 			<div class="vertical-line"></div>
 			<div class="profile-summary-win">
 				<p>승부 요약</p>
-				<span>1 대 1 : </span><span>99%</span>
-				<br>
-				<span>토너먼트 : </span> <span>99%</span>
+				<span>10승 9패</span>
 			</div>
 			<div class="vertical-line"></div>
 			<div class="button-container"></div>

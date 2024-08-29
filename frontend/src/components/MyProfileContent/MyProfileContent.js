@@ -13,10 +13,18 @@ export class MyProfileContent extends Component {
 	}
 	render() {
 		this.el.innerHTML = /*html*/`
-			<span>내 프로필</span>
 		`
 		this.el.appendChild(new ProfileSummary().el);
-		this.el.appendChild(new MyMacro().el);
-		this.el.appendChild(new GameRecords().el);
+
+		const horizontalLine = document.createElement('div');
+		horizontalLine.className = 'horizontal-line';
+		this.el.appendChild(horizontalLine);
+
+		const macroAndRecords = document.createElement('div');
+		macroAndRecords.className = 'macro-and-records';
+		macroAndRecords.appendChild(new MyMacro().el);
+		macroAndRecords.appendChild(new GameRecords().el);
+
+		this.el.appendChild(macroAndRecords);
 	}
 }
