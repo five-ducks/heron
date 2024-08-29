@@ -6,14 +6,16 @@ services:
     container_name: django
     # expose: # 개발완료시 해당 주석 해제 후 ports 제거 필요합니다
     #   - "8000"
-    ports: 
+    ports:
       - "8000:8000"
     volumes:
       - type: bind
         source: ./backend
         target: /app
+    env_file:
+      ./.env
     environment:
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - POSTGRES_HOST=${POSTGRES_HOST}
     depends_on:
       - db
 
@@ -26,7 +28,7 @@ services:
     expose:
       - "5432"
     container_name: postgres
-    env_file: .env
+    env_file: ./.env
 
   nginx:
     build: nginx/
