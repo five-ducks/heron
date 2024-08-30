@@ -2,30 +2,37 @@ import { Component } from "../core/core.js";
 import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
 import { Input } from "../components/Input.js";
+import { getCookie } from "../core/core.js";
 
 export default class Login extends Component {
     render() {
         this.el.innerHTML = /*html*/`
         <div class="login">
-            <div class="container text-center">
-                <div class="row">
-                    <h1>login</h1>
-                </div>
-                <div class="inputLogin">
-                    <div class="input_row" id="input_ID">
-                        <div class="input_label"> ID </div>
-                    </div>
-                    <div class="input_row" id="input_PW">
-                        <div class="input_label"> PW </div>
-                    </div>
-                </div>
-                <div class="button-row">
-                </div>
-                <div class="button-row">
-                </div>
-            </div>
+        <div class="container text-center">
+        <div class="row">
+        <h1>login</h1>
+        </div>
+        <div class="inputLogin">
+        <div class="input_row" id="input_ID">
+        <div class="input_label"> ID </div>
+        </div>
+        <div class="input_row" id="input_PW">
+        <div class="input_label"> PW </div>
+        </div>
+        </div>
+        <div class="button-row">
+        </div>
+        <div class="button-row">
+        </div>
+        </div>
         </div>
         `;
+        
+        // 쿠키를 저장하는 함수
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${window.location.hostname}; Secure; SameSite=Lax`;
+        }
 
         // Initialize input fields
         const input_ID = new Input('Your Nickname!', 'text', {
@@ -36,7 +43,7 @@ export default class Login extends Component {
             width: '440px',
             height: '80px'
         });
-
+        
         // Create buttons
         const loginButton = new Button(
             { 
@@ -51,7 +58,7 @@ export default class Login extends Component {
 				console.log(input_ID.getValue()); // debug
 				console.log(input_PW.getValue()); // debug
 				const username = input_ID.getValue(); // getValue() 사용
-				const password = input_PW.getValue(); // getValue() 사용
+                const password = input_PW.getValue(); // getValue() 사용
 				
                 // Basic validation
                 if (!username) {
@@ -69,15 +76,18 @@ export default class Login extends Component {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            // back에게 request 내용 중 token도 보내줘야함(?)
+                            'X-CSRF-Token': getCookie('csrftoken'),
                         },
                         body: JSON.stringify({ username, password }),
                     });
-
-                    // Handle response
-					console.log(response); // debug
-                    if (response.status === 200) {
+                    
+                    if (response.ok) {
                         const data = await response;
-						console.log('data: ', data); // debug
+						console.log('data status: ', data.status); // debug
+                        setCookie('ppstate', data.status, 365);
+                        setCookie('player', username, 365);
+                        console.log('cookie: ', document.cookie); // debug
                         alert('Login successful!');
 						window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
@@ -89,9 +99,6 @@ export default class Login extends Component {
                 }
             }
         );
-
-		// nginx 받고 보냄
-		// 어떻게? 
 
         const authButton = new Button(
             { 
@@ -132,4 +139,6 @@ export default class Login extends Component {
         });
         this.el.appendChild(joinModal.el);
     }
+
+
 }

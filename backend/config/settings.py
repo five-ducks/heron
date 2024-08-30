@@ -29,6 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "django"]
 
+# 없으면 csrf 에러 발생
+CSRF_TRUSTED_ORIGINS = ['https://localhost']
+
 
 # Application definition
 
