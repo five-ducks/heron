@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
+from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
@@ -10,7 +10,6 @@ from .models import User
 from friends.models import Friend
 
 from .serializers import (
-    UserSerializer,
     SignUpSerializer,
     ProfileUpdateSerializer,
     LoginSerializer,
@@ -37,81 +36,39 @@ class UserViewSet(viewsets.ViewSet):
         request=SignUpSerializer,
         responses={
             201: OpenApiResponse(description="User created successfully"),
-            400: OpenApiResponse(description="Bad request"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="username 중복에러",
+                        value={
+                            "errors": {
+                                "username": ["사용중인 username 입니다"]
+                            }
+                        },
+                        media_type='application/json'
+                    )
+                ]
+            )
         },
         tags=["User"]
     )
     @action(detail=False, methods=['post'])
     def signup(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
-            username = serializer.validated_data["username"]
-            password = serializer.validated_data["password"]
-            profile_image = serializer.validated_data["profile_img"]
-            if User.objects.filter(username=username).exists():
-                serializer.add_error("username", "입력한 사용자명은 이미 사용중입니다")
-            if serializer.errors:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                user = User.objects.create_user(
-                    username=username,
-                    password=password,
-                    profile_img=profile_image,
-                )
-                login(request, user)
-                return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    @extend_schema(
-        summary="Get a user by ID",
-        description="Endpoint to retrieve a user by their unique ID.",
-        responses={
-            200: OpenApiResponse(description="User retrieved successfully"),
-            404: OpenApiResponse(description="User not found"),
-        },
-        tags=["User"]
-    )
-    def retrieve(self, request, pk=None):
-        queryset = self.get_queryset()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @extend_schema(
-        summary="Update a user by ID",
-        description="Endpoint to update a user's information by their unique ID.",
-        request=ProfileUpdateSerializer,
-        responses={
-            200: OpenApiResponse(description="User updated successfully"),
-            400: OpenApiResponse(description="Bad request"),
-            404: OpenApiResponse(description="User not found"),
-        },
-        tags=["User"]
-    )
-    def update(self, request, pk=None):
-        # TODO: Need to check whether if the user is updating their own profile
-        queryset = self.get_queryset()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = ProfileUpdateSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    @extend_schema(
-        summary="Delete a user by ID",
-        description="Endpoint to delete a user by their unique ID.",
-        responses={
-            204: OpenApiResponse(description="User deleted successfully"),
-            404: OpenApiResponse(description="User not found"),
-        },
-        tags=["User"]
-    )
-    def destroy(self, request, pk=None):
-        queryset = self.get_queryset()
-        user = get_object_or_404(queryset, pk=pk)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            user = serializer.save()
+            login(request, user)
+            user.status = User.STATUS_MAP['온라인']
+            user.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(
+            {"errors": serializer.errors},
+            # errors에 ValidationError를 통해 생성된 오류를 담아 반환합니다.
+            # errors에서 필드별로 오류를 확인할 수 있습니다.
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     @extend_schema(
         summary="User login",
@@ -119,7 +76,30 @@ class UserViewSet(viewsets.ViewSet):
         request=LoginSerializer,
         responses={
             200: OpenApiResponse(description="User logged in successfully"),
-            400: OpenApiResponse(description="Bad request"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="username / password 입력에러",
+                        value={
+                            "errors": {
+                                "non_field_errors": ["username 또는 password가 잘못 되었습니다."]
+                            }
+                        },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="중복 login 에러",
+                        value={
+                            "errors": {
+                                "non_field_errors": ["다른 기기에서 이미 로그인되어 있습니다"]
+                            }
+                        },
+                        media_type='application/json'
+                    ),
+                ]
+            )
         },
         tags=["User"]
     )
@@ -130,21 +110,64 @@ class UserViewSet(viewsets.ViewSet):
             if serializer.is_valid():
                 user = serializer.validated_data['user']
                 login(request, user)
+                user.status = User.STATUS_MAP['온라인']
+                user.save()
                 return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(
+                    {
+                        "errors" : serializer.errors
+                        # 유효하지 않은 username / password인 경우
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        return Response(
+            {
+                "errors": {
+                    "non_field_errors": "다른 기기에서 이미 로그인되어 있습니다"
+                }
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     @extend_schema(
         summary="User logout",
         description="Endpoint to log out a user and invalidate the session.",
         responses={
             200: OpenApiResponse(description="User logged out successfully"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="중복 logout 에러",
+                        value={
+                            "errors": {
+                                "non_field_errors": ["이미 로그아웃 되었습니다"]
+                            }
+                        },
+                        media_type='application/json'
+                    )
+                ]
+            ),
         },
         tags=["User"]
     )
     @action(detail=False, methods=['post'])
     def logout(self, request):
-        logout(request)
-        return Response(status=status.HTTP_200_OK)
+        if request.user.is_authenticated:
+            request.user.status = User.STATUS_MAP['오프라인']
+            request.user.save()
+            logout(request)
+            return Response(status=status.HTTP_200_OK)
+        return Response(
+            {
+                "errors": {
+                    "non_field_errors": "이미 로그아웃 되었습니다"
+                }
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     @extend_schema(
         summary="Retrieve all friends for a specific user",
