@@ -1,0 +1,59 @@
+{
+	"gameRecords": [
+		{
+			"id": 0,
+			"user1_name": "Ava",
+			"user2_name": "Gus",
+			"match_result": "user1_win",
+			"match_start_time": "2024-08-28T01:52:59.396Z",
+			"match_end_time": "2024-08-28T01:52:59.396Z",
+			"user1_score": 15,
+			"user2_score": 0,
+			"match_type": "tournament"
+		},
+		{
+			"id": 1,
+			"user1_name": "Rex",
+			"user2_name": "Ava",
+			"match_result": "user2_win",
+			"match_start_time": "2024-08-28T01:52:59.396Z",
+			"match_end_time": "2024-08-28T01:52:59.396Z",
+			"user1_score": 13,
+			"user2_score": 15,
+			"match_type": "single"
+		},
+		{
+			"id": 2,
+			"user1_name": "Ava",
+			"user2_name": "Noa",
+			"match_result": "user2_win",
+			"match_start_time": "2024-08-28T01:52:59.396Z",
+			"match_end_time": "2024-08-28T01:52:59.396Z",
+			"user1_score": 2,
+			"user2_score": 15,
+			"match_type": "single"
+		},
+		{
+			"id": 3,
+			"user1_name": "Ava",
+			"user2_name": "Sam",
+			"match_result": "user1_win",
+			"match_start_time": "2024-08-28T01:52:59.396Z",
+			"match_end_time": "2024-08-28T01:52:59.396Z",
+			"user1_score": 15,
+			"user2_score": 14,
+			"match_type": "single"
+		},
+		{
+			"id": 4,
+			"user1_name": "Ava",
+			"user2_name": "Ben",
+			"match_result": "user1_win",
+			"match_start_time": "2024-08-28T01:52:59.396Z",
+			"match_end_time": "2024-08-28T01:52:59.396Z",
+			"user1_score": 15,
+			"user2_score": 1,
+			"match_type": "tournament"
+		}
+	]
+}

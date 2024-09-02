@@ -41,3 +41,27 @@ export function createRouter(routes) {
 		routeRender(routes)
 	}
 }
+
+export class Store {
+	constructor(state) {
+		this.state = {}
+		this.observers = {}
+		for (const key in state) {
+			// 새로운 값이 할당될 때마다 함수를 호출하기 위해서
+			Object.defineProperty(this.state, key, { // 객체 데이터의 속성을 정의
+				get: () => state[key], // getter 함수
+				set: val => { // setter 함수
+					state[key] = val
+					if (Array.isArray(this.observers[key])) { // 호출할 콜백이 있는 경우!
+						this.observers[key].forEach(observer => observer(val))
+					}
+				}
+			})
+		}
+	}
+	subscribe(key, cb) { // 상태가 변경되는지 구독을 통해 감시하겠다. key, 함수 데이터 인자로 받음
+		// 배열 데이터인지 확인
+		Array.isArray(this.observers[key]) ? this.observers[key].push(cb) : this.observers[key] = [cb]
+		// 배열 데이터에 함수를 여러개 넣어서 관리할 수 있도록
+	}
+}
