@@ -34,14 +34,27 @@ class User(AbstractUser):
         default=1,
         help_text="Profile image ID for the user, selectable from predefined options."
     )
-    exp = models.IntegerField(
-        default=0,
-        help_text="Experience points accumulated by the user."
-    )
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0,
         help_text="User activity status"
+    )
+    exp = models.IntegerField(
+        default=0,
+        help_text="Experience points accumulated by the user."
+    )
+    win_cnt = models.IntegerField(
+        default=0,
+        help_text="User win count"   
+    )
+    lose_cnt = models.IntegerField(
+        default=0,
+        help_text="User lose count"   
+    )
+    status_msg = models.CharField(
+        null=True,
+        blank=True,
+        help_text="User custom status message"
     )
     macrotext1 = models.CharField(
         max_length=20,
