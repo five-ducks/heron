@@ -6,7 +6,19 @@ from users.models import User
 class CustomUserAdmin(UserAdmin):
     fieldsets = [
         (None, {"fields": ("username", "password")}),
-        ("추가필드", {"fields": ("profile_img", "status", "exp")}),
+        (
+            "추가필드", 
+            {
+                "fields": (
+                    "profile_img",
+                    "status",
+                    "exp",
+                    "win_cnt",
+                    "lose_cnt",
+                    "status_msg"
+                )
+            }
+        ),
         (
             "권한",
             {
