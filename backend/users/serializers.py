@@ -2,15 +2,6 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
 
-# class ProfileUpdateSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['nickname', 'profile_img', 'exp', 'macrotext1', 'macrotext2', 'macrotext3', 'macrotext4', 'macrotext5']
-
-#     # Override some fields to be optional for profile updates
-#     profile_img = serializers.IntegerField(required=False)
-#     exp = serializers.IntegerField(required=False)
-## 필요없으면 주석처리된 내역 삭제 필요
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(help_text="Username used as the login ID for the user.")
@@ -35,6 +26,17 @@ class SignUpSerializer(serializers.ModelSerializer):
         )
         return user
     # database에 user객체를 생성합니다.
+        
+    
+# class ProfileUpdateSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['nickname', 'profile_img', 'exp', 'macrotext1', 'macrotext2', 'macrotext3', 'macrotext4', 'macrotext5']
+
+#     # Override some fields to be optional for profile updates
+#     profile_img = serializers.IntegerField(required=False)
+#     exp = serializers.IntegerField(required=False)
+## 필요없으면 주석처리된 내역 삭제 필요
 
 # class FriendListSerializer(serializers.Serializer):
 #     friend_username = serializers.CharField(read_only=True, help_text="Friend's username")

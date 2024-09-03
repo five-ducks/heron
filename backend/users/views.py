@@ -2,9 +2,10 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample
+from django.contrib.auth import login, logout
+
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from django.contrib.auth import authenticate, login, logout
 
 from .models import User
 from friends.models import Friend
@@ -209,7 +210,7 @@ class UserViewSet(viewsets.ViewSet):
                             name="존재하지 않는 username",
                             value={
                                 "errors": {
-                                    "non_field_errors": "없는 username 입니다"
+                                    "username": "username을 찾을 수 없습니다."
                                 }
                             },
                             media_type='application/json'
@@ -227,7 +228,7 @@ class UserViewSet(viewsets.ViewSet):
             return Response(
                 {
                     "errors": {
-                        "non_field_errors": "없는 username 입니다"
+                        "username": "username을 찾을 수 없습니다."
                     }
                 },
                 status.HTTP_404_NOT_FOUND
@@ -242,7 +243,7 @@ class UserViewSet(viewsets.ViewSet):
             ],
             status.HTTP_200_OK
         )
-    # user의 macretext를 얻어오는 API
+    # user의 macretext, status를 제외한 정보를 얻어오는 API
 
     @extend_schema(
             summary="Retrieve user account info",
@@ -257,6 +258,9 @@ class UserViewSet(viewsets.ViewSet):
                             value={
                                 'exp': 'int',
                                 'profile_img': 'int',
+                                'win_cnt': 'int',
+                                'lose_cnt': 'int',
+                                'status_msg': 'string',
                             },
                             media_type='application/json'
                         )
@@ -270,7 +274,7 @@ class UserViewSet(viewsets.ViewSet):
                             name="존재하지 않는 username",
                             value={
                                 "errors": {
-                                    "non_field_errors": "없는 username 입니다"
+                                    "username": "username을 찾을 수 없습니다."
                                 }
                             },
                             media_type='application/json'
@@ -288,7 +292,7 @@ class UserViewSet(viewsets.ViewSet):
             return Response(
                 {
                     "errors": {
-                        "non_field_errors": ["없는 username 입니다"]
+                        "username": "username을 찾을 수 없습니다."
                     }
                 },
                 status.HTTP_404_NOT_FOUND
@@ -297,12 +301,14 @@ class UserViewSet(viewsets.ViewSet):
             {
                 'exp': user.exp,
                 'profile_img': user.profile_img,
+                'win_cnt': user.win_cnt,
+                'lose_cnt': user.lose_cnt,
+                'status_msg': user.status_msg,
             },
             status.HTTP_200_OK
         )
     # user의 macrotext를 제외한 info를 얻어오는 API
-
-
+    
 
     # @extend_schema(
     #     summary="Retrieve all friends for a specific user",
