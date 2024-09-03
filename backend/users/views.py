@@ -11,65 +11,29 @@ from friends.models import Friend
 
 from .serializers import (
     SignUpSerializer,
-    ProfileUpdateSerializer,
-    LoginSerializer,
-    FriendListSerializer
+    LoginSerializer
+    # ProfileUpdateSerializer,
+    # FriendListSerializer
+    ## 필요없으면 주석처리된 내역 삭제 필요
 )
 
-def get_online_status(user_id):
-    return True
-    # Example logic: Replace this with your actual logic
-    # This might be a Redis call, a lookup in a cache, or any other service
-    online_users = get_online_users_from_cache()  # Placeholder function
-    return online_users.get(user_id, False)  # Return True if online, otherwise False
+# def get_online_status(user_id):
+#     return True
+#     # Example logic: Replace this with your actual logic
+#     # This might be a Redis call, a lookup in a cache, or any other service
+#     online_users = get_online_users_from_cache()  # Placeholder function
+#     return online_users.get(user_id, False)  # Return True if online, otherwise False
+## 필요없으면 주석처리된 내역 삭제 필요
 
 class UserViewSet(viewsets.ViewSet):
     """
     A ViewSet for managing users.
     """
-    def get_queryset(self):
-        return User.objects.all()
+    queryset = User.objects.all()
+    lookup_field = 'username'
 
-    @extend_schema(
-        summary="Create a new user",
-        description="Endpoint to create a new user in the system.",
-        request=SignUpSerializer,
-        responses={
-            201: OpenApiResponse(description="User created successfully"),
-            400: OpenApiResponse(
-                response=OpenApiTypes.OBJECT,
-                description="Bad request",
-                examples=[
-                    OpenApiExample(
-                        name="username 중복에러",
-                        value={
-                            "errors": {
-                                "username": ["사용중인 username 입니다"]
-                            }
-                        },
-                        media_type='application/json'
-                    )
-                ]
-            )
-        },
-        tags=["User"]
-    )
-    @action(detail=False, methods=['post'])
-    def signup(self, request):
-        serializer = SignUpSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            login(request, user)
-            user.status = User.STATUS_MAP['온라인']
-            user.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(
-            {"errors": serializer.errors},
-            # errors에 ValidationError를 통해 생성된 오류를 담아 반환합니다.
-            # errors에서 필드별로 오류를 확인할 수 있습니다.
-            status=status.HTTP_400_BAD_REQUEST
-        )
 
+##### 인증관련 #####
     @extend_schema(
         summary="User login",
         description="Endpoint to log in a user and return an authentication token.",
@@ -84,7 +48,7 @@ class UserViewSet(viewsets.ViewSet):
                         name="username / password 입력에러",
                         value={
                             "errors": {
-                                "non_field_errors": ["username 또는 password가 잘못 되었습니다."]
+                                "non_field_errors": "username 또는 password가 잘못 되었습니다."
                             }
                         },
                         media_type='application/json'
@@ -93,7 +57,7 @@ class UserViewSet(viewsets.ViewSet):
                         name="중복 login 에러",
                         value={
                             "errors": {
-                                "non_field_errors": ["다른 기기에서 이미 로그인되어 있습니다"]
+                                "non_field_errors": "다른 기기에서 이미 로그인되어 있습니다"
                             }
                         },
                         media_type='application/json'
@@ -129,7 +93,8 @@ class UserViewSet(viewsets.ViewSet):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
-
+    # 로그인 API
+    
     @extend_schema(
         summary="User logout",
         description="Endpoint to log out a user and invalidate the session.",
@@ -143,7 +108,7 @@ class UserViewSet(viewsets.ViewSet):
                         name="중복 logout 에러",
                         value={
                             "errors": {
-                                "non_field_errors": ["이미 로그아웃 되었습니다"]
+                                "non_field_errors": "이미 로그아웃 되었습니다"
                             }
                         },
                         media_type='application/json'
@@ -168,43 +133,240 @@ class UserViewSet(viewsets.ViewSet):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+    # 로그아웃 API
 
+
+##### CREATE #####
     @extend_schema(
-        summary="Retrieve all friends for a specific user",
-        description="Retrieve all friends associated with a specific user ID.",
+        summary="Create a new user",
+        description="Endpoint to create a new user in the system.",
+        request=SignUpSerializer,
         responses={
-            200: FriendListSerializer(many=True),
-            404: OpenApiResponse(description="User not found"),
+            201: OpenApiResponse(description="User created successfully"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="username 중복에러",
+                        value={
+                            "errors": {
+                                "username": "사용중인 username 입니다"
+                            }
+                        },
+                        media_type='application/json'
+                    )
+                ]
+            )
         },
         tags=["User"]
     )
+    @action(detail=False, methods=['post'])
+    def join(self, request):
+        serializer = SignUpSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            login(request, user)
+            user.status = User.STATUS_MAP['온라인']
+            user.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(
+            {"errors": serializer.errors},
+            # errors에 ValidationError를 통해 생성된 오류를 담아 반환합니다.
+            # errors에서 필드별로 오류를 확인할 수 있습니다.
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    # 회원가입 API
+
+
+##### READ #####
+    @extend_schema(
+            summary="Retrieve user account all macrotexts",
+            description="Endpoint to retrieve macrotext of a specific user account.",
+            responses={
+                200: OpenApiResponse(
+                    response=OpenApiTypes.OBJECT,
+                    description="User account macrotext retrieved successfully.",
+                    examples=[
+                        OpenApiExample(
+                            name="macrotext 얻기 성공",
+                            value={
+                                "macrotext1": "string",
+                                "macrotext2": "string",
+                                "macrotext3": "string",
+                                "macrotext4": "string",
+                                "macrotext5": "string"
+                            },
+                            media_type='application/json'
+                        )
+                    ]
+                ),
+                404: OpenApiResponse(
+                    response=OpenApiTypes.OBJECT,
+                    description="Not found",
+                    examples=[
+                        OpenApiExample(
+                            name="존재하지 않는 username",
+                            value={
+                                "errors": {
+                                    "non_field_errors": "없는 username 입니다"
+                                }
+                            },
+                            media_type='application/json'
+                        )
+                    ]
+                )
+            },
+            tags=["User"]
+    )
     @action(detail=True, methods=['get'])
-    def friends(self, request, pk=None):
-        queryset = self.get_queryset()
-        user = get_object_or_404(queryset, pk=pk)
+    def macrotext(self, request, username=None):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(
+                {
+                    "errors": {
+                        "non_field_errors": "없는 username 입니다"
+                    }
+                },
+                status.HTTP_404_NOT_FOUND
+            )
+        return Response(
+            [
+                user.macrotext1,
+                user.macrotext2,
+                user.macrotext3,
+                user.macrotext4,
+                user.macrotext5
+            ],
+            status.HTTP_200_OK
+        )
+    # user의 macretext를 얻어오는 API
 
-        # Step 1: Fetch the friend relationships
-        friends = Friend.objects.filter((Q(user1_id=user) | Q(user2_id=user)) & Q(status="accepted"))
-        if not friends.exists():
-            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    @extend_schema(
+            summary="Retrieve user account info",
+            description="Endpoint to retrieve info of a specific user account.",
+            responses={
+                200: OpenApiResponse(
+                    response=OpenApiTypes.OBJECT,
+                    description="User account info retrieved successfully.",
+                    examples=[
+                        OpenApiExample(
+                            name="userinfo 얻기 성공",
+                            value={
+                                'exp': 'int',
+                                'profile_img': 'int',
+                            },
+                            media_type='application/json'
+                        )
+                    ]
+                ),
+                404: OpenApiResponse(
+                    response=OpenApiTypes.OBJECT,
+                    description="Not found",
+                    examples=[
+                        OpenApiExample(
+                            name="존재하지 않는 username",
+                            value={
+                                "errors": {
+                                    "non_field_errors": "없는 username 입니다"
+                                }
+                            },
+                            media_type='application/json'
+                        )
+                    ]
+                )
+            },
+            tags=["User"]
+    )
+    @action(detail=True, methods=['get'])
+    def userinfo(self, request, username=None):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(
+                {
+                    "errors": {
+                        "non_field_errors": ["없는 username 입니다"]
+                    }
+                },
+                status.HTTP_404_NOT_FOUND
+            )
+        return Response(
+            {
+                'exp': user.exp,
+                'profile_img': user.profile_img,
+            },
+            status.HTTP_200_OK
+        )
+    # user의 macrotext를 제외한 info를 얻어오는 API
 
-        # Step 2: Get the online status for each friend
-        friends_data = []
-        for friend in friends:
-            if friend.user1_id == user:
-                friend_user = friend.user2_id
-            else:
-                friend_user = friend.user1_id
 
-            friend_status = get_online_status(friend_user.id)  # Assuming this method exists
 
-            # Prepare data for serialization
-            friends_data.append({
-                'friend_nickname': friend_user.nickname,
-                'friend_status': friend_status,  # Online status from the external service
-                'friend_profile_image_url': friend_user.profile_img if friend_user.profile_img else None
-            })
+    # @extend_schema(
+    #     summary="Retrieve all friends for a specific user",
+    #     description="Retrieve all friends associated with a specific user ID.",
+    #     responses={
+    #         200: FriendListSerializer(many=True),
+    #         404: OpenApiResponse(description="User not found"),
+    #     },
+    #     tags=["User"]
+    # )
+    # @action(detail=True, methods=['get'])
+    # def friends(self, request, pk=None):
+        # user = get_object_or_404(self.queryset, pk=pk)
 
-        # Serialize the data
-        serializer = FriendListSerializer(friends_data, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        # # Step 1: Fetch the friend relationships
+        # friends = Friend.objects.filter((Q(user1_id=user) | Q(user2_id=user)) & Q(status="accepted"))
+        # if not friends.exists():
+        #     return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+        # # Step 2: Get the online status for each friend
+        # friends_data = []
+        # for friend in friends:
+        #     if friend.user1_id == user:
+        #         friend_user = friend.user2_id
+        #     else:
+        #         friend_user = friend.user1_id
+
+        #     friend_status = get_online_status(friend_user.id)  # Assuming this method exists
+
+        #     # Prepare data for serialization
+        #     friends_data.append({
+        #         'friend_nickname': friend_user.nickname,
+        #         'friend_status': friend_status,  # Online status from the external service
+        #         'friend_profile_image_url': friend_user.profile_img if friend_user.profile_img else None
+        #     })
+
+        # # Serialize the data
+        # serializer = FriendListSerializer(friends_data, many=True)
+        # return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # @extend_schema(
+    #         summary="Delete user account",
+    #         description="Endpoint to delete a user account and remove all associated session data.",
+    #         responses={
+    #             200: OpenApiResponse(description="User account deleted successfully."),
+    #             400: OpenApiResponse(
+    #                 response=OpenApiTypes.OBJECT,
+    #                 description="Bad request",
+    #                 examples=[
+    #                     OpenApiExample(
+    #                         name="존재하지 않는 username",
+    #                         value={
+    #                             "errors": {
+    #                                 "non_field_errors": ["이미 로그아웃 되었습니다"]
+    #                             }
+    #                         },
+    #                         media_type='application/json'
+    #                     )
+    #                 ]
+    #             ),
+    #         },
+    #         tags=["User"]
+    # )
+    # def destroy(self, request, username=None):
+        # if request.user.is_authenticated:
+        #     if request.user.username == username:
+        #         return Response(status=status.HTTP_200_OK)
