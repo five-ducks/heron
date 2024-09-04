@@ -37,6 +37,8 @@ CSRF_TRUSTED_ORIGINS = ['https://localhost']
 
 INSTALLED_APPS = [
     'oauth.apps.OauthConfig',
+	'daphne',
+	'websocket',
     'users.apps.UsersConfig',
     'games.apps.GamesConfig',
     'friends.apps.FriendsConfig',
@@ -160,3 +162,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Channels
+
+# Daphne
+ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
