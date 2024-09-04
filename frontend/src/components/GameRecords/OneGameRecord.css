@@ -1,0 +1,32 @@
+.one-game-record {
+	display: flex;
+	width: 600px;
+	height: 95px;
+	padding: 10px;
+	font-family: 'DungGeunMo';
+	background-size: cover;
+}
+
+.one-game-record .game-type {
+	display: flex;
+    min-width: 75px;
+    align-items: center;
+    font-size: 15px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.one-game-record .vs-text {
+	display: flex;
+	font-size: 50px;
+	align-items: center;
+	justify-content: center;
+	padding: 5px 5px 5px 15px;
+}
+
+.one-game-record .match-time {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 15px;
+}

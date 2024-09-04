@@ -150,6 +150,8 @@
 /* sidebar 영역 스타일 */
 .sidebar {
 	flex: 1;
+	background-image: url('../public/images/abyss_bg.png');
+	background-size: cover;
 	width: 300px; /* 사이드바 너비 설정 */
 	padding: 10px;
 	overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
