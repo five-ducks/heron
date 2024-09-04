@@ -81,7 +81,6 @@ export default class Login extends Component {
                         },
                         body: JSON.stringify({ username, password }),
                     });
-                    
                     if (response.ok) {
                         const data = await response;
 						console.log('data status: ', data.status); // debug
