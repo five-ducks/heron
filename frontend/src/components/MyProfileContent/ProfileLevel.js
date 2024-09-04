@@ -29,15 +29,5 @@ export class ProfileLevel extends Component {
 
 		`;
 	}
-	calculateLevel() {
-
-		// 레벨 정하는 함수
-		// const inputlevel = prompt("레벨을 입력하세요");
-		// if (inputlevel === null) {
-		// 	return;
-		// } else {
-		// 	console.log(inputlevel);
-		// 	this.render(inputlevel);
-		// }
-	}
+	calculateLevel() {}
 }

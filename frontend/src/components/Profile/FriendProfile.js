@@ -1,7 +1,7 @@
 import { Component } from "../../core/core.js";
 
 export class FriendProfile extends Component {
-    constructor(nick = 'unknown', image = "../public/images/charactors/pikachu.png", onSelect = () => {console.log('none')}) {
+    constructor(nick = 'unknown', image = "../public/images/charactors/pikachu.png", onSelect = () => {}) {
 		super({
 			tagName: 'button'
 		});

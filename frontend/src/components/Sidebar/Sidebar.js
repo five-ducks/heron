@@ -10,11 +10,10 @@ export class Sidebar extends Component {
             <div class="friends"></div>
         `;
 
-        const info_f1 = new InfoFriendModal(() => console.log('info_f1'));
+        const info_f1 = new InfoFriendModal(() => {});
         document.body.appendChild(info_f1.el);  // 아 없는데 어떻게 띄워!!!!!
         const friend = new FriendProfile('taehkim2', "../public/images/charactors/bulbasaur.png", () => {
             info_f1.open();
-			console.log('info open');
         });
         const friend1 = new FriendProfile('minkylee', "../public/images/charactors/mew.png");
         const friend2 = new FriendProfile('sihlee', "../public/images/charactors/ditto.png");

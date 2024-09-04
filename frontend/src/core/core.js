@@ -39,7 +39,6 @@ function routeRender(routes) {
 	const routerView = document.querySelector('router-view')
 	const [hash, queryString = ''] = location.hash.split('?') // 물음표를 기준으로 해시 정보와 쿼리스트링을 구분
 	// 2) 현재 라우트 정보를 찾아서 렌더링!
-	console.log(hash)
 	const currentRoute = routes.find(route => new RegExp(`${route.path}/?$`).test(hash))
 	routerView.innerHTML = ''
 	routerView.append(new currentRoute.component().el)

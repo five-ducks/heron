@@ -55,8 +55,6 @@ export default class Login extends Component {
             'Login',
             async () => {
                 // Retrieve input values
-				console.log(input_ID.getValue()); // debug
-				console.log(input_PW.getValue()); // debug
 				const username = input_ID.getValue(); // getValue() 사용
                 const password = input_PW.getValue(); // getValue() 사용
 				
@@ -69,7 +67,6 @@ export default class Login extends Component {
                     alert('Please enter your password.');
                     return;
                 }
-				console.log(JSON.stringify({ username, password }));
                 try {
                     // Send login request
                     const response = await fetch('/api/users/login', {
@@ -83,10 +80,8 @@ export default class Login extends Component {
                     });
                     if (response.ok) {
                         const data = await response;
-						console.log('data status: ', data.status); // debug
                         setCookie('ppstate', data.status, 365);
                         setCookie('player', username, 365);
-                        console.log('cookie: ', document.cookie); // debug
                         alert('Login successful!');
 						window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
@@ -107,7 +102,7 @@ export default class Login extends Component {
                 size: '70px', 
             },
             '42 Auth', 
-            () => { console.log('42 auth') }
+            () => {}
         );
 
         const signUpButton = new Button(
@@ -120,7 +115,6 @@ export default class Login extends Component {
             'JOIN',
             () => {	
                 joinModal.open();
-                console.log('join')
             }
         );
 
@@ -133,7 +127,6 @@ export default class Login extends Component {
 
         // Initialize Join Modal
         const joinModal = new JoinModal(() => {
-            console.log('closed');
             // Handle actions when the modal is closed
         });
         this.el.appendChild(joinModal.el);

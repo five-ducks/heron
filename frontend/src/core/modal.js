@@ -29,7 +29,6 @@ export class Modal extends Component {
 
 	open() {
 		this.el.style.display = 'block';
-		console.log('modal open');
 	}
 
 	close() {

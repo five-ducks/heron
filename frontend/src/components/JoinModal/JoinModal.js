@@ -97,6 +97,5 @@ export class JoinModal extends Modal {
         const charactorRow = this.el.querySelector('.charactor-row');
         const charactors = new SelectCharactor();
         charactorRow.appendChild(charactors.el);
-        console.log(charactors.el);
     }
 }

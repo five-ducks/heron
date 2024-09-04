@@ -28,8 +28,6 @@ export class Outcome extends Component {
 		// 지금은 임시 이미지
 		profileImg.appendChild(img);
 
-		console.log(isWin);
-
 		const resultEl = this.el.querySelector('.result');
 
 		// 이겼으면 파란색, 졌으면 빨간색 텍스트 테두리를 설정

@@ -49,7 +49,6 @@ export class ProfileSummary extends Component {
 		},
 		'로그아웃',
 		async() => {
-			// console.log();
 			const response = await fetch('/api/users/logout', {
 				method: 'POST',
 				headers: {

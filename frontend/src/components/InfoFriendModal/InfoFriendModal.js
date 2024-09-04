@@ -12,7 +12,6 @@ export class InfoFriendModal extends Modal {
         this.el.classList.add("info_friend_modal");
         const matchRecordList = this.el.querySelector(".info_record");
         const matchRecord = new MatchRecord();
-        console.log(matchRecordList);
         matchRecordList.appendChild(matchRecord.el);
         this.render();
     }
