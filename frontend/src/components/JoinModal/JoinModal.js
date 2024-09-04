@@ -66,7 +66,6 @@ export class JoinModal extends Modal {
             };
 
             try {
-				fetch('api/users/1')
                 // Send the fetch request
                 const response = await fetch('api/user/signup', {
                     method: 'POST',
