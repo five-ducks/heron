@@ -395,6 +395,7 @@ class UserViewSet(viewsets.ViewSet):
             if user.is_authenticated:
                 for fieldname in request.data:
                     setattr(user, fieldname, request.data.get(fieldname))
+                user.save()
                 return Response(status.HTTP_200_OK)
             return Response(
                 {"error": "로그인 상태가 아닙니다"},
