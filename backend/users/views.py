@@ -20,8 +20,8 @@ class UserViewSet(viewsets.ViewSet):
     """
     A ViewSet for managing users.
     """
-    queryset = User.objects.all()
-    lookup_field = 'username'
+    # queryset = User.objects.all()
+    # lookup_field = 'username'
 
 ##### 인증관련 #####
     @extend_schema(
