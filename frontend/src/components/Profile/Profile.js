@@ -1,18 +1,17 @@
 import { Component } from "../../core/core.js";
+import { ProfileIcon } from "./ProfileIcon.js";
 
 export class CharactorProfile extends Component {
-    constructor(image = "../public/images/charactors/pikachu.png", name = "unknown", onSelect = () => {}) {
+    constructor(image = 1, name = "unknown", onSelect = () => {}) {
 		super({
 			tagName: 'button'
 		});
-		const src = image;
-		const img = document.createElement('img');
-		img.src = src;
 
+		const img = new ProfileIcon(image);
 		const frame = document.createElement('div');
 		frame.classList.add('frame');
 		this.el.appendChild(frame);
-		frame.appendChild(img);
+		frame.appendChild(img.el);
 
 		const span = document.createElement('span');
 		span.textContent = name;
