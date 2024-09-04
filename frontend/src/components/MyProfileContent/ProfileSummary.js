@@ -1,6 +1,7 @@
 import { Component } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
+import { getCookie } from "../../core/core.js";
 
 export class ProfileSummary extends Component {
 	constructor() {
@@ -10,7 +11,7 @@ export class ProfileSummary extends Component {
 			}
 		});
 	}
-
+	
 	render() {
 		this.el.innerHTML = /*html*/`
 			<div class="profile-summary-img"></div>
@@ -26,7 +27,7 @@ export class ProfileSummary extends Component {
 			<div class="vertical-line"></div>
 			<div class="button-container"></div>
 		`;
-
+		
 		//프로필 이미지
 		const profileImg = this.el.querySelector('.profile-summary-img'); 
 		const img = document.createElement('img');
@@ -47,8 +48,22 @@ export class ProfileSummary extends Component {
 			background : "url('../../../public/images/ui/profile-button.png')",
 		},
 		'로그아웃',
-		() => {
-			// 로그아웃 로직
+		async() => {
+			const response = await fetch('/api/users/logout', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': getCookie('csrftoken'),
+				},
+			});
+			const status = await response.status;
+			if (status === 200) {
+				document.cookie = 'ppstate=; player=;';
+				location.href = '/#/';
+				alert('로그아웃 되었습니다.');
+			}
+			else
+				alert('로그아웃에 실패했습니다.');
 		}
 		);
 		const withdrawalBtn = new Button({

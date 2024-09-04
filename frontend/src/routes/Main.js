@@ -10,7 +10,7 @@ export default class Main extends Component {
 		this.el.innerHTML = /*html*/`
             <div class="headerpos"></div>
             <div class="body">
-                <div class="selectpage"></div>
+                <div class="selectpagepos"></div>
                 <div class="sidebar"></div>
             </div>
         `
@@ -18,7 +18,7 @@ export default class Main extends Component {
         this.el.querySelector('.headerpos').appendChild(header.el);
 
         const selectpage = new SelectPage();
-        this.el.querySelector('.selectpage').appendChild(selectpage.el);
+        this.el.querySelector('.selectpagepos').appendChild(selectpage.el);
 
         const sidebar = new Sidebar();
         this.el.querySelector('.sidebar').appendChild(sidebar.el);

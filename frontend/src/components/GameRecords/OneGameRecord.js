@@ -13,7 +13,6 @@ export class OneGameRecord extends Component {
 	}
 	render(gameRecord) {
 		const myName = "Ava"; // 내 아이디 (임시)
-		console.log(gameRecord);
 		if (gameRecord) {
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;
@@ -38,11 +37,6 @@ export class OneGameRecord extends Component {
 
 			// 형식에 맞게 날짜와 시간 결합
 			const formattedDateTime = `${year}/${month}/${day}<br>${hours}:${minutes}`;
-
-			console.log(formattedDateTime); // 예: "2024/07/07 15:48"
-
-			
-
 			let match_type = 'single';
 
 			if (gameRecord.match_type === 'single') {

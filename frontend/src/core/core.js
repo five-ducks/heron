@@ -19,14 +19,26 @@ export class Component {
 	}
 }
 
+// cookie가 있는지 조회하는 함수
+export function getCookie(name) {
+	const value = `; ${document.cookie}`;			// 쿠키 값 앞에 ;를 붙여서 쿠키 이름을 찾을 때 편리하게 함
+	const parts = value.split(`; ${name}=`);		// 쿠키 이름을 기준으로 쿠키 값을 분리
+	if (parts.length === 2)							// 쿠키 값이 존재한다면
+		return parts.pop().split(';').shift();		// 쿠키 값을 반환
+	return null;									// 쿠키 값이 존재하지 않는다면 null을 반환
+}
+
 function routeRender(routes) {
 	if (!location.hash) {
 		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
 	}
+	// 쿠키를 통해 로그인 여부를 확인하고, 로그인이 되어 있지 않다면 gate 페이지로 이동
+	if (getCookie('ppstate') != 200 && (location.hash !== '#/' && location.hash !== '#/login')) {
+		location.href = '/#/login';
+	}
 	const routerView = document.querySelector('router-view')
 	const [hash, queryString = ''] = location.hash.split('?') // 물음표를 기준으로 해시 정보와 쿼리스트링을 구분
 	// 2) 현재 라우트 정보를 찾아서 렌더링!
-	console.log(hash)
 	const currentRoute = routes.find(route => new RegExp(`${route.path}/?$`).test(hash))
 	routerView.innerHTML = ''
 	routerView.append(new currentRoute.component().el)

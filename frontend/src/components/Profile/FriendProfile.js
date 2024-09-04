@@ -19,10 +19,7 @@ export class FriendProfile extends Component {
 		this.el.appendChild(span);
 
 		this.isSelected = false;
-		this.el.addEventListener('click', () => {
-			onSelect(this);
-		});
-
+		this.el.addEventListener('click', onSelect);
 		this.render();
 	}
 
