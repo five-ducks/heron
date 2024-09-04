@@ -6,6 +6,5 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('<int:id>/friends/', UserViewSet.as_view({'get': 'friends'}), name='user-friends')
+    path('', include(router.urls))
 ]

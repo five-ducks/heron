@@ -15,7 +15,12 @@ class CustomUserAdmin(UserAdmin):
                     "exp",
                     "win_cnt",
                     "lose_cnt",
-                    "status_msg"
+                    "status_msg",
+                    "macrotext1",
+                    "macrotext2",
+                    "macrotext3",
+                    "macrotext4",
+                    "macrotext5",
                 )
             }
         ),
