@@ -4,14 +4,14 @@ from django.db import models
 class User(AbstractUser):
 
     PROFILE_IMGS = [
-        (1, '피카츄'),
-        (2, '파이리'),
-        (3, '이상해씨'),
-        (4, '꼬부기'),
-        (5, '이브이'),
-        (6, '잠만보'),
-        (7, '뮤'),
-        (8, '메타몽'),
+        (0, '피카츄'),
+        (1, '파이리'),
+        (2, '이상해씨'),
+        (3, '꼬부기'),
+        (4, '이브이'),
+        (5, '잠만보'),
+        (6, '뮤'),
+        (7, '메타몽'),
     ]
     STATUS_CHOICES = [
         (0, '오프라인'),
@@ -31,7 +31,7 @@ class User(AbstractUser):
     )
     profile_img = models.IntegerField(
         choices=PROFILE_IMGS,
-        default=1,
+        default=0,
         help_text="Profile image ID for the user, selectable from predefined options."
     )
     status = models.IntegerField(
