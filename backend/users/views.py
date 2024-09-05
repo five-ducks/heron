@@ -172,7 +172,7 @@ class UserViewSet(viewsets.ViewSet):
     @csrf_exempt
     def join(self, request):
         try:
-            serializer = SignUpSerializer(data=request.data)
+            serializer = JoinSerializer(data=request.data)
             if not serializer.is_valid():
                 raise ValueError("사용중인 username 입니다")
             
