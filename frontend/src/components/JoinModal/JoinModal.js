@@ -58,31 +58,34 @@ export class JoinModal extends Modal {
                 return;
             }
 
+            // const profile_img = this.selectedCharactorIndex;
+
             // 요청 데이터 생성
             const requestData = {
                 username,
                 password,
                 profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
             };
-            // console.log(username, password, this.selectedCharactorIndex);
+
             try {
                 // 요청 전송
-                const response = await fetch('api/users/join', {
+                const response = await fetch('/api/users/join', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(requestData),
                 });
-
                 // 응답 처리
                 if (response.status === 201) {
-                    const data = await response.json();
                     alert('회원가입이 완료되었습니다!');
                     this.close();  // 모달 닫기
+                } else if (response.status === 400) {
+                    const responseData = await response.json();
+                    const error = responseData.error;  // 오류 메시지 가져오기
+                    alert(`error: ${response.status}, ${error}`);
                 } else {
-                    const error = await response.json();
-                    alert(`회원가입 실패: ${error.message || '알 수 없는 오류입니다.'}`);
+                    alert('알 수 없는 오류가 발생했습니다.');
                 }
             } catch (error) {
                 alert(`서버 오류: ${error.message}`);
@@ -101,7 +104,6 @@ export class JoinModal extends Modal {
         // 캐릭터 선택 이벤트 리스너 추가
         charactors.el.addEventListener('charactorSelected', (event) => {
             this.selectedCharactorIndex = event.detail.index; // 선택된 캐릭터 인덱스 저장
-            console.log(`선택된 캐릭터 인덱스: ${this.selectedCharactorIndex}`);
         });
     }
     

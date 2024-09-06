@@ -23,8 +23,9 @@ export class SelectCharactor extends Component {
 			new Charactor({ src: '../public/images/charactors/ditto.png' }, '메타몽', this.selectCharactor.bind(this)),
 		];
 
-		this.selectCharactor(this.charactors[0]);
-		console.log(this.charactors);
+		// 초기화
+		this.selectCharactor(this.charactors[0]); // 초기 선택된 캐릭터
+		this.selectedIndex = 0; // 초기 선택된 캐릭터 인덱스
 
 		this.charactors.forEach(charactor => {
 			this.el.appendChild(charactor.el);
