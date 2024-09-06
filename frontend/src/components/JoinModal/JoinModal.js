@@ -10,7 +10,7 @@ export class JoinModal extends Modal {
             <div class="join_row">
                 <div class="input_join">
                     <p class="joinInputLabel">닉네임</p>
-                    <div id="nickInput"></div>
+                    <div id="nameInput"></div>
                 </div>
                 <div class="input_join">
                     <p class="joinInputLabel">비밀번호</p>
@@ -27,25 +27,25 @@ export class JoinModal extends Modal {
         super(content, onClose);
         this.addCharactors();
 
-        // Initialize input fields
-        const nickInput = new Input('7자 미만으로 입력해주세요', 'text', { width: '333px', height: '30px', fontsize: '20px'});
+        // 인풋 필드 생성
+        const nameInput = new Input('7자 미만으로 입력해주세요', 'text', { width: '333px', height: '30px', fontsize: '20px'});
         const pwInput = new Input('비밀번호는 6자 이상이여야 합니다.', 'password', { width: '333px', height: '30px', fontsize: '20px' });
         const curpwInput = new Input('한 번 더 입력해주세요', 'password', { width: '333px', height: '30px', fontsize: '20px' });
 
-        // Append input elements to the DOM
-        this.el.querySelector('#nickInput').appendChild(nickInput.el);
+        // 인풋 필드 추가
+        this.el.querySelector('#nameInput').appendChild(nameInput.el);
         this.el.querySelector('#pwInput').appendChild(pwInput.el);
         this.el.querySelector('#curpwInput').appendChild(curpwInput.el);
 
-        // Finish button with fetch logic
+        // 완료 버튼 추가
         const finishButton = new Button({ background: "url('../public/images/button.png')", width: '100px', height: '50px', size: '30px' }, '완료', async () => {
             // Validate inputs
-            const nickname = nickInput.el.querySelector('input').value.trim();
-            const password = pwInput.el.querySelector('input').value;
-            const confirmPassword = curpwInput.el.querySelector('input').value;
+            const username = nameInput.getValue();
+            const password = pwInput.getValue();
+            const confirmPassword = curpwInput.getValue();
 
             // Basic validation checks
-            if (!nickname || nickname.length >= 7) {
+            if (!username || username.length >= 7) {
                 alert('닉네임을 7자 미만으로 입력해주세요.');
                 return;
             }
@@ -58,16 +58,16 @@ export class JoinModal extends Modal {
                 return;
             }
 
-            // Prepare the registration data
+            // 요청 데이터 생성
             const requestData = {
-                nickname,
+                username,
                 password,
-                // Add more fields if necessary
+                profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
             };
-
+            // console.log(username, password, this.selectedCharactorIndex);
             try {
-                // Send the fetch request
-                const response = await fetch('api/user/signup', {
+                // 요청 전송
+                const response = await fetch('api/users/join', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -75,11 +75,11 @@ export class JoinModal extends Modal {
                     body: JSON.stringify(requestData),
                 });
 
-                // Handle response
-                if (response.ok) {
+                // 응답 처리
+                if (response.status === 201) {
                     const data = await response.json();
                     alert('회원가입이 완료되었습니다!');
-                    this.close();  // Close the modal on success
+                    this.close();  // 모달 닫기
                 } else {
                     const error = await response.json();
                     alert(`회원가입 실패: ${error.message || '알 수 없는 오류입니다.'}`);
@@ -97,5 +97,12 @@ export class JoinModal extends Modal {
         const charactorRow = this.el.querySelector('.charactor-row');
         const charactors = new SelectCharactor();
         charactorRow.appendChild(charactors.el);
+    
+        // 캐릭터 선택 이벤트 리스너 추가
+        charactors.el.addEventListener('charactorSelected', (event) => {
+            this.selectedCharactorIndex = event.detail.index; // 선택된 캐릭터 인덱스 저장
+            console.log(`선택된 캐릭터 인덱스: ${this.selectedCharactorIndex}`);
+        });
     }
+    
 }

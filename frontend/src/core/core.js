@@ -32,10 +32,16 @@ function routeRender(routes) {
 	if (!location.hash) {
 		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
 	}
-	// 쿠키를 통해 로그인 여부를 확인하고, 로그인이 되어 있지 않다면 gate 페이지로 이동
-	if (getCookie('ppstate') != 200 && (location.hash !== '#/' && location.hash !== '#/login')) {
-		location.href = '/#/login';
+
+	// 해시를 확인했는데 로그인 되었는데 login 페이지로 가려고 하면 gate 로 이동
+	if (location.hash === '#/login' && getCookie('ppstate') == 200) {
+		location.href = '/#/main';
 	}
+
+	// 쿠키를 통해 로그인 여부를 확인하고, 로그인이 되어 있지 않다면 gate 페이지로 이동
+	// if (getCookie('ppstate') != 200) {
+	// 	location.href = '/#/login';
+	// }
 	const routerView = document.querySelector('router-view')
 	const [hash, queryString = ''] = location.hash.split('?') // 물음표를 기준으로 해시 정보와 쿼리스트링을 구분
 	// 2) 현재 라우트 정보를 찾아서 렌더링!
