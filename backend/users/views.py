@@ -132,8 +132,6 @@ class UserViewSet(viewsets.ViewSet):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            # login(request, user)
-            # user.status = User.STATUS_MAP['온라인']
             user.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(
