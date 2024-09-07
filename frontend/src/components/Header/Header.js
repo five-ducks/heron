@@ -11,7 +11,7 @@ export class Header extends Component {
         const profile = new CharactorProfile();
         this.el.querySelector('.profile').appendChild(profile.el);
         this.el.querySelector('.return').addEventListener('click', () => {
-            location.href = '/#/login';
+            location.href = '/#/';
         });
         this.el.querySelector('.charactor-profile').addEventListener('click', () => {
             location.href = '/#/myprofile';

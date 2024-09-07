@@ -23,21 +23,28 @@ export class SelectCharactor extends Component {
 			new Charactor({ src: '../public/images/charactors/ditto.png' }, '메타몽', this.selectCharactor.bind(this)),
 		];
 
-		this.selectCharactor(this.charactors[0]);
-		console.log(this.charactors);
+		// 초기화
+		this.selectCharactor(this.charactors[0]); // 초기 선택된 캐릭터
+		this.selectedIndex = 0; // 초기 선택된 캐릭터 인덱스
 
 		this.charactors.forEach(charactor => {
 			this.el.appendChild(charactor.el);
 		});
 	}
 
+	// 캐릭터 선택 메서드
 	selectCharactor(selectedCharactor) {
 		if (this.selectedCharactor) {
-			this.selectedCharactor.deselect();
+			this.selectedCharactor.deselect(); // 이전 선택된 캐릭터 선택 해제
 		}
 
 		this.selectedCharactor = selectedCharactor;
-		this.selectedCharactor.select();
+		this.selectedCharactor.select(); // 새로 선택된 캐릭터 선택
+
+		// 선택된 캐릭터의 인덱스를 찾아 커스텀 이벤트를 생성하여 발생시킴
+		const selectedIndex = this.charactors.indexOf(selectedCharactor);
+		const event = new CustomEvent('charactorSelected', { detail: { index: selectedIndex } });
+		this.el.dispatchEvent(event); // 이벤트 발생
 	}
 
 	render() {

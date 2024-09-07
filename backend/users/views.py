@@ -16,6 +16,8 @@ from .serializers import (
     UserUpdateSerializer
 )
 
+from django.views.decorators.csrf import csrf_exempt
+
 class UserViewSet(viewsets.ViewSet):
     """
     A ViewSet for managing users.
@@ -125,12 +127,11 @@ class UserViewSet(viewsets.ViewSet):
         tags=["User"]
     )
     @action(detail=False, methods=['post'])
+    @csrf_exempt
     def join(self, request):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            login(request, user)
-            user.status = User.STATUS_MAP['온라인']
             user.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(
