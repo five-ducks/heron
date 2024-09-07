@@ -11,6 +11,31 @@ from .models import User
 ## to_internal_value의 경우 dict의 fieldvalue를 errordetail객체로 감싸게 됩니다.
 ## validate의 경우 fieldvalue를 errordetail객체로 감싸고 list로 한번 더 감싸게 됩니다.
 
+class OAuthLoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150, required=True)
+    
+    def to_internal_value(self, data):
+        if 'username' not in data:
+            raise serializers.ValidationError(
+                {
+                    "error_code": [400],
+                    "detail": ["필드 이름이 잘못되었습니다"]
+                }
+            )
+        ## requset의 fieldname이 잘못된 경우
+        
+        username = data.get('username')
+        if not username:
+            raise serializers.ValidationError(
+                {
+                    "error_code": [400],
+                    "detail": ["필드 값이 비어있습니다"]
+                }
+            )
+        ## request의 fieldvalue가 비어있는 경우
+        
+        return super().to_internal_value(data)
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150, required=True)
     password = serializers.CharField(max_length=128, required=True)
