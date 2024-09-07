@@ -35,8 +35,18 @@ class UserViewSet(viewsets.ViewSet):
                 description="Bad request",
                 examples=[
                     OpenApiExample(
-                        name="Input error",
-                        value={ "error": "username 또는 password가 잘못 되었습니다." },
+                        name="Fieldname Error",
+                        value={ "error": "필드 이름이 잘못되었습니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Fieldvalue Error",
+                        value={ "error": "존재하지 않는 username 또는 password 입니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Field value is empty",
+                        value={ "error": "필드 값이 비어있습니다" },
                         media_type='application/json'
                     )
                 ]
@@ -69,17 +79,18 @@ class UserViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def login(self, request):
         try:
-            if request.user.username == request.data.get("username"):
-                raise PermissionError("다른 기기에서 이미 로그인되어 있습니다")
-            
             serializer = LoginSerializer(data=request.data)
             if not serializer.is_valid():
-                raise ValueError("username 또는 password가 잘못 되었습니다")
-            
-            user = serializer.validated_data['user']
+                error_code = serializer.errors.get('error_code')
+                detail = serializer.errors.get('detail')
+                if int(error_code[0]) == 400:
+                    raise ValueError(str(detail[0]))
+                elif int(error_code[0]) == 409:
+                    raise PermissionError(str(detail[0]))
+
+            user = serializer.validated_data.get('user')
             login(request, user)
-            user.status = User.STATUS_MAP['온라인']
-            user.save()
+            serializer.save()
             return Response(status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -145,21 +156,31 @@ class UserViewSet(viewsets.ViewSet):
             201: OpenApiResponse(description="User created successfully"),
             400: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
-                description="Bad request",
+                description="Bad Request",
                 examples=[
                     OpenApiExample(
-                        name="Duplicate username errors",
+                        name="Duplicate Username Error",
                         value={ "error": "사용중인 username 입니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Fieldname Error",
+                        value={ "error": "필드 이름이 잘못되었습니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Fieldvalue Error",
+                        value={ "error": "필드 값이 비어있습니다" },
                         media_type='application/json'
                     )
                 ]
             ),
             500: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
-                description="Internal server error",
+                description="Internal Server Error",
                 examples=[
                     OpenApiExample(
-                        name="undefined behavior",
+                        name="Undefined Behavior",
                         value={ "error": "시스템 에러 메세지가 출력됩니다" },
                         media_type='application/json'
                     )
@@ -172,12 +193,17 @@ class UserViewSet(viewsets.ViewSet):
     @csrf_exempt
     def join(self, request):
         try:
+            if User.objects.filter(username=request.data.get('username')).exists():
+                raise ValueError("사용중인 username 입니다")
+            ## 중복된 유저이름 확인
+            
             serializer = JoinSerializer(data=request.data)
             if not serializer.is_valid():
-                raise ValueError("사용중인 username 입니다")
-            
-            user = serializer.save()
-            user.save()
+                error_code = serializer.errors.get('error_code')
+                detail = serializer.errors.get('detail')
+                if int(error_code[0]) == 400:
+                    raise ValueError(str(detail[0]))
+            serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -437,8 +463,8 @@ class UserViewSet(viewsets.ViewSet):
                 description="Bad request",
                 examples=[
                     OpenApiExample(
-                        name="Invalid fieldname",
-                        value={ "error": "유효하지 않은 fieldname 입니다" },
+                        name="Fieldname Error",
+                        value={ "error": "필드 이름이 잘못되었습니다" },
                         media_type='application/json'
                     )
                 ]
@@ -448,7 +474,7 @@ class UserViewSet(viewsets.ViewSet):
                 description="Don't have permission to access the data",
                 examples=[
                     OpenApiExample(
-                        name="Not logged in",
+                        name="Not Logged In",
                         value={ "error": "로그인 상태가 아닙니다" },
                         media_type='application/json'
                     )
@@ -459,7 +485,7 @@ class UserViewSet(viewsets.ViewSet):
                 description="Internal server error",
                 examples=[
                     OpenApiExample(
-                        name="undefined behavior",
+                        name="Undefined Behavior",
                         value={ "error": "시스템 에러 메세지가 출력됩니다" },
                         media_type='application/json'
                     )
@@ -492,14 +518,11 @@ class UserViewSet(viewsets.ViewSet):
                 }
                 return Response(user_data, status=status.HTTP_200_OK)
             elif request.method == 'PATCH':
-                for fieldname, value in request.data.items():
-                    if hasattr(user, fieldname):
-                        if value == '':
-                            value = '텍스트를 입력하세요'
-                        setattr(user, fieldname, value)
-                    else:
-                        raise ValueError(f"유효하지 않은 '{fieldname}' 입니다")
-                user.save()
+                serializer = UserUpdateSerializer(instance=request.user, data=request.data)
+                if not serializer.is_valid():
+                    raise ValueError("필드 이름이 잘못되었습니다")
+                
+                serializer.save()
                 return Response(status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
