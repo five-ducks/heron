@@ -1,45 +1,87 @@
-from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample, OpenApiParameter
+from django.shortcuts import redirect
 from django.conf import settings
 import requests
 
-client_id = settings.CLIENT_ID
-client_secret = settings.CLIENT_SECRET
-redirect_uri = "http://localhost:8000/oauth/login/redirect"
+from users.serializers import (
+    SignUpSerializer,
+    # OAuthLoginSerializer,
+    UserUpdateSerializer
+)
 
-def login(request: HttpRequest) -> HttpResponse:
-    return JsonResponse({"message": "Hello, World!"})
+class OAuthViewSet(viewsets.ViewSet):
+    """
+    A ViewSet for handling OAuth login via 42 API.
+    """
+    client_id = settings.CLIENT_ID
+    client_secret = settings.CLIENT_SECRET
+    redirect_uri = "http://localhost:8000/oauth/login/redirect"
 
-def login42(request: HttpRequest):
-    return redirect(
-        f"https://api.intra.42.fr/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
+    @extend_schema(
+        summary="42 OAuth login",
+        description="Redirects to 42 OAuth login page.",
+        # request=OAuthLoginSerializer,
+        responses={
+            200: OpenApiResponse(description="User logged in successfully"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="Input error",
+                        value={ "error": "username 또는 password가 잘못 되었습니다." },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Duplicate login error",
+                        value={ "error": "다른 기기에서 이미 로그인되어 있습니다" },
+                        media_type='application/json'
+                    ),
+                ]
+            )
+        },
+        tags=["OAuth"]
     )
+    @action(detail=False, methods=['get'])
+    def login(self, request):
+        # OAuth 42 로그인 페이지로 리다이렉트
+        url = (
+            f"https://api.intra.42.fr/oauth/authorize"
+            f"?client_id={self.client_id}&redirect_uri={self.redirect_uri}&response_type=code"
+        )
+        return redirect(url)
 
-def login42_redirect(request: HttpRequest):
-    code = request.GET.get("code")
-    # print(f"code: {code}")
-    user = exchange_code_for_token(code)
+    @action(detail=False, methods=['get'], url_path="login/redirect")
+    def login_redirect(self, request):
+        # 42 API에서 받은 code로 토큰 교환
+        code = request.GET.get("code")
+        token = self.exchange_code_for_token(code)
+        user = self.get_42user_info(token)
 
-    return JsonResponse({"user": user}) # for test
-    return 
+        # 42 API에서 받은 username으로 유저가 이미 있는지 확인
+        username = user.get("login")
+        # user = User.objects.filter(username=username).first()
 
-def exchange_code_for_token(code: str) -> str:
-    data = {
-        "grant_type": "authorization_code",
-        "client_id": client_id,
-        "client_secret": client_secret,
-        "code": code,
-        "redirect_uri": redirect_uri
-    }
+        return Response({"user": user}, status=status.HTTP_200_OK)
 
-    response = requests.post("https://api.intra.42.fr/oauth/token", data=data)
-    # print(f"response: {response.json()}")
+    def exchange_code_for_token(self, code):
+        # 토큰 교환을 위한 요청 로직
+        data = {
+            "grant_type": "authorization_code",
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "code": code,
+            "redirect_uri": self.redirect_uri
+        }
+        response = requests.post("https://api.intra.42.fr/oauth/token", data=data)
+        response_data = response.json()
+        return response_data.get("access_token")
 
-    # test start (using token) 
-    access_token = response.json()["access_token"]
-    # print(f"access_token: {access_token}")
-    response = requests.get("https://api.intra.42.fr/v2/me", headers={"Authorization": f"Bearer {access_token}"})
-    user = response.json()
-    return user
-    # test end
-    return response
+    def get_42user_info(self, token):
+        # 42 API를 사용해 사용자 정보 요청
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get("https://api.intra.42.fr/v2/me", headers=headers)
+        return response.json()
