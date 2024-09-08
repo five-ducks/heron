@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet
 from friends.views import FriendViewSet
 from games.views import MatchViewSet, TournamentViewSet
-from oauth.views import OAuthViewSet
+from oauth.views import OAuthViewSet, login_redirect
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
@@ -20,4 +20,6 @@ urlpatterns = [
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'), # Swagger UI 뷰
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+
+    path('oauth/login/redirect', login_redirect, name='login42_redirect'),
 ]
