@@ -33,7 +33,8 @@ class User(AbstractUser):
     username = models.CharField(
         max_length=150,
         unique=True,
-        validators=[]
+        validators=[],
+        help_text="User unique id"
     )
     ## username에 대한 필드 설정입니다.
     ## 최대 150문자까지 저장 가능합니다.
