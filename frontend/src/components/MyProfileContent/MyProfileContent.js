@@ -16,8 +16,8 @@ export class MyProfileContent extends Component {
 		await loadUserInfo();
 		console.log(store.state.userInfo);
 		this.el.innerHTML = /*html*/`
-		`
-		this.el.appendChild(new ProfileSummary().el);
+		`;
+		this.el.appendChild(new ProfileSummary(store.state.userInfo).el);
 
 		const horizontalLine = document.createElement('div');
 		horizontalLine.className = 'horizontal-line';
