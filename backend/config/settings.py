@@ -36,6 +36,7 @@ CSRF_TRUSTED_ORIGINS = ['https://localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'oauth.apps.OauthConfig',
     'users.apps.UsersConfig',
     'games.apps.GamesConfig',
     'friends.apps.FriendsConfig',
@@ -113,6 +114,9 @@ DATABASES = {
     }
 }
 
+# 42 API settings
+CLIENT_ID = os.getenv("FT_CLIENT_ID")
+CLIENT_SECRET = os.getenv("FT_CLIENT_SECRET")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
