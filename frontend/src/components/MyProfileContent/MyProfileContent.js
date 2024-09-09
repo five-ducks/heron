@@ -2,6 +2,7 @@ import { Component } from "../../core/core.js";
 import { ProfileSummary } from "./ProfileSummary.js";
 import { MyMacro } from "./MyMacro.js";
 import { GameRecords } from "../GameRecords/GameRecords.js";
+import store, { loadUserInfo } from "../../store/game.js";
 
 export class MyProfileContent extends Component {
 	constructor() {
@@ -11,7 +12,9 @@ export class MyProfileContent extends Component {
 			}
 		});
 	}
-	render() {
+	async render() {
+		await loadUserInfo();
+		console.log(store.state.userInfo);
 		this.el.innerHTML = /*html*/`
 		`
 		this.el.appendChild(new ProfileSummary().el);
