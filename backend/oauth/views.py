@@ -26,9 +26,7 @@ def login_redirect(request):
 
     # 42 API에서 받은 username으로 유저가 이미 있는지 확인
     username = user.get("login")
-    print("debug1")
     user = User.objects.filter(username=username).first()
-    print("debug2")
     if not user:
         try:
             # 유저가 없다면 회원가입
@@ -51,7 +49,6 @@ def login_redirect(request):
             user_data = {"username": username, "password": "42oauth"}
             serializer = LoginSerializer(data=user_data)
             if not serializer.is_valid():
-                print("debug4")
                 error_code = serializer.errors.get('error_code')
                 detail = serializer.errors.get('detail')
                 if int(error_code[0]) == 400:
