@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet
 from friends.views import FriendViewSet
-from games.views import MatchViewSet, TournamentViewSet
+from games.views import MatchViewSet
 from oauth.views import OAuthViewSet, login_redirect
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
@@ -12,7 +12,6 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'friends', FriendViewSet, basename='friend')
 router.register(r'matchs', MatchViewSet, basename='match')
-router.register(r'tournaments', TournamentViewSet, basename='tournament')
 router.register(r'oauth', OAuthViewSet, basename='oauth')
 
 urlpatterns = [

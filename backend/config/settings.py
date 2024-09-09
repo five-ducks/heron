@@ -63,7 +63,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Gaming Tournament API',
-    'DESCRIPTION': 'API for managing users, matches, tournaments, and friendships in a gaming platform.',
+    'DESCRIPTION': 'API for managing users, matches, and friendships in a gaming platform.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
