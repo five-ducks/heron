@@ -498,7 +498,7 @@ class UserViewSet(viewsets.ViewSet):
                                     'username2_grade': match.username2_grade,
                                     'match_type': match.match_type
                                 } 
-                                for match in matches.order_by('match_end_time')[:5]
+                                for match in matches.order_by('-match_end_time')[:5]
                             ]
                         }
                     )
