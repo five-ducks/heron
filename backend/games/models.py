@@ -6,8 +6,8 @@ from users.models import User
 class Match(models.Model):
 
     RESULT_CHOICES = [
-        ('user_win', '사용자 승리'),
-        ('opponent_win', '상대방 승리'),
+        ('user1_win', '유저1 승리'),
+        ('user2_win', '유저2 승리'),
         ('pending_result', '결과 대기중'),
     ]
 
@@ -16,14 +16,14 @@ class Match(models.Model):
         ('match', '1대1경기'),
     ]
 
-    user1_id = models.ForeignKey(
+    match_username1 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
         related_name='matches_as_user1',
         help_text="Reference to the first user participating in the match."
     )
-    user2_id = models.ForeignKey(
+    match_username2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
@@ -45,12 +45,12 @@ class Match(models.Model):
         default=timezone.now,
         help_text="End time of the match."
     )
-    user1_grade = models.IntegerField(
+    username1_grade = models.IntegerField(
         blank=True,
         default=0,
         help_text="Grade of the first user in the match."
     )
-    user2_grade = models.IntegerField(
+    username2_grade = models.IntegerField(
         blank=True,
         default=0,
         help_text="Grade of the second user in the match."
@@ -63,34 +63,4 @@ class Match(models.Model):
     )
 
     def __str__(self):
-        return f"{self.user1_id} vs {self.user2_id}"
-
-
-class Tournament(models.Model):
-    semifinal1 = models.ForeignKey(
-        'Match',
-        on_delete=models.CASCADE,
-        related_name='semifinal_matches1',
-        help_text="Reference to the first semifinal match."
-    )
-    semifinal2 = models.ForeignKey(
-        'Match',
-        on_delete=models.CASCADE,
-        related_name='semifinal_matches2',
-        help_text="Reference to the second semifinal match."
-    )
-    bonus_match = models.ForeignKey(
-        'Match',
-        on_delete=models.CASCADE,
-        related_name='bonus_matches',
-        help_text="Reference to the bonus match."
-    )
-    final = models.ForeignKey(
-        'Match',
-        on_delete=models.CASCADE,
-        related_name='final_matches',
-        help_text="Reference to the final match."
-    )
-
-    def __str__(self):
-        return f"Tournament with matches: {self.semifinal1}, {self.semifinal2}, {self.bonus_match}, {self.final}"
+        return f"{self.match_username1} vs {self.match_username2}"
