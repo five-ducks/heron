@@ -4,24 +4,29 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample, OpenApiParameter
 from django.contrib.auth import login, logout
 
+from django.db.models import Q
 from .models import User
 from friends.models import Friend
+from games.models import Match
 
 from .serializers import (
     JoinSerializer,
     LoginSerializer,
-    UserUpdateSerializer
+    UpdateUserSerializer,
+    CreateFriendshipSerializer,
+    DeleteFriendshipSerializer,
+    RetrieveFriendSerializer,
+    RetrieveSearchUserSerializer,
+    RetrieveSearchUserResponseSerializer
 )
 
 from django.views.decorators.csrf import csrf_exempt
 
 class UserViewSet(viewsets.ViewSet):
+
     """
     A ViewSet for managing users.
     """
-    # queryset = User.objects.all()
-    # lookup_field = 'username'
-    ## 추후에 사용되지 않으면 삭제가 필요합니다.
 
 ##### 인증관련 #####
     @extend_schema(
@@ -159,11 +164,6 @@ class UserViewSet(viewsets.ViewSet):
                 description="Bad Request",
                 examples=[
                     OpenApiExample(
-                        name="Duplicate Username Error",
-                        value={ "error": "사용중인 username 입니다" },
-                        media_type='application/json'
-                    ),
-                    OpenApiExample(
                         name="Fieldname Error",
                         value={ "error": "필드 이름이 잘못되었습니다" },
                         media_type='application/json'
@@ -171,6 +171,11 @@ class UserViewSet(viewsets.ViewSet):
                     OpenApiExample(
                         name="Fieldvalue Error",
                         value={ "error": "필드 값이 비어있습니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Duplicate Username Error",
+                        value={ "error": "사용중인 username 입니다" },
                         media_type='application/json'
                     )
                 ]
@@ -193,16 +198,13 @@ class UserViewSet(viewsets.ViewSet):
     @csrf_exempt
     def join(self, request):
         try:
-            if User.objects.filter(username=request.data.get('username')).exists():
-                raise ValueError("사용중인 username 입니다")
-            ## 중복된 유저이름 확인
-            
             serializer = JoinSerializer(data=request.data)
             if not serializer.is_valid():
                 error_code = serializer.errors.get('error_code')
                 detail = serializer.errors.get('detail')
                 if int(error_code[0]) == 400:
                     raise ValueError(str(detail[0]))
+            
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         except ValueError as e:
@@ -226,20 +228,8 @@ class UserViewSet(viewsets.ViewSet):
         description="Find users based on search term",
         responses={
             200: OpenApiResponse(
-                response=OpenApiTypes.OBJECT,
-                description="Successfully found user",
-                examples=[
-                    OpenApiExample(
-                        name="User find success",
-                        value={
-                            "username": "string",
-                            "status_msg": "string",
-                            "profile_img": "int",
-                            "is_friend": "bool"
-                        },
-                        media_type='application/json'
-                    )
-                ]
+                response=RetrieveSearchUserResponseSerializer,
+                description="Successfully found user"
             ),
             400: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
@@ -290,17 +280,18 @@ class UserViewSet(viewsets.ViewSet):
     )
     def list(self, request):
         try:
-            if request.user.is_anonymous:
-                raise PermissionError("로그인 상태가 아닙니다")
+            serializer = RetrieveSearchUserSerializer(instance=request.user, data=request.query_params)
+            if not serializer.is_valid():
+                error_code = serializer.errors.get('error_code')
+                detail = serializer.errors.get('detail')
+                if int(error_code[0]) == 400:
+                    raise ValueError(str(detail[0]))
+                elif int(error_code[0]) == 403:
+                    raise PermissionError(str(detail[0]))
+                elif int(error_code[0]) == 404:
+                    raise LookupError(str(detail[0]))
             
-            username = request.query_params.get('search', '')
-            if not username:
-                raise ValueError("유저 이름을 입력해주세요")
-            
-            users = User.objects.filter(username__icontains=username).exclude(username=request.user.username)
-            if not users:
-                raise LookupError("일치하는 유저가 없습니다")
-            
+            users = serializer.validated_data['users']
             users_data = [
                 {
                     "username": user.username,
@@ -321,25 +312,16 @@ class UserViewSet(viewsets.ViewSet):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     # 특정 keyword를 기반으로 user를 찾는 API
     
+
+##### CREATE, READ, DELETE #####
     @extend_schema(
+        methods=['GET'],
         summary="Get the user's friend list",
         description="Return the user's friend list",
         responses={
             200: OpenApiResponse(
-                response=OpenApiTypes.OBJECT,
-                description="Successfully returned the friends list",
-                examples=[
-                    OpenApiExample(
-                        name="Friendlist",
-                        value={
-                            "username": "string",
-                            "status_msg": "string",
-                            "status": "int",
-                            "profile_img": "int"
-                        },
-                        media_type='application/json'
-                    )
-                ]
+                response=RetrieveFriendSerializer,
+                description="Successfully returned the friends list"
             ),
             204: OpenApiResponse(description="friend list is empty"),
             403: OpenApiResponse(
@@ -367,36 +349,194 @@ class UserViewSet(viewsets.ViewSet):
         },
         tags=["User"]
     )
-    @action(detail=False, methods=['get'], url_path="self/friends")
-    def retrieve_friendlist(self, request):
+    @extend_schema(
+        methods=['POST'],
+        summary="Create the user's new friendship",
+        description="Add new recorde to friends table",
+        request=CreateFriendshipSerializer,
+        responses={
+            201: OpenApiResponse(description="Successfully create the user's new friendship"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad Request",
+                examples=[
+                    OpenApiExample(
+                        name="Fieldname Error",
+                        value={ "error": "필드 이름이 잘못되었습니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Fieldvalue Error",
+                        value={ "error": "필드 값이 비어있습니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Not exists friendname",
+                        value={ "error": "존재하지 않는 friendname입니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Not exists friendname",
+                        value={ "error": "유저 본인을 친구추가 할 수 없습니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Not exists friendname",
+                        value={ "error": "이미 친구상태 입니다" },
+                        media_type='application/json'
+                    )
+                ]
+            ),
+            403: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Don't have permission to access the data",
+                examples=[
+                    OpenApiExample(
+                        name="Not logged in",
+                        value={ "error": "로그인 상태가 아닙니다" },
+                        media_type='application/json'
+                    )
+                ]
+            ),
+            500: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Internal server error",
+                examples=[
+                    OpenApiExample(
+                        name="undefined behavior",
+                        value={ "error": "시스템 에러 메세지가 출력됩니다" },
+                        media_type='application/json'
+                    )
+                ]
+            )
+        },
+        tags=["User"]
+    )
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name='friendname',
+                description='Delete friendship by friendname',
+                required=True,
+                type=str
+            ),
+        ],
+        methods=['DELETE'],
+        summary="Delete the user's friendship",
+        description="Delete record the user's friendship",
+        responses={
+            200: OpenApiResponse(description="Successfully deleted the users's friendship"),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad Request",
+                examples=[
+                    OpenApiExample(
+                        name="Not already friends",
+                        value={ "error": "이미 친구상태가 아닙니다" },
+                        media_type='application/json'
+                    ),
+                    OpenApiExample(
+                        name="Not exists friendname",
+                        value={ "error": "존재하지 않는 friendname입니다" },
+                        media_type='application/json'
+                    )
+                ]
+            ),
+            403: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Don't have permission to access the data",
+                examples=[
+                    OpenApiExample(
+                        name="Not logged in",
+                        value={ "error": "로그인 상태가 아닙니다" },
+                        media_type='application/json'
+                    )
+                ]
+            ),
+            500: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Internal server error",
+                examples=[
+                    OpenApiExample(
+                        name="undefined behavior",
+                        value={ "error": "시스템 에러 메세지가 출력됩니다" },
+                        media_type='application/json'
+                    )
+                ]
+            )
+        },
+        tags=["User"]
+    )
+    @action(detail=False, methods=['get', 'post', 'delete'], url_path="self/friends")
+    def manage_friends(self, request, friend_name=None):
         try:
             user = request.user
             if user.is_anonymous:
                 raise PermissionError("로그인 상태가 아닙니다")
             
-            friends = Friend.objects.filter(user1_id=user)
-            if not friends.exists():
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            
-            friends_data = [
-                {
-                    "username": friend.user2_id.username,
-                    "status_msg": friend.user2_id.status_msg,
-                    "status": friend.user2_id.status,
-                    "profile_img": friend.user2_id.profile_img    
-                }
-                for friend in friends
-            ]
-            return Response(friends_data, status=status.HTTP_200_OK)
+            if request.method == 'GET':    
+                friends = Friend.objects.filter(username=user)
+                if not friends.exists():
+                    return Response(status=status.HTTP_204_NO_CONTENT)
+                
+                friends_data = []
+                for friend in friends:
+                    friend_user = friend.friendname
+                    matches = Match.objects.filter((Q(match_username1=friend_user) | Q(match_username2=friend_user)) & ~Q(match_result='pending_result'))
+                    friends_data.append(
+                        {
+                            "username": friend_user.username,
+                            "status_msg": friend_user.status_msg,
+                            "status": friend_user.status,
+                            "profile_img": friend_user.profile_img,
+                            "matches": [
+                                {
+                                    'match_result': match.match_result,
+                                    'match_start_time': match.match_start_time,
+                                    'match_end_time': match.match_end_time,
+                                    'username1_grade': match.username1_grade,
+                                    'username2_grade': match.username2_grade,
+                                    'match_type': match.match_type
+                                } 
+                                for match in matches.order_by('match_end_time')[:5]
+                            ]
+                        }
+                    )
+
+                return Response(friends_data, status=status.HTTP_200_OK)
+            elif request.method == 'POST':
+                serializer = CreateFriendshipSerializer(instance=request.user, data=request.data)
+                if not serializer.is_valid():
+                    error_code = serializer.errors.get('error_code')
+                    detail = serializer.errors.get('detail')
+                    if int(error_code[0]) == 400:
+                        raise ValueError(str(detail[0]))
+                
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            elif request.method == 'DELETE':
+                serializer = DeleteFriendshipSerializer(instance=request.user, data=request.query_params)
+                if not serializer.is_valid():
+                    error_code = serializer.errors.get('error_code')
+                    detail = serializer.errors.get('detail')
+                    if int(error_code[0]) == 400:
+                        raise ValueError(str(detail[0]))
+
+                serializer.save()
+                return Response(status=status.HTTP_200_OK)
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
             return Response({"error": str(e)}, status=status.HTTP_403_FORBIDDEN)
         except Exception as e:
             # 예기치 못한 오류가 발생한 경우
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    # user 본인의 친구목록을 찾는 API
+    # [GET]     user 본인의 친구목록 및 정보를 얻어오는 API
+    # [POST]    user 본인의 친구관계를 추가하는 API
+    # [DELETE]  user 본인의 친구관계를 삭제하는 API
 
 
-##### READ, UPDATE #####
+##### READ, UPDATE, DELETE #####
     @extend_schema(
         methods=['GET'],
         summary="Get details about the user",
@@ -455,7 +595,7 @@ class UserViewSet(viewsets.ViewSet):
         methods=['PATCH'],
         summary="Update user details",
         description="Update user details through authentication",
-        request = UserUpdateSerializer,
+        request = UpdateUserSerializer,
         responses={
             200: OpenApiResponse(description="Update user details successfully"),
             400: OpenApiResponse(
@@ -494,7 +634,39 @@ class UserViewSet(viewsets.ViewSet):
         },
         tags=["User"]
     )
-    @action(detail=False, methods=['get', 'patch'])
+    @extend_schema(
+        methods=['DELETE'],
+        summary="Unsubscribing",
+        description="Delete user information",
+        request = UpdateUserSerializer,
+        responses={
+            200: OpenApiResponse(description="Userinfo deleted successfully"),
+            403: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Don't have permission to access the data",
+                examples=[
+                    OpenApiExample(
+                        name="Not Logged In",
+                        value={ "error": "로그인 상태가 아닙니다" },
+                        media_type='application/json'
+                    )
+                ]
+            ),
+            500: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Internal server error",
+                examples=[
+                    OpenApiExample(
+                        name="Undefined Behavior",
+                        value={ "error": "시스템 에러 메세지가 출력됩니다" },
+                        media_type='application/json'
+                    )
+                ]
+            )
+        },
+        tags=["User"]
+    )
+    @action(detail=False, methods=['get', 'patch', 'delete'])
     def self(self, request):
         try:
             user = request.user
@@ -502,6 +674,7 @@ class UserViewSet(viewsets.ViewSet):
                 raise PermissionError("로그인 상태가 아닙니다")
             
             if request.method == 'GET':
+                matches = Match.objects.filter((Q(match_username1=user) | Q(match_username2=user)) & ~Q(match_result='pending_result'))
                 user_data = {
                     'exp': user.exp,
                     'profile_img': user.profile_img,
@@ -514,21 +687,40 @@ class UserViewSet(viewsets.ViewSet):
                         user.macrotext3,
                         user.macrotext4,
                         user.macrotext5
+                    ],
+                    'matches': [
+                        {
+                            'match_result': match.match_result,
+                            'match_start_time': match.match_start_time,
+                            'match_end_time': match.match_end_time,
+                            'username1_grade': match.username1_grade,
+                            'username2_grade': match.username2_grade,
+                            'match_type': match.match_type
+                        } 
+                        for match in matches.order_by('match_end_time')[:5]
                     ]
                 }
+
                 return Response(user_data, status=status.HTTP_200_OK)
             elif request.method == 'PATCH':
-                serializer = UserUpdateSerializer(instance=request.user, data=request.data)
+                serializer = UpdateUserSerializer(instance=request.user, data=request.data)
                 if not serializer.is_valid():
-                    raise ValueError("필드 이름이 잘못되었습니다")
+                    error_code = serializer.errors.get('error_code')
+                    detail = serializer.errors.get('detail')
+                    if int(error_code[0]) == 400:
+                        raise ValueError(str(detail[0]))
                 
                 serializer.save()
                 return Response(status.HTTP_200_OK)
+            elif request.method == 'DELETE':
+                user.delete()
+                return Response(status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
             return Response({"error": str(e)}, status=status.HTTP_403_FORBIDDEN)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    # [GET]    user 본인의 상세정보를 얻어오는 API
-    # [PATCH]  user 본인의 상세정보를 수정하는 API
+    # [GET]     user 본인의 상세정보를 얻어오는 API
+    # [PATCH]   user 본인의 상세정보를 수정하는 API
+    # [DELETE]  회원탈퇴를 진행하는 API
