@@ -2,6 +2,7 @@ import { Component } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
 import { getCookie, selectProfileImg } from "../../core/core.js";
+import { Input } from "../Input.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -18,10 +19,11 @@ export class ProfileSummary extends Component {
 		const username = getCookie('player');
 		console.log(props.profile_img);
 		this.el.innerHTML = /*html*/`
-			<div class="profile-summary-img"></div>
-			<div class="vertical-line"></div>
+			<div class="profile-summary-img-level">
+				<div class="profile-summary-img"></div>
+			</div>
 			<div class="profile-summary-name">
-				<span>${username}</span>
+				<div>${username}</div>
 			</div>
 			<div class="vertical-line"></div>
 			<div class="profile-summary-win">
@@ -39,8 +41,18 @@ export class ProfileSummary extends Component {
 		profileImg.appendChild(img);
 
 		//유저 이름 & 프로필 레벨
+		const profileImgLevel = this.el.querySelector('.profile-summary-img-level');
+		profileImgLevel.appendChild(new ProfileLevel(props.exp).el);
+
 		const profileName = this.el.querySelector('.profile-summary-name');
-		profileName.appendChild(new ProfileLevel(props.exp).el);
+
+		profileName.appendChild(new Input(
+			'', 'text', {
+				background: "url('../../../public/images/ui/profile-input.png')",
+				width: '300px',
+				height: '50px',
+				fontsize: '20px',
+			}, "상태메시지").el);
 
 		// 승부 요약
 		const profileWin = this.el.querySelector('.profile-summary-win'); 
