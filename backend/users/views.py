@@ -297,7 +297,7 @@ class UserViewSet(viewsets.ViewSet):
                     "username": user.username,
                     "status_msg": user.status_msg,
                     "profile_img": user.profile_img,
-                    "is_friend": Friend.objects.filter(user1_id=request.user, user2_id=user).exists()
+                    "is_friend": Friend.objects.filter(username=request.user, friendname=user).exists()
                 }
                 for user in users
             ]
