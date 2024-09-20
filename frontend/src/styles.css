@@ -130,7 +130,6 @@
 	left: 0;
 	height: 120px; /* header 높이 설정 */
 	width: 100%;
-	z-index: 1000;
 }
 
 /* body 영역 스타일 */

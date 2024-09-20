@@ -1,29 +1,40 @@
 import { Component } from "../../core/core.js";
 
 export class FriendProfile extends Component {
-    constructor(nick = 'unknown', image = "../public/images/charactors/pikachu.png", onSelect = () => {}) {
-		super({
-			tagName: 'button'
-		});
-		const src = image;
-		const img = document.createElement('img');
-		img.src = src;
+    constructor(nick = 'unknown', image = "../public/images/charactors/pikachu.png", status_msg = '', onSelect = () => {}) {
+        super({
+            tagName: 'button'
+        });
+        const src = image;
+        const img = document.createElement('img');
+        img.src = src;
 
-		const frame = document.createElement('div');
-		frame.classList.add('frame');
-		this.el.appendChild(frame);
-		frame.appendChild(img);
-		
-		const span = document.createElement('span');
-		span.textContent = nick;
-		this.el.appendChild(span);
+        const frame = document.createElement('div');
+        frame.classList.add('frame');
+        this.el.appendChild(frame);
+        frame.appendChild(img);
+        
+        // 프로필 정보를 담을 div 생성
+        const infoContainer = document.createElement('div');
+        infoContainer.classList.add('info-container');
+        this.el.appendChild(infoContainer);
 
-		this.isSelected = false;
-		this.el.addEventListener('click', onSelect);
-		this.render();
-	}
+        // 첫 번째 span: 닉네임
+        const spanNick = document.createElement('span');
+        spanNick.textContent = nick;
+        infoContainer.appendChild(spanNick);
 
-	render() {
+        // 두 번째 span: 상태 메시지
+        const spanAdditional = document.createElement('span');
+        spanAdditional.textContent = status_msg;
+        infoContainer.appendChild(spanAdditional);
+
+        this.isSelected = false;
+        this.el.addEventListener('click', onSelect);
+        this.render();
+    }
+
+    render() {
         this.el.classList.add('charactor-profile');
-	}
+    }
 }

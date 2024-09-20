@@ -66,6 +66,7 @@ export class JoinModal extends Modal {
                 password,
                 profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
             };
+            console.log('requestData:', requestData);
 
             try {
                 // 요청 전송
