@@ -84,7 +84,7 @@ class UserViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def login(self, request):
         try:
-            serializer = LoginSerializer(data=request.data)
+            serializer = LoginSerializer(data=request.data, context={'request': request})
             if not serializer.is_valid():
                 error_code = serializer.errors.get('error_code')
                 detail = serializer.errors.get('detail')

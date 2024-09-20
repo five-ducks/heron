@@ -8,6 +8,7 @@ from games.models import Match
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150, required=True)
     password = serializers.CharField(max_length=128, required=True)
+    force_login = serializers.BooleanField(default=False)
     
     def to_internal_value(self, data):
         for fieldname in ['username', 'password']:
@@ -42,14 +43,17 @@ class LoginSerializer(serializers.Serializer):
                 }
             )
         ## request와 일치하는 유저정보가 없는 경우
-        
-        if user.status != User.STATUS_MAP['오프라인']:
-            raise serializers.ValidationError(
-                {
-                    "error_code": 409,
-                    "detail": "다른 기기에서 이미 로그인되어 있습니다"
-                }
-            )
+
+        if user.status == User.STATUS_MAP['온라인']:
+            if data['force_login'] == True:
+                self.context['request'].session.flush()
+            else:
+                raise serializers.ValidationError(
+                    {
+                        "error_code": 409,
+                        "detail": "다른 기기에서 이미 로그인되어 있습니다"
+                    }
+                )
         ## 중복 로그인을 시도하는 경우
         
         return {'user': user}
@@ -58,6 +62,7 @@ class LoginSerializer(serializers.Serializer):
         user.status = User.STATUS_MAP['온라인']
         user.save()
         return user
+
 class JoinSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
