@@ -1,42 +1,59 @@
 import { Component } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
-import { getCookie } from "../../core/core.js";
+import { getCookie, selectProfileImg } from "../../core/core.js";
+import { Input } from "../Input.js";
 
 export class ProfileSummary extends Component {
-	constructor() {
+	constructor(props) {
 		super({
 			props: {
 				className: 'profile-summary',
 			}
 		});
+		this.profileContentsRender(props);
 	}
 	
-	render() {
+	profileContentsRender(props) {
+		console.log(props);
+		const username = getCookie('player');
+		console.log(props.profile_img);
 		this.el.innerHTML = /*html*/`
-			<div class="profile-summary-img"></div>
-			<div class="vertical-line"></div>
+			<div class="profile-summary-img-level">
+				<div class="profile-summary-img"></div>
+			</div>
 			<div class="profile-summary-name">
-				<span>USERNAME</span>
+				<div>${username}</div>
 			</div>
 			<div class="vertical-line"></div>
 			<div class="profile-summary-win">
 				<p>승부 요약</p>
-				<span>10승 9패</span>
+				<span>${props.win_cnt}승 ${props.lose_cnt}패</span>
 			</div>
 			<div class="vertical-line"></div>
 			<div class="button-container"></div>
 		`;
-		
+	
 		//프로필 이미지
 		const profileImg = this.el.querySelector('.profile-summary-img'); 
 		const img = document.createElement('img');
-		img.src = '../../../public/images/charactors/pikachu.png';
+		img.src = selectProfileImg(props.profile_img);
 		profileImg.appendChild(img);
 
 		//유저 이름 & 프로필 레벨
-		const profileName = this.el.querySelector('.profile-summary-name'); 
-		profileName.appendChild(new ProfileLevel().el);
+		const profileImgLevel = this.el.querySelector('.profile-summary-img-level');
+		profileImgLevel.appendChild(new ProfileLevel(props.exp).el);
+
+		const profileName = this.el.querySelector('.profile-summary-name');
+
+		profileName.appendChild(new Input(
+			'', 'text', {
+				background: "url('../../../public/images/ui/profile-input.png')",
+				width: '300px',
+				height: '50px',
+				fontsize: '20px',
+			}, props.status_msg).el);
+			console.log(props.status_msg);
 
 		// 승부 요약
 		const profileWin = this.el.querySelector('.profile-summary-win'); 

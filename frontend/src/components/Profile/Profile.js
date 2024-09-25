@@ -6,8 +6,9 @@ export class CharactorProfile extends Component {
 		super({
 			tagName: 'button'
 		});
+		this.image = image;
 
-		const img = new ProfileIcon(image);
+		const img = new ProfileIcon(this.image);
 		const frame = document.createElement('div');
 		frame.classList.add('frame');
 		this.el.appendChild(frame);

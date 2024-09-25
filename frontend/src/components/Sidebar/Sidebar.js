@@ -12,10 +12,7 @@ export class Sidebar extends Component {
         `;
 
         const fetchFriends = async () => {
-            // 쿠키에서 player 값을 가져옵니다.
-            const player = getCookie('player'); // 'player'가 쿠키 이름이라고 가정합니다.
             const allUrl = `/api/users/self/friends`;
-
             try {
                 const response = await fetch(allUrl, {
                     method: 'GET',
@@ -23,7 +20,6 @@ export class Sidebar extends Component {
                         'Content-Type': 'application/json'
                     },
                 });
-                console.log('response:', response);
                 const friendsInfo = await response.json();
 
                 // 가져온 친구 목록을 반복하면서 FriendProfile 컴포넌트를 생성합니다.
@@ -37,7 +33,7 @@ export class Sidebar extends Component {
                     this.el.querySelector('.friends').appendChild(friend.el);
                 });
             } catch (error) {
-                console.error('친구 목록을 가져오는 중 오류 발생:', error);
+                // console.error('친구 목록을 가져오는 중 오류 발생:', error);
             }
         };
 
