@@ -4,7 +4,15 @@ import { InfoFriendModal } from "../InfoFriendModal/InfoFriendModal.js";
 import { getCookie } from "../../core/core.js";
 
 export class Sidebar extends Component {
-    render() {
+    // Store의 userInfo를 받아옵니다.
+    constructor(props) {
+        super();
+        this.userInfo = props;
+
+        // 친구 목록을 불러오기 위해 fetchFriends 함수를 호출합니다.
+        this.friendRender(this.userInfo);
+    }
+    friendRender(userInfo) {
         this.el.classList.add('friendwindow');
         this.el.innerHTML = /*html*/`
             <button class="addfriend">친구추가 +</button>
@@ -24,7 +32,8 @@ export class Sidebar extends Component {
 
                 // 가져온 친구 목록을 반복하면서 FriendProfile 컴포넌트를 생성합니다.
                 friendsInfo.forEach(friendData => {
-                    const friend = new FriendProfile(friendData.username, friendData.img, friendData.status_msg, () => {
+                    console.log("data", friendData);
+                    const friend = new FriendProfile(friendData.username, friendData.profile_img, friendData.status_msg, () => {
                         const infoFriendModal = new InfoFriendModal();
                         this.el.appendChild(infoFriendModal.el);
                         infoFriendModal.open();
@@ -39,4 +48,5 @@ export class Sidebar extends Component {
 
         fetchFriends();
     }
+    render() { }
 }
