@@ -1,7 +1,9 @@
 import { Component } from "../../core/core.js";
 import { FriendProfile } from "../Profile/FriendProfile.js";
 import { InfoFriendModal } from "../InfoFriendModal/InfoFriendModal.js";
-import { getCookie } from "../../core/core.js";
+import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
+import { Button } from "../Button.js";
+
 
 export class Sidebar extends Component {
     // Store의 userInfo를 받아옵니다.
@@ -15,9 +17,28 @@ export class Sidebar extends Component {
     friendRender(userInfo) {
         this.el.classList.add('friendwindow');
         this.el.innerHTML = /*html*/`
-            <button class="addfriend">친구추가 +</button>
+            <div class="addfriend"></div>
             <div class="friends"></div>
         `;
+        console.log("userInfo", userInfo);
+
+        // 이미지 수정 필요 
+        const addFriendButton = new Button(
+            {
+                width: '200px',
+                height: '50px',
+                background: "url('../public/images/button.png')",
+                color: 'white',
+                size: '16px'
+            },
+            '친구추가 +',
+            () => {
+                const friendSearchModal = new FriendSearchModal();
+                this.el.appendChild(friendSearchModal.el);
+                friendSearchModal.open();
+            }
+        );
+        this.el.querySelector('.addfriend').appendChild(addFriendButton.el);
 
         const fetchFriends = async () => {
             const allUrl = `/api/users/self/friends`;
@@ -45,7 +66,6 @@ export class Sidebar extends Component {
                 // console.error('친구 목록을 가져오는 중 오류 발생:', error);
             }
         };
-
         fetchFriends();
     }
     render() { }
