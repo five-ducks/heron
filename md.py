@@ -23,4 +23,4 @@ def merge_files_to_md(directory_path, output_file):
                 md_file.write("\n```\n\n")
 
 # 사용 예시
-merge_files_to_md('/Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords', './mds/q.md')
+merge_files_to_md('/Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords', './mds/q.md')

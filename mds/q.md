@@ -1,4 +1,4 @@
-### /Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords/GameRecords.css
+### /Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords/FriendGameRecords.css
 ```.css
 .game-records {
 	display: flex;
@@ -7,14 +7,14 @@
 }
 ```
 
-### /Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords/GameRecords.js
+### /Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords/FriendGameRecords.js
 ```.js
 import { Component } from "../../core/core.js";
-import { OneGameRecord } from "./OneGameRecord.js";
+import { FriendOneGameRecord } from "./FriendOneGameRecord.js";
 import store, { loadGameRecords } from "../../store/game.js"; 
 
 // 전적 영역
-export class GameRecords extends Component {
+export class FriendGameRecords extends Component {
 	constructor() {
 		super({
 			props: {
@@ -31,7 +31,7 @@ export class GameRecords extends Component {
 		const gameRecords = store.state.gameRecords.gameRecords;
 		if (gameRecords) {
 			gameRecords.forEach(gameRecord => {
-				const oneGameRecord = new OneGameRecord();
+				const oneGameRecord = new FriendOneGameRecord();
 				oneGameRecord.render(gameRecord);
 				this.el.appendChild(oneGameRecord.el);
 			});
@@ -41,7 +41,7 @@ export class GameRecords extends Component {
 
 ```
 
-### /Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords/OneGameRecord.css
+### /Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords/FriendOneGameRecord.css
 ```.css
 .one-game-record {
 	display: flex;
@@ -77,14 +77,14 @@ export class GameRecords extends Component {
 }
 ```
 
-### /Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords/OneGameRecord.js
+### /Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords/FriendOneGameRecord.js
 ```.js
 import { Component } from "../../core/core.js";
 import store from "../../store/game.js";
-import { Outcome } from "./Outcome.js";
+import { Friendoutcome } from "./FriendOutcome.js";
 
 // 하나의 게임 결과
-export class OneGameRecord extends Component {
+export class FriendOneGameRecord extends Component {
 	constructor() {
 		super({
 			props: {
@@ -136,12 +136,15 @@ export class OneGameRecord extends Component {
 
 			const leftUSer = this.el.querySelector('.left-user');
 			const rightUser = this.el.querySelector('.right-user');
-			const leftOutcome = new Outcome();
-			const rightOutcome = new Outcome();
+			const leftOutcome = new Friendoutcome();
+			const rightOutcome = new Friendoutcome();
+			const toOutcome = new Friendoutcome();
 			leftOutcome.render(user1IsWin, user1_name);
 			rightOutcome.render(user2IsWin, user2_name);
+			toOutcome.render(isWin, myName);
 			leftUSer.appendChild(leftOutcome.el);
 			rightUser.appendChild(rightOutcome.el);
+			this.el.appendChild(toOutcome.el);
 
 			if (isWin) {
 				this.el.style.backgroundImage = "url('../../../public/images/win-bg.png')";
@@ -154,7 +157,7 @@ export class OneGameRecord extends Component {
 
 ```
 
-### /Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords/Outcome.css
+### /Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords/FriendOutcome.css
 ```.css
 .game-records .one-game-record .outcome {
 	display: flex;
@@ -216,11 +219,11 @@ export class OneGameRecord extends Component {
 }
 ```
 
-### /Users/seokjyan/Desktop/tcen/frontend/src/components/GameRecords/Outcome.js
+### /Users/seokjyan/Desktop/tcen/frontend/src/components/FriendGameRecords/FriendOutcome.js
 ```.js
 import { Component } from "../../core/core.js";
 
-export class Outcome extends Component {
+export class Friendoutcome extends Component {
 	constructor() {
 		super({
 			props: {
@@ -256,7 +259,6 @@ export class Outcome extends Component {
         } else {
             resultEl.style.textShadow = '-1px 1px 0px #ff0000, 1px -1px 0px #ff0000, -1px -1px 0px #ff0000, 1px 1px 0px #ff0000'; ;
         }
-
 	}
 }
 ```

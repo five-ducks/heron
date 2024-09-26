@@ -7,7 +7,7 @@ export class FriendOneGameRecord extends Component {
 	constructor() {
 		super({
 			props: {
-				className: 'one-game-record',
+				className: 'friend-one-game-record',
 			}
 		});
 	}
@@ -48,22 +48,14 @@ export class FriendOneGameRecord extends Component {
 			this.el.innerHTML = /*html*/`
 				<div class="game-type">${match_type}</div>
 				<div class="left-user"></div>
-				<div class="vs-text">VS</div>
 				<div class="right-user"></div>
 				<div class="match-time">${formattedDateTime}</div>
 			`
 
 			const leftUSer = this.el.querySelector('.left-user');
-			const rightUser = this.el.querySelector('.right-user');
 			const leftOutcome = new Friendoutcome();
-			const rightOutcome = new Friendoutcome();
-			const toOutcome = new Friendoutcome();
 			leftOutcome.render(user1IsWin, user1_name);
-			rightOutcome.render(user2IsWin, user2_name);
-			toOutcome.render(isWin, myName);
 			leftUSer.appendChild(leftOutcome.el);
-			rightUser.appendChild(rightOutcome.el);
-			this.el.appendChild(toOutcome.el);
 
 			if (isWin) {
 				this.el.style.backgroundImage = "url('../../../public/images/win-bg.png')";
