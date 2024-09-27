@@ -3,6 +3,7 @@ import { Store } from "../core/core.js";
 const store = new Store({
 	gameRecords: [],
 	userInfo: {},
+	userFriends: [],
 });
 
 export default store;

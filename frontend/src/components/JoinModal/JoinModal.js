@@ -66,7 +66,9 @@ export class JoinModal extends Modal {
                 password,
                 profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
             };
-
+            nameInput.setValue('');
+            pwInput.setValue('');
+            curpwInput.setValue('');
             try {
                 // 요청 전송
                 const response = await fetch('/api/users/join', {
