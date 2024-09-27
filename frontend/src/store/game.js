@@ -19,10 +19,8 @@ export const loadGameRecords = async () => {
 export const loadUserInfo = async () => {
 	try {
 		const response = await fetch('/api/users/self');
-		store.state.userInfo = await response.json();
-
 		if (response.status === 200) {
-			console.log('User info updated successfully');
+			store.state.userInfo = await response.json();
 		}
 		else if (response.status === 403) {
 			console.error('Forbidden:', response.error);

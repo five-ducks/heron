@@ -20,7 +20,6 @@ export class Sidebar extends Component {
             <div class="addfriend"></div>
             <div class="friends"></div>
         `;
-        console.log("userInfo", userInfo);
 
         // 이미지 수정 필요 
         const addFriendButton = new Button(
@@ -53,7 +52,6 @@ export class Sidebar extends Component {
 
                 // 가져온 친구 목록을 반복하면서 FriendProfile 컴포넌트를 생성합니다.
                 friendsInfo.forEach(friendData => {
-                    console.log("data", friendData);
                     const friend = new FriendProfile(friendData.username, friendData.profile_img, friendData.status_msg, () => {
                         const infoFriendModal = new InfoFriendModal();
                         this.el.appendChild(infoFriendModal.el);

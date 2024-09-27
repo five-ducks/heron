@@ -28,8 +28,6 @@ export class FriendSearchModal extends Modal {
     async performSearch() {
         // 입력된 검색어 가져오기
         const searchTerm = this.searchInput.value.trim();
-        console.log('검색어:', searchTerm);
-        console.log('url:', `/users/?search=${searchTerm}`);
 
         // API 호출
         try {
@@ -40,19 +38,17 @@ export class FriendSearchModal extends Modal {
                 },
             });
             if (response.status === 200) {
-                console.log("response", response);
                 const friendList = await response.json();
-                console.log('검색 결과:', friendList);
-    
+
                 // 검색 결과 초기화
                 this.searchResults.innerHTML = '';
-    
+
                 // 검색 결과가 없는 경우 메시지 표시
                 if (friendList.length === 0) {
                     this.searchResults.innerHTML = '<p>검색 결과가 없습니다.</p>';
                     return;
                 }
-    
+
                 // 검색 결과 표시
                 friendList.forEach(friend => {
                     const friendResult = new FriendSearchResult(friend);

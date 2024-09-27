@@ -14,7 +14,6 @@ export class MyProfileContent extends Component {
 	}
 	async render() {
 		await loadUserInfo();
-		console.log(store.state.userInfo);
 		this.el.innerHTML = /*html*/`
 		`;
 		this.el.appendChild(new ProfileSummary(store.state.userInfo).el);

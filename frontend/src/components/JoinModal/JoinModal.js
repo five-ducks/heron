@@ -4,7 +4,7 @@ import { Button } from "../Button.js";
 import { Input } from "../Input.js";
 
 export class JoinModal extends Modal {
-    constructor(onClose = () => {}) {
+    constructor(onClose = () => { }) {
         const content = /*html*/`
             <h1>회원가입</h1>
             <div class="join_row">
@@ -28,7 +28,7 @@ export class JoinModal extends Modal {
         this.addCharactors();
 
         // 인풋 필드 생성
-        const nameInput = new Input('7자 미만으로 입력해주세요', 'text', { width: '333px', height: '30px', fontsize: '20px'});
+        const nameInput = new Input('7자 미만으로 입력해주세요', 'text', { width: '333px', height: '30px', fontsize: '20px' });
         const pwInput = new Input('비밀번호는 6자 이상이여야 합니다.', 'password', { width: '333px', height: '30px', fontsize: '20px' });
         const curpwInput = new Input('한 번 더 입력해주세요', 'password', { width: '333px', height: '30px', fontsize: '20px' });
 
@@ -66,7 +66,6 @@ export class JoinModal extends Modal {
                 password,
                 profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
             };
-            console.log('requestData:', requestData);
 
             try {
                 // 요청 전송
@@ -101,11 +100,11 @@ export class JoinModal extends Modal {
         const charactorRow = this.el.querySelector('.charactor-row');
         const charactors = new SelectCharactor();
         charactorRow.appendChild(charactors.el);
-    
+
         // 캐릭터 선택 이벤트 리스너 추가
         charactors.el.addEventListener('charactorSelected', (event) => {
             this.selectedCharactorIndex = event.detail.index; // 선택된 캐릭터 인덱스 저장
         });
     }
-    
+
 }

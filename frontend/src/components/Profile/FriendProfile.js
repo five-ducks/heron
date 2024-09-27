@@ -6,7 +6,6 @@ export class FriendProfile extends Component {
         super({
             tagName: 'button'
         });
-        console.log('FriendProfile 생성자 호출');
         const src = selectProfileImg(image);
         const img = document.createElement('img');
         img.src = src;
