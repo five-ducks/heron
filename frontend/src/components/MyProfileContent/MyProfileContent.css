@@ -5,7 +5,7 @@
 }
 
 .my-profile .profile-summary {
-	margin-top : 20px;
+	margin-top: 20px;
 }
 
 .my-profile .horizontal-line {
@@ -15,8 +15,14 @@
 	width: 100%;
 }
 
-.my-profile .macro-and-records {
+.macro-and-records {
 	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
 	padding: 20px;
-    gap: 40px;
+	gap: 40px;
+}
+
+.my-profile-content {
+	padding-left: 20px;
 }
