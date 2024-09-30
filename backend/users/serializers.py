@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from .models import User
 from friends.models import Friend
 from games.models import Match
-
+from django.contrib.sessions.models import Session
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150, required=True)
@@ -46,7 +46,14 @@ class LoginSerializer(serializers.Serializer):
 
         if user.status == User.STATUS_MAP['온라인']:
             if data['force_login'] == True:
-                self.context['request'].session.flush()
+                # 사용자의 기존 세션을 삭제
+                sessions = Session.objects.all()
+                current_session_key = self.context['request'].session.session_key
+                for session in sessions:
+                    session_data = session.get_decoded()
+                    if session_data.get('_auth_user_id') == str(user.id):
+                        if session.session_key != current_session_key:
+                            session.delete()
             else:
                 raise serializers.ValidationError(
                     {
