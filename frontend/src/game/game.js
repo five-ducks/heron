@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js";
 
 // Websocket 요청 Url 생성
-function getWebsocketUrl(path) {
+function getWebsocketUrl(gameType) {
     const { protocol, hostname, port } = location;
 
 	// protocol 설정
@@ -10,7 +10,14 @@ function getWebsocketUrl(path) {
 	// port 설정
     const wsPort = port ? `:${port}` : '';
 
-    const wsUrl = `${wsProtocol}://${hostname}/ws/online/onetoone/1/`;
+	// 게임 타입 설정
+	const path = gameType === 'onetoone' ? 'onetoone' : 'tournament';
+
+	// local or online
+	const mode = 'online';
+
+	// const wsUrl = `${wsProtocol}://${hostname}${wsPort}/ws/${mode}/${path}/`;
+    const wsUrl = `${wsProtocol}://${hostname}/ws/online/onetoone/`;
     console.log(wsUrl);
     return wsUrl;
 }
@@ -18,7 +25,8 @@ function getWebsocketUrl(path) {
 export class PingPongGame extends Component {
     constructor(payload = {}) {
         super(payload);
-        this.gameId = 1;
+		this.nickname = this.getNickname(); // 닉네임 불러오기
+		this.gameType = 'onetoone';
         this.socket = null;
         this.canvas = null;
         this.ctx = null;
@@ -34,8 +42,28 @@ export class PingPongGame extends Component {
         this.initializeWebSocket();
     }
 
+	// 닉네임 가져오는 함수
+    getNickname() {
+        // 예: localStorage에서 가져오기, 또는 로그인 시 설정된 전역 변수에서 가져오기
+        return localStorage.getItem('nickname') || 'Guest'; // 기본값으로 Guest 설정
+    }
+
+	// 서버로 닉네임 보내는 함수
+    sendNickname() {
+        if (this.socket.readyState === WebSocket.OPEN) {
+            const nicknameMessage = {
+                type: 'setNickname',
+                nickname: this.nickname
+            };
+			console.log(nicknameMessage)
+            this.socket.send(JSON.stringify(nicknameMessage));
+            console.log('Sent nickname:', this.nickname);
+        }
+    }
+
     initializeWebSocket() {
-        this.socket = new WebSocket(getWebsocketUrl(this.url));
+        this.socket = new WebSocket(getWebsocketUrl(this.gameType));
+		this.sendNickname();
         console.log("Waiting for Websocket Connecting....");
 
         this.socket.onopen = () => {
@@ -53,6 +81,9 @@ export class PingPongGame extends Component {
                 this.updateStatus('Connection died');
             }
             console.log('WebSocket disconnected');
+
+			// 연결이 끊겼을 때 메인 화면으로 이동
+            this.redirectToMain();
         };
         this.socket.onerror = (error) => {
             this.updateStatus('Error: ' + error.message);
@@ -61,7 +92,7 @@ export class PingPongGame extends Component {
 
     render() {
         this.el.innerHTML = `
-            <h1>PingPong Game ${this.gameId}</h1>
+            <h1>PingPong Game</h1>
             <div id="status"></div>
             <div id="waitingScreen" style="display: block;">
                 <h2>Waiting for opponent...</h2>
@@ -76,8 +107,10 @@ export class PingPongGame extends Component {
 
     handleServerMessage(data) {
 		switch(data.type) {
+			// 대기 상태
+			case 'waiting':
+			// game state 업데이트
 			case 'gameState':
-				// console.log('Received game state:', data.state);
 				this.gameState = data.state;
 				break;
 			case 'gameStart':
@@ -85,6 +118,18 @@ export class PingPongGame extends Component {
 				this.playerSide = data.side;
 				this.playerNumber = data.player;
 				this.startGame();
+				break;
+			case 'opponentDisconnected':
+				this.updateStatus(data.message);
+				setTimeout(() => {
+					this.redirectToMain();
+				}, 3000); // 3초 후 메인 화면으로 이동
+				break;
+			case 'gameEnd':
+				this.updateStatus(data.message);
+				setTimeout(() => {
+					this.redirectToMain();
+				}, 3000); // 3초 후 메인 화면으로 이동
 				break;
 			default:
 				console.log('Unknown message type:', data.type);
@@ -113,7 +158,9 @@ export class PingPongGame extends Component {
 	
 
     gameLoop(timestamp) {
-        if (!this.isGameStarted) return;
+        if (!this.isGameStarted) {
+			return;
+		}
 
         const deltaTime = timestamp - this.lastUpdateTime;
         this.lastUpdateTime = timestamp;
@@ -123,7 +170,9 @@ export class PingPongGame extends Component {
     }
 
     draw(deltaTime) {
-        if (!this.ctx || !this.isGameStarted) return;
+        if (!this.ctx || !this.isGameStarted) {
+			return;
+		}
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = 'black';
@@ -145,7 +194,9 @@ export class PingPongGame extends Component {
     }
 
     handleKeyPress(e) {
-		if (!this.isGameStarted) return;
+		if (!this.isGameStarted) {
+			return;
+		}
 	
 		let movement = null;
 		if ((this.playerNumber === 1 && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) ||
@@ -161,5 +212,10 @@ export class PingPongGame extends Component {
 
     updateStatus(status) {
         this.el.querySelector('#status').innerHTML = status;
+    }
+
+	// 메인 화면으로 이동
+	redirectToMain() {
+        window.location.href = '#/main';  // 메인 화면의 URL로 변경
     }
 }
