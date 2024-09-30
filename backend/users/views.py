@@ -53,6 +53,12 @@ class UserViewSet(viewsets.ViewSet):
                         name="Field value is empty",
                         value={ "error": "필드 값이 비어있습니다" },
                         media_type='application/json'
+                    ),
+                    OpenApiExample
+                    (
+                        name="Session mismatch error",
+                        value={ "error": "세션 정보가 일치하지 않습니다" },
+                        media_type='application/json'
                     )
                 ]
             ),

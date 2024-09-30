@@ -43,17 +43,28 @@ class LoginSerializer(serializers.Serializer):
                 }
             )
         ## request와 일치하는 유저정보가 없는 경우
+        
+        request = self.context['request']
+        if request.user.is_authenticated:
+            if request.user.username != user.username:
+                raise serializers.ValidationError(
+                    {
+                        "error_code": 400,
+                        "detail": "세션 정보가 일치하지 않습니다"
+                    }
+                )
+        ## 이미 로그인된 상태에서 다른 유저로 로그인 시도하는 경우
 
         if user.status == User.STATUS_MAP['온라인']:
             if data['force_login'] == True:
-                # 사용자의 기존 세션을 삭제
                 sessions = Session.objects.all()
-                current_session_key = self.context['request'].session.session_key
+                current_session_key = request.session.session_key
+
                 for session in sessions:
                     session_data = session.get_decoded()
                     if session_data.get('_auth_user_id') == str(user.id):
                         if session.session_key != current_session_key:
-                            session.delete()
+                            session.delete()  # 사용자의 기존 세션을 삭제
             else:
                 raise serializers.ValidationError(
                     {
