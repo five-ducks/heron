@@ -53,6 +53,12 @@ class UserViewSet(viewsets.ViewSet):
                         name="Field value is empty",
                         value={ "error": "필드 값이 비어있습니다" },
                         media_type='application/json'
+                    ),
+                    OpenApiExample
+                    (
+                        name="Session mismatch error",
+                        value={ "error": "세션 정보가 일치하지 않습니다" },
+                        media_type='application/json'
                     )
                 ]
             ),
@@ -84,7 +90,7 @@ class UserViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def login(self, request):
         try:
-            serializer = LoginSerializer(data=request.data)
+            serializer = LoginSerializer(data=request.data, context={'request': request})
             if not serializer.is_valid():
                 error_code = serializer.errors.get('error_code')
                 detail = serializer.errors.get('detail')

@@ -137,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 # 비밀번호 유효성 검사기를 정의할 수 있습니다.
 # 현재 사용하지 않기 때문에 주석처리 되어있습니다.
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
 # Internationalization

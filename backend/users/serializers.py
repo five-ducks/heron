@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate
 from .models import User
 from friends.models import Friend
 from games.models import Match
-
+from django.contrib.sessions.models import Session
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150, required=True)
     password = serializers.CharField(max_length=128, required=True)
+    force_login = serializers.BooleanField(default=False)
     
     def to_internal_value(self, data):
         for fieldname in ['username', 'password']:
@@ -43,13 +44,34 @@ class LoginSerializer(serializers.Serializer):
             )
         ## request와 일치하는 유저정보가 없는 경우
         
-        if user.status != User.STATUS_MAP['오프라인']:
-            raise serializers.ValidationError(
-                {
-                    "error_code": 409,
-                    "detail": "다른 기기에서 이미 로그인되어 있습니다"
-                }
-            )
+        request = self.context['request']
+        if request.user.is_authenticated:
+            if request.user.username != user.username:
+                raise serializers.ValidationError(
+                    {
+                        "error_code": 400,
+                        "detail": "세션 정보가 일치하지 않습니다"
+                    }
+                )
+        ## 이미 로그인된 상태에서 다른 유저로 로그인 시도하는 경우
+
+        if user.status == User.STATUS_MAP['온라인']:
+            if data['force_login'] == True:
+                sessions = Session.objects.all()
+                current_session_key = request.session.session_key
+
+                for session in sessions:
+                    session_data = session.get_decoded()
+                    if session_data.get('_auth_user_id') == str(user.id):
+                        if session.session_key != current_session_key:
+                            session.delete()  # 사용자의 기존 세션을 삭제
+            else:
+                raise serializers.ValidationError(
+                    {
+                        "error_code": 409,
+                        "detail": "다른 기기에서 이미 로그인되어 있습니다"
+                    }
+                )
         ## 중복 로그인을 시도하는 경우
         
         return {'user': user}
@@ -58,6 +80,7 @@ class LoginSerializer(serializers.Serializer):
         user.status = User.STATUS_MAP['온라인']
         user.save()
         return user
+
 class JoinSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
