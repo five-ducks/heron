@@ -696,11 +696,13 @@ class UserViewSet(viewsets.ViewSet):
                     ],
                     'matches': [
                         {
+                            'user1_name': match.match_username1.username,
+                            'user2_name': match.match_username2.username,
                             'match_result': match.match_result,
                             'match_start_time': match.match_start_time,
                             'match_end_time': match.match_end_time,
-                            'username1_grade': match.username1_grade,
-                            'username2_grade': match.username2_grade,
+                            'user1_grade': match.username1_grade,
+                            'user2_grade': match.username2_grade,
                             'match_type': match.match_type
                         } 
                         for match in matches.order_by('-match_end_time')[:5]
