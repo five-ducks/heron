@@ -1,7 +1,7 @@
 import { Component } from "../../core/core.js";
 
 export class ProfileLevel extends Component {
-	constructor() {
+	constructor(exp) {
 		super({
 			props : {
 				className: 'profile-level',
@@ -9,6 +9,7 @@ export class ProfileLevel extends Component {
 		});
 
 		// 레벨 별 이미지 정하기
+		console.log(exp) // 이 데이터를 이용해서 레벨을 계산
 		const level = 1;
 		let src = '';
 		this.calculateLevel();
