@@ -1,4 +1,5 @@
 import { Component } from "../../core/core.js";
+import { selectProfileImg } from "../../core/core.js";
 
 export class ProfileIcon extends Component {
     constructor ( imageIndex = 0 ) {
@@ -8,17 +9,7 @@ export class ProfileIcon extends Component {
                 classNames: ['profile-icon']
             }
         );
-        const images = [
-            "../public/images/charactors/pikachu.png",
-            "../public/images/charactors/bulbasaur.png",
-            "../public/images/charactors/charmander.png",
-            "../public/images/charactors/ditto.png",
-            "../public/images/charactors/eevee.png",
-            "../public/images/charactors/mew.png",
-            "../public/images/charactors/snorlax.png",
-            "../public/images/charactors/squirtle.png"
-        ];
-        const src = images[imageIndex];
+        const src = selectProfileImg(imageIndex);
         this.el.src = src;
         // frame div 추가
         const frame = document.createElement('div');

@@ -48,7 +48,7 @@ export class Input extends Component {
 	setValue(value) {
 		this.el.value = value;
 	}
-	
+
 	render() {
 		// 추가적인 렌더링 로직이 필요할 경우 여기에 작성
 	}

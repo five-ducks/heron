@@ -27,7 +27,7 @@ export default class Login extends Component {
         </div>
         </div>
         `;
-        
+
         // 쿠키를 저장하는 함수
         function setCookie(name, value, days) {
             const expires = new Date(Date.now() + days * 864e5).toUTCString();
@@ -43,10 +43,10 @@ export default class Login extends Component {
             width: '440px',
             height: '80px'
         });
-        
+
         // Create buttons
         const loginButton = new Button(
-            { 
+            {
                 background: "url('../public/images/button.png')",
                 width: '300px',
                 height: '169px',
@@ -55,9 +55,9 @@ export default class Login extends Component {
             'Login',
             async () => {
                 // Retrieve input values
-				const username = input_ID.getValue(); // getValue() 사용
+                const username = input_ID.getValue(); // getValue() 사용
                 const password = input_PW.getValue(); // getValue() 사용
-				
+
                 // Basic validation
                 if (!username) {
                     alert('Please enter your ID.');
@@ -69,7 +69,7 @@ export default class Login extends Component {
                 }
                 try {
                     // Send login request
-                    const response = await fetch('/api/users/login', {
+                    const response = await fetch('/api/users/login/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default class Login extends Component {
                         setCookie('ppstate', data.status, 365);
                         setCookie('player', username, 365);
                         alert('Login successful!');
-						window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
+                        window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
                         const error = await response;
                         alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
@@ -95,14 +95,14 @@ export default class Login extends Component {
         );
 
         const authButton = new Button(
-            { 
+            {
                 background: "url('../public/images/button.png')",
                 width: '300px',
                 height: '169px',
-                size: '70px', 
+                size: '70px',
             },
-            '42 Auth', 
-            () => {}
+            '42 Auth',
+            () => { }
         );
 
         const signUpButton = new Button(
@@ -113,8 +113,9 @@ export default class Login extends Component {
                 size: '70px',
             },
             'JOIN',
-            () => {	
+            () => {
                 joinModal.open();
+                this.el.appendChild(joinModal.el);
             }
         );
 
@@ -129,7 +130,6 @@ export default class Login extends Component {
         const joinModal = new JoinModal(() => {
             // Handle actions when the modal is closed
         });
-        this.el.appendChild(joinModal.el);
     }
 
 

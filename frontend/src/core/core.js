@@ -84,3 +84,17 @@ export class Store {
 		// 배열 데이터에 함수를 여러개 넣어서 관리할 수 있도록
 	}
 }
+
+export function selectProfileImg(profileImgIndex) {
+	const profileImg = [
+		'../public/images/charactors/pikachu.png',
+		'../public/images/charactors/charmander.png',
+		'../public/images/charactors/bulbasaur.png',
+		'../public/images/charactors/squirtle.png',
+		'../public/images/charactors/eevee.png',
+		'../public/images/charactors/snorlax.png',
+		'../public/images/charactors/mew.png',
+		'../public/images/charactors/ditto.png',
+	]
+	return profileImg[profileImgIndex]
+}

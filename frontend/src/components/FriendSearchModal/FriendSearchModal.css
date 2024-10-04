@@ -1,0 +1,65 @@
+/* FriendSearchModal 특정 스타일 */
+.modal-content h2 {
+    font-family: 'DungGeunMo', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#friend-search-input {
+    flex-grow: 1;
+    font-size: 16px;
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+#search-button {
+    font-family: 'DungGeunMo', sans-serif;
+    font-size: 16px;
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #45a049;
+}
+
+#search-results {
+    margin-top: 20px;
+    font-family: 'DungGeunMo', sans-serif;
+}
+
+#search-results p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#search-results ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#search-results li {
+    font-size: 16px;
+    color: #666;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#search-results li:last-child {
+    border-bottom: none;
+}

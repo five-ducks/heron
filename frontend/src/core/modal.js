@@ -34,5 +34,6 @@ export class Modal extends Component {
 	close() {
 		this.el.style.display = 'none';
 		this.onClose();
+		this.el.remove();
 	}
 }

@@ -1,0 +1,33 @@
+.friend-one-game-record {
+	display: flex;
+	max-width: 390px;
+	max-height: 63px;
+	padding: 10px;
+	margin-left: 15px;
+	font-family: 'DungGeunMo';
+	background-size: cover;
+}
+
+.friend-one-game-record .game-type {
+	display: flex;
+    min-width: 75px;
+    align-items: center;
+    font-size: 15px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.friend-one-game-record .vs-text {
+	display: flex;
+	font-size: 50px;
+	align-items: center;
+	justify-content: center;
+	padding: 5px 5px 5px 15px;
+}
+
+.friend-one-game-record .match-time {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 15px;
+}

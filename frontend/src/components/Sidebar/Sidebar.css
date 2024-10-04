@@ -12,6 +12,7 @@
     color: white;
     font-size: 20px;
 	font-family: 'DungGeunMo';
+    display: flex;
 }
 
 .friends {
