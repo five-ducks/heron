@@ -13,7 +13,7 @@ class Match(models.Model):
 
     TYPE_CHOICES = [
         ('tournament', '토너먼트 경기'),
-        ('match', '1대1경기'),
+        ('single', '1대1경기'),
     ]
 
     match_username1 = models.ForeignKey(
