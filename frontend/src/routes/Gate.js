@@ -2,19 +2,20 @@ import { Component } from "../core/core.js"
 import { Button } from "../components/Button.js";
 
 export default class Home extends Component {
+	constructor() {
+		super({
+			props: {
+				className: 'gate',
+			}
+		});
+	}
 	render() {
 		this.el.innerHTML = /*html*/`
-		<div class="gate">
-			<div class="container text-center">
-				<div class="row">
-					<h1>42</h1>
-					<h1>Ping Pong</h1>
-				</div>
-				<div class="button-row">
-				</div>
+			<div class="logo">
 			</div>
-		</div>
-		`
+			<div class="button-row">
+			</div>
+		`;
 
 		const button = new Button(
 			{},
