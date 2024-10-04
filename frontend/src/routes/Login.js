@@ -69,7 +69,7 @@ export default class Login extends Component {
                 }
                 try {
                     // Send login request
-                    const response = await fetch('/api/users/login', {
+                    const response = await fetch('/api/users/login/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

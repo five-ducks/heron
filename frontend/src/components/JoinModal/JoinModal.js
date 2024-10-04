@@ -71,7 +71,7 @@ export class JoinModal extends Modal {
             curpwInput.setValue('');
             try {
                 // 요청 전송
-                const response = await fetch('/api/users/join', {
+                const response = await fetch('/api/users/join/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

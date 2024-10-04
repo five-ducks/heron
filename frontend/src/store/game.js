@@ -19,7 +19,7 @@ export const loadGameRecords = async () => {
 
 export const loadUserInfo = async () => {
 	try {
-		const response = await fetch('/api/users/self');
+		const response = await fetch('/api/users/self/');
 		if (response.status === 200) {
 			store.state.userInfo = await response.json();
 		}

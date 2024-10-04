@@ -40,7 +40,7 @@ export class Sidebar extends Component {
         this.el.querySelector('.addfriend').appendChild(addFriendButton.el);
 
         const fetchFriends = async () => {
-            const allUrl = `/api/users/self/friends`;
+            const allUrl = `/api/users/self/friends/`;
             try {
                 const response = await fetch(allUrl, {
                     method: 'GET',
