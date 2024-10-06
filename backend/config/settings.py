@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'oauth.apps.OauthConfig',
 	'daphne',
 	'websocket',
+	'game.apps.GameConfig',
     'users.apps.UsersConfig',
     'games.apps.GamesConfig',
     'friends.apps.FriendsConfig',

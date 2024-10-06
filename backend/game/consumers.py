@@ -9,6 +9,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     game_states = {} # 게임 상태
     game_started = {} # 게임이 시작한지 여부
     player_sides = {} # 플레이어의 위치(왼쪽, 오른쪽)
+    player_nickname = {} # 플레이어 닉네임
 
     async def connect(self):
         # 새 그룹을 생성하거나 기존 그룹에 참여
@@ -36,6 +37,18 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.game_started[self.game_group_name] = False
             self.player_sides[self.game_group_name] = {}
 
+        # 로그인된 사용자 가져오기
+        user = self.scope["user"]
+        if self.game_group_name not in self.player_nickname:
+             self.player_nickname[self.game_group_name] = {}
+
+        if user.is_authenticated:
+              nickname = user.username
+              self.player_nickname[self.game_group_name][self.channel_name] = nickname
+        else:
+            await self.close()
+
+		# 사용자 위치 설정
         if len(self.connected_clients[self.game_group_name]) == 0:
             self.player_side = 'left'
             self.player_number = 1
@@ -93,33 +106,67 @@ class GameConsumer(AsyncWebsocketConsumer):
         if data['type'] == 'move':
             await self.handle_move(data)
 
+    async def start_game(self):
+        player1_channel = self.connected_clients[self.game_group_name][0]
+        player2_channel = self.connected_clients[self.game_group_name][1]
+
+        player1_info = self.player_sides[self.game_group_name][player1_channel]
+        player2_info = self.player_sides[self.game_group_name][player2_channel]
+
+        player1_nickname = self.player_nickname[self.game_group_name][player1_channel]
+        player2_nickname = self.player_nickname[self.game_group_name][player2_channel]
+
+        # 첫 번째 사용자에게 메시지 전송
+        await self.channel_layer.send(
+            player1_channel,
+            {
+                'type': 'game_start_message',
+                'side': player1_info['side'],
+                'player': player1_info['player'],
+                'player1Nickname': player1_nickname,
+                'player2Nickname': player2_nickname
+            }
+        )
+
+        # 두 번째 사용자에게 메시지 전송
+        await self.channel_layer.send(
+            player2_channel,
+            {
+                'type': 'game_start_message',
+                'side': player2_info['side'],
+                'player': player2_info['player'],
+                'player1Nickname': player2_nickname,
+                'player2Nickname': player1_nickname
+            }
+        )
+        
+        asyncio.create_task(self.game_loop())
+
+    async def game_start_message(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'gameStart',
+            'side': event['side'],
+            'player': event['player'],
+            'player1Nickname': event['player1Nickname'],
+            'player2Nickname': event['player2Nickname']
+        }))
+
     async def handle_move(self, data):
         if not self.game_started[self.game_group_name]:
             return
 
         game_state = self.game_states[self.game_group_name]
-        paddle = game_state['paddle1'] if data['player'] == 1 else game_state['paddle2']
+        if data['player'] == 1:
+            paddle = game_state['paddle1']
+        else:
+            paddle = game_state['paddle2']
         
         if data['direction'] == 'up':
             paddle['y'] = max(0, paddle['y'] - 10)
         elif data['direction'] == 'down':
-            paddle['y'] = min(500, paddle['y'] + 10)  # 600 (canvas height) - 100 (paddle height)
+            paddle['y'] = min(500, paddle['y'] + 10)
 
         await self.send_game_state_to_group()
-
-    async def start_game(self):
-        # 그룹 내 모든 사용자에게 게임 시작 메시지 전송
-        for channel_name in self.connected_clients[self.game_group_name]:
-            player_info = self.player_sides[self.game_group_name][channel_name]
-            await self.channel_layer.send(
-                channel_name,
-                {
-                    'type': 'game_start_message',
-                    'side': player_info['side'],
-                    'player': player_info['player']
-                }
-            )
-        asyncio.create_task(self.game_loop())
 
     async def opponent_disconnected_message(self, event):
         await self.send(text_data=json.dumps({
@@ -130,20 +177,13 @@ class GameConsumer(AsyncWebsocketConsumer):
         if event.get('disconnect_client', False):
             await self.close()  # WebSocket 연결 종료
 
-    async def game_start_message(self, event):
-        await self.send(text_data=json.dumps({
-            'type': 'gameStart',
-            'side': event['side'],
-            'player': event['player']
-        }))
-
     async def game_loop(self):
         while True:
             if self.game_group_name not in self.game_started or not self.game_started[self.game_group_name]:
-                break  # 게임이 종료되었으면 루프를 종료
+                break  # 게임이 종료되었으면 종료
 
             if self.game_group_name not in self.connected_clients or len(self.connected_clients[self.game_group_name]) < 2:
-                 break  # 연결된 클라이언트가 2명 이하일 경우 루프를 종료
+                 break  # 연결된 클라이언트가 2명 이하일 경우 종료
 
             game_state = self.game_states[self.game_group_name]
             self.update_game_state(game_state)
@@ -174,7 +214,8 @@ class GameConsumer(AsyncWebsocketConsumer):
             game_state['score']['player1'] += 1
             self.reset_ball(ball)
 		
-        if game_state['score']['player1'] >= 10 or game_state['score']['player2'] >= 10:
+		# 5점 득점시 게임 종료
+        if game_state['score']['player1'] >= 5 or game_state['score']['player2'] >= 5:
             asyncio.create_task(self.end_game(game_state))
 
     def reset_ball(self, ball):
@@ -202,7 +243,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f"Failed to send game state: {str(e)}")
 	
     async def end_game(self, game_state):
-        winner = 1 if game_state['score']['player1'] >= 10 else 2
+        if game_state['score']['player1'] >= 5:
+            winner = 1
+        else:
+            winner = 2
 
         # 그룹의 모든 유저에게 게임 끝 메시지 전송
         await self.channel_layer.group_send(
@@ -230,20 +274,11 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def disconnect_client(self, event):
         # 클라이언트 연결을 종료
         await self.close()
-
-        async def game_end_message(self, event):
-            winner = event['winner']
-            await self.send(text_data=json.dumps({
-                'type': 'gameEnd',
-                'message': f'Player {winner} wins!',
-                'winner': winner
-            }))
             
     async def game_end_message(self, event):
         winner = event['winner']
         await self.send(text_data=json.dumps({
             'type': 'gameEnd',
-            'message': f'Player {winner} wins!',
             'winner': winner
         }))
 
