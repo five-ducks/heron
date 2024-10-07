@@ -1,5 +1,6 @@
 import { Component } from "../core/core.js"
 import { Button } from "../components/Button.js";
+import { getCookie } from "../core/core.js";
 
 export default class Home extends Component {
 	constructor() {
@@ -16,14 +17,27 @@ export default class Home extends Component {
 			<div class="button-row">
 			</div>
 		`;
-
-		const button = new Button(
-			{},
-			'Login',
-			() => {
-				location.href = '/#/login';
-			}
-		);	
+		const player = getCookie('player');
+		let button;
+		// 로그인 되어있는지 확인
+		if (player) {
+			button = new Button(
+				{},
+				'Start',
+				() => {
+					location.href = '/#/main';
+				}
+			);	
+		}
+		else {
+			button = new Button(
+				{},
+				'Login',
+				() => {
+					location.href = '/#/login';
+				}
+			);	
+		}
 		this.el.querySelector('.button-row').appendChild(button.el);
 	}
 }
