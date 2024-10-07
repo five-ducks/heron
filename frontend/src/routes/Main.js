@@ -9,10 +9,10 @@ export default class Main extends Component {
         this.el.classList.add('main');
 
         this.el.innerHTML = /*html*/`
-            <div class="headerpos"></div>
+            <header class="headerpos"></header>
             <div class="body">
                 <div class="selectpagepos"></div>
-                <div class="sidebar"></div>
+                <aside class="sidebar"></aside>
             </div>
         `
         await loadUserInfo();

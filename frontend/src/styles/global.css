@@ -26,6 +26,15 @@ html {
 	--gate-logo-img: url('../../public/images/gate-logo.png');
 }
 
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 120px;
+    width: 100%;
+    z-index: 100;
+}
+
 body {
 	display: flex;
 	justify-content: center;

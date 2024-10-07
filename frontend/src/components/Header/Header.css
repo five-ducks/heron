@@ -1,39 +1,5 @@
-.headerpos {
-    position: relative;
-}
-
 .header {
-	padding: 10px; /* 패딩 설정 */
-	border-bottom: 1px solid #dee2e6; /* 하단 테두리 설정 */
-    width: 100%; /* 전체 너비를 100%로 설정하여 화면에 맞게 확장 */
-    height: 120px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between; /* 양쪽 끝에 배치 */
-    align-items: center; /* 수직 중앙 정렬 */
-}
-
-.header .return,
-.header .profile {
-    display: flex; /* 버튼 내부 요소도 flex로 설정 */
-    align-items: center; /* 버튼 내부의 아이템도 중앙 정렬 */
-    justify-content: center; /* 버튼 내부의 아이템도 중앙 정렬 */
-    width: 150px; /* 고정 너비 설정 */
-    height: 110px; /* 고정 높이 설정 */
-    border: none;
-    outline: none;
-    color: var(--color-white);
-    background-color: var(--color-area);
-    font-family: 'Pixeboy';
-    font-size: 100px;
-    white-space: nowrap; /* 텍스트가 한 줄로 유지되게 함 */
-}
-
-.header .return {
-    margin-left: 40px;
-}
-
-.header .profile {
-    margin-right: 40px;
-    width: 280px; /* 너비를 더 넓게 설정 */
+    justify-content: space-between;
+    z-index: 100;
 }
