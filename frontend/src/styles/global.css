@@ -16,10 +16,11 @@ html {
 
 :root {
 	--text-color: #fff;
+	--strong-color: yellow;
 	--base-font: 'DungGeunMo', sans-serif;
 	--title-font: 'Pixeboy', sans-serif;
 	--base-font-size: 1rem; /*라벨, 헤더 사용중*/
-	--big-font-size: 3rem;
+	--big-font-size: 3rem; /* 게임 선택창 버튼 사용중*/
 	--title-font-size: 5rem;
 	--base-line-height: 1.6;
 	--header-color: #011635;
@@ -53,4 +54,5 @@ h1 {
 	font-size: var(--title-font-size);
 	line-height: var(--base-line-height);
 	text-align: center;
+	font-family: var(--title-font);
 }
