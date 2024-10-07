@@ -5,13 +5,18 @@ import { Sidebar } from "../components/Sidebar/Sidebar.js";
 import gameStore, { loadUserInfo } from "../store/game.js";
 
 export default class Main extends Component {
+    constructor() {
+		super({
+			props: {
+				className: 'main',
+			}
+		});
+	}
     async render() {
-        this.el.classList.add('main');
-
         this.el.innerHTML = /*html*/`
             <header class="headerpos"></header>
-            <div class="body">
-                <div class="selectpagepos"></div>
+            <div class="contents">
+                <div class="game-section"></div>
                 <aside class="sidebar"></aside>
             </div>
         `
@@ -20,7 +25,7 @@ export default class Main extends Component {
         this.el.querySelector('.headerpos').appendChild(header.el);
 
         const selectpage = new SelectPage();
-        this.el.querySelector('.selectpagepos').appendChild(selectpage.el);
+        this.el.querySelector('.game-section').appendChild(selectpage.el);
 
         const sidebar = new Sidebar(gameStore.state.userInfo);
         this.el.querySelector('.sidebar').appendChild(sidebar.el);
