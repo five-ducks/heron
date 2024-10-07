@@ -14,7 +14,7 @@ export class Header extends Component {
     }
     headerRender(props) {
         this.el.innerHTML = /*html*/`
-            <button class="return">42 PP</button>
+            <div class="return"></div>
             <div class="profile"></div>
         `;
         const player = getCookie('player');

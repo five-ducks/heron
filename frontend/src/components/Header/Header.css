@@ -1,5 +1,17 @@
 .header {
     display: flex;
     justify-content: space-between;
-    z-index: 100;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.header .return {
+    display: flex;
+    background-image: url('../../../public/images/header-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 200px;
+    aspect-ratio: 670 / 220;
+    cursor: pointer;
 }
