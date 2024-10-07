@@ -27,7 +27,7 @@ export default class Login extends Component {
         }
 
         // Initialize input fields
-        const input_ID = new Input('Your Nickname!', 'text', {
+        const inputID = new Input('Your Nickname!', 'text', {
             width: '440px',
             height: '80px'
         },
@@ -35,7 +35,7 @@ export default class Login extends Component {
             'nickname',
             'nickname'
         );
-        const input_PW = new Input('****', 'password', {
+        const inputPW = new Input('****', 'password', {
             width: '440px',
             height: '80px'
         }
@@ -55,8 +55,8 @@ export default class Login extends Component {
             'Login',
             async () => {
                 // Retrieve input values
-                const username = input_ID.getValue(); // getValue() 사용
-                const password = input_PW.getValue(); // getValue() 사용
+                const username = inputID.getValue(); // getValue() 사용
+                const password = inputPW.getValue(); // getValue() 사용
 
                 // Basic validation
                 if (!username) {
@@ -118,8 +118,8 @@ export default class Login extends Component {
                 this.el.appendChild(joinModal.el);
             }
         );
-        this.el.querySelector('.login-input-container').append(input_ID.el);
-        this.el.querySelector('.login-input-container').append(input_PW.el);
+        this.el.querySelector('.login-input-container').append(inputID.el);
+        this.el.querySelector('.login-input-container').append(inputPW.el);
         this.el.querySelector('.button-row').append(loginButton.el, authButton.el, signUpButton.el);
 
         // Initialize Join Modal

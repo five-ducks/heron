@@ -20,6 +20,7 @@ html {
 	--title-font: 'Pixeboy', sans-serif;
 	--base-font-size: 1rem;
 	--big-font-size: 3rem;
+	--title-font-size: 5rem;
 	--base-line-height: 1.6;
 	--gate-page-background-img: url('../../public/images/space_bg.png');
 	--gate-logo-img: url('../../public/images/gate-logo.png');
@@ -35,4 +36,10 @@ body {
 	background-size: cover;
 	width: 100vw;
 	height: 100vh;
+}
+
+h1 {
+	font-size: var(--title-font-size);
+	line-height: var(--base-line-height);
+	text-align: center;
 }
