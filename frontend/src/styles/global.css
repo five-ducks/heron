@@ -2,12 +2,12 @@
 
 @font-face {
 	font-family: 'Pixeboy';
-	src: url('../public/fonts/Pixeboy.ttf');
+	src: url('../../public/fonts/Pixeboy.ttf');
 }
 
 @font-face {
 	font-family: 'DungGeunMo';
-	src: url('../public/fonts/DungGeunMo.ttf');
+	src: url('../../public/fonts/DungGeunMo.ttf');
 }
 
 html {
@@ -22,10 +22,13 @@ html {
 	--big-font-size: 3rem;
 	--base-line-height: 1.6;
 	--gate-page-background-img: url('../../public/images/space_bg.png');
+	--gate-logo-img: url('../../public/images/gate-logo.png');
 }
 
 body {
 	display: flex;
+	justify-content: center;
+	align-items: center;   
 	font-family: var(--title-font);
 	color: var(--text-color);
 	background-image: var(--gate-page-background-img);
