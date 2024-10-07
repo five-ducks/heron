@@ -19,9 +19,6 @@ export class Input extends Component {
 			fontsize = '30px',
 			marginBottom = '0px',
 		} = style;
-
-		console.log('label', label);
-		console.log('id', id);
 		// input 엘리먼트 생성
 		const labelEl = document.createElement('label');
 		if (label !== '') {
@@ -60,12 +57,12 @@ export class Input extends Component {
 	}
 	// value getter
 	getValue() {
-		return this.inputEl.value.trim();
+		return this.el.querySelector('input').value.trim();
 	}
 
 	// value setter
 	setValue(value) {
-		this.inputEl.value = value;
+		this.el.querySelector('input').value = value;
 	}
 
 	render() {
