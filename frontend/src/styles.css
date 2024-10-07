@@ -34,14 +34,14 @@
 	font-size: 100px;
 } */
 
-.login {
+/* .login {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
 	width: 100%;
-	background-image: url('../public/images/space_bg.png'); /* 배경 이미지 경로 */
-	background-size: cover; /* 이미지가 컨테이너에 맞게 조정됨 */
+	background-image: url('../public/images/space_bg.png');
+	background-size: cover;
 }
 
 .login h1 {
@@ -50,15 +50,15 @@
 	font-family: 'Pixeboy';
 	color: white;
 	text-align: center;
-}
+} */
 
-.login .button-row {
+/* .login .button-row {
 	display: flex;
 	justify-content: center;
 	margin-top: 50px;
 	gap: 30px;
 	font-family: 'Pixeboy';
-}
+} */
 
 .input_row {
 	display: flex;
@@ -80,12 +80,12 @@
 	max-height: 80px;
 }
 
-.login {
+/* .login {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-}
+} */
 
 .inputLogin {
 	width: 100%;
