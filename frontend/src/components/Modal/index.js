@@ -5,7 +5,7 @@ export class Modal extends Component {
 		super({
 			tagName: 'div',
 			props: {
-				className: 'modal'
+				className: 'modal-overlay'
 			}
 		});
 		this.el.innerHTML = /*html*/`
@@ -21,7 +21,7 @@ export class Modal extends Component {
 		});
 
 		this.el.addEventListener('click', (event) => {
-			event.stopPropagation(); // 모달 외부 클릭 무시
+			event.stopPropagation();
 		});
 
 		this.el.querySelector('.modal-content').addEventListener('click', (event) => {

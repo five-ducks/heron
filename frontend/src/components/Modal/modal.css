@@ -1,4 +1,18 @@
-.modal {
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(5px);
+	z-index: 999;
+}
+
+.modal-content {
 	position: fixed;
 	width: 443px;
 	height: 600px;
@@ -12,7 +26,18 @@
 	background-repeat: no-repeat;
 }
 
-.modal .close-button {
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(5px); 
+	z-index: 998; 
+}
+
+.modal-content .close-button {
 	position: absolute;
     width: 15px;
     height: 15px;
@@ -24,6 +49,6 @@
     border-radius: 10px;
 }
 
-.modal .close-button:hover {
+.modal-content .close-button:hover {
 	cursor: pointer;
 }
