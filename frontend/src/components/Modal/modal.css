@@ -6,21 +6,24 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 1000;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-	background-color: var(--modal-bg-color);
+	box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+	background-image: url('../../../public/images/abyss_bg.png');
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .modal .close-button {
-  position: absolute;
-  background-color: transparent;
-  border: none;
-  top: 5px;
-  right: 5px;
-  font-size: 24px;
-  color: #B2B6BB;
+	position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border: none;
+    top: 5px;
+    right: 5px;
+    font-size: 24px;
+    border-radius: 10px;
 }
 
 .modal .close-button:hover {
-  color: #000;
-  cursor: pointer;
+	cursor: pointer;
 }

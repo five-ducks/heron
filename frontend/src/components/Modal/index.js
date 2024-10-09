@@ -10,7 +10,7 @@ export class Modal extends Component {
 		});
 		this.el.innerHTML = /*html*/`
 			<div class="modal-content">
-				<span class="close-button">&times;</span>
+				<div class="close-button"></div>
 				${content}
 			</div>
 		`;

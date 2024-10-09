@@ -26,7 +26,7 @@ html {
 	--header-color: #011635;
 	--gate-page-background-img: url('../../public/images/space_bg.png');
 	--gate-logo-img: url('../../public/images/gate-logo.png');
-	--modal-bg-color: rgba(0, 0, 0, 0.5);
+	--modal-bg-color: #011635;
 }
 
 header {
