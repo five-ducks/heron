@@ -1,4 +1,4 @@
-import { Component } from "./core.js";
+import { Component } from "../../core/core.js";
 
 export class Modal extends Component {
 	constructor(content = '', onClose = () => {}) {

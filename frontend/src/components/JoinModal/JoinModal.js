@@ -1,4 +1,4 @@
-import { Modal } from "../../core/modal.js";
+import { Modal } from "../Modal/index.js";
 import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input.js";

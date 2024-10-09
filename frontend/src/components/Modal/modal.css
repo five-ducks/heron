@@ -1,0 +1,26 @@
+.modal {
+	position: fixed;
+	width: 443px;
+	height: 600px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1000;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	background-color: var(--modal-bg-color);
+}
+
+.modal .close-button {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  top: 5px;
+  right: 5px;
+  font-size: 24px;
+  color: #B2B6BB;
+}
+
+.modal .close-button:hover {
+  color: #000;
+  cursor: pointer;
+}
