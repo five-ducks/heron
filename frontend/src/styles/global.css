@@ -57,3 +57,13 @@ h1 {
 	text-align: center;
 	font-family: var(--title-font);
 }
+
+button {
+	cursor: pointer;
+	font-family: var(--base-font);
+}
+
+input {
+	outline: none;
+	padding: 5px;
+}
