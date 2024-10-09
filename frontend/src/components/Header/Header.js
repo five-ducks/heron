@@ -25,11 +25,11 @@ export class Header extends Component {
         });
         
         // CharactorProfile 클릭 이벤트: SelectPage의 내용을 MyProfileContent로 변경
-        this.el.querySelector('.charactor-profile').addEventListener('click', () => {
-            const selectPagePos = document.querySelector('.selectpagepos'); // SelectPage 위치 찾기
-            selectPagePos.innerHTML = ''; // 현재 SelectPage 내용을 지움
+        this.el.querySelector('.profile').addEventListener('click', () => {
+            const gameSection = document.querySelector('.game-section'); // SelectPage 위치 찾기
+            gameSection.innerHTML = ''; // 현재 SelectPage 내용을 지움
             const myProfileContent = new MyProfileContent(); // 새로운 MyProfileContent 생성
-            selectPagePos.appendChild(myProfileContent.el); // 새로운 내용을 삽입
+            gameSection.appendChild(myProfileContent.el); // 새로운 내용을 삽입
         });
     }
 }
