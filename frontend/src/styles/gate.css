@@ -1,0 +1,17 @@
+.gate {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.gate .logo {
+    display: flex;
+    background-image: var(--gate-logo-img);
+    background-size: contain;
+    background-repeat: no-repeat;
+	/* 넓이는 뷰포트의 절반 */
+    width: 50vw;
+	/* 이미지 자체의 비율 설정 */
+	aspect-ratio: 670 / 380;
+}

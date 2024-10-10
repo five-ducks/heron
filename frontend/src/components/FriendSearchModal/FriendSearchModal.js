@@ -1,4 +1,4 @@
-import { Modal } from "../../core/modal.js";
+import { Modal } from "../Modal/index.js";
 import { FriendSearchResult } from "./FriendSearchResult.js";
 
 export class FriendSearchModal extends Modal {
