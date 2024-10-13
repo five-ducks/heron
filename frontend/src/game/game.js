@@ -71,8 +71,10 @@ export class PingPongGame extends Component {
         this.socket.onerror = (error) => {
             this.updateStatus('Error: ' + error.message);
         };
+
+		window.addEventListener('keydown', this.handleKeyPress.bind(this));
     }
-		
+
 	handleServerMessage(data) {
 		switch(data.type) {
 			case 'gameState':
@@ -80,6 +82,7 @@ export class PingPongGame extends Component {
 				break;
 			case 'gameStart':
 				this.render();  // gameStart 이벤트를 받을 때 렌더링
+				this.gameState = data.state
 				this.playerSide = data.side;
 				this.playerNumber = data.player;
 				this.setPlayerNicknames(data.player1Nickname, data.player2Nickname);
@@ -152,13 +155,26 @@ export class PingPongGame extends Component {
 
 	// 페이지 이동(뒤로가기) 처리
 	handlePageLeave() {
+		// 서버에 disconnect 메시지 전송
+		if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        	this.socket.send(JSON.stringify({
+				type: 'disconnect',
+			}));
+    	}
 		this.closeWebSocket();
 	}
 
     // 새로고침 처리
-    handleBeforeUnload(event) {
-        this.closeWebSocket();
-    }
+	handleBeforeUnload() {
+    	// 서버에 disconnect 메시지 전송
+   		if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        	this.socket.send(JSON.stringify({
+				type: 'disconnect',
+			}));
+    	}
+    	this.closeWebSocket();
+	}
+
 
     // socket 연결 종료 메서드
     closeWebSocket() {

@@ -1,5 +1,5 @@
 from django.urls import re_path
-from game.consumers import GameConsumer
+from games.consumers import GameConsumer
 
 websocket_urlpatterns = [
     re_path(r"ws/onetoone/$", GameConsumer.as_asgi()),   # 1:1 매치

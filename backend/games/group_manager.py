@@ -5,7 +5,13 @@ class GroupManager:
         self.groups = {}
 
     def get_or_create_group(self):
-        available_group = next((group_id for group_id, info in self.groups.items() if not info['started']), None)
+        available_group = None
+
+        # 대기 중인 그룹 확인
+        for group_id, info in self.groups.items():
+            if not info['started']:
+                available_group = group_id
+                break
 
         if not available_group:
             new_group_id = str(uuid4())
@@ -17,6 +23,14 @@ class GroupManager:
             return new_group_id, self.groups[new_group_id]
 
         return available_group, self.groups[available_group]
+
+    def get_group_info(self, group_id):
+        return self.groups[group_id]
+
+    def get_game_group_name(self, group_id):
+        if group_id in self.groups:
+            return self.groups[group_id]['game_group_name']
+        return None
 
     def add_client_to_group(self, group_id, client):
         if group_id in self.groups:
@@ -33,11 +47,3 @@ class GroupManager:
     def delete_group(self, group_id):
         if group_id in self.groups:
             del self.groups[group_id]
-
-    def get_group_info(self, group_id):
-        return self.groups[group_id]
-
-    def get_game_group_name(self, group_id):
-        if group_id in self.groups:
-            return self.groups[group_id]['game_group_name']
-        return None
