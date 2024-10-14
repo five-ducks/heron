@@ -9,7 +9,6 @@ export class Friendoutcome extends Component {
 		});
 	}
 	render(isWin, userName) {
-
 		const result = isWin ? 'WIN' : 'LOSE';
 		this.el.innerHTML = /*html*/`
 			<div class="profile-container">
