@@ -86,8 +86,3 @@ export class Sidebar extends Component {
 
     render() { }
 }
-
-// 필요한것 
-// 친구 추가 api
-// exp: 0, profile_img: 4, win_cnt: 0, lose_cnt: 0 정보 친구 정보에도 추가
-// 
