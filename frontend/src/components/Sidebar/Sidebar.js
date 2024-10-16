@@ -77,7 +77,6 @@ export class Sidebar extends Component {
                 {
                     status_msg: friendData.status_msg,
                     onSelect: () => {
-                        console.log(store.state.userFriends);
                         const infoFriendModal = new InfoFriendModal(friendData);
                         this.el.appendChild(infoFriendModal.el);
                         infoFriendModal.open();
