@@ -4,7 +4,6 @@ import { getCookie } from "../../core/core.js";
 export class FriendSearchResult {
     constructor(friend) {
         this.friend = friend;
-        console.log(friend);
         this.el = document.createElement('div');
         this.el.className = 'friend-search-result';
     }
@@ -31,7 +30,6 @@ export class FriendSearchResult {
     }
 
     async addFriend() {
-        console.log(`${this.friend.username}을(를) 친구로 추가합니다.`);
         const response = await fetch(`api/users/self/friends/`, {
             method: 'POST',
             headers: {
@@ -42,14 +40,11 @@ export class FriendSearchResult {
                 friendname: this.friend.username,
             }),
         });
-
-        console.log(response);
-
         this.updateButtonState();
     }
     
     updateButtonState() {
-        const addButton = this.el.querySelector('.add-friend-btn');
+        const addButton = document.querySelector('.add-friend-btn');
         addButton.textContent = '추가됨';
         addButton.disabled = true;
         addButton.classList.add('added');

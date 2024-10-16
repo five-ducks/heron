@@ -1,19 +1,13 @@
 import { Component } from "../../core/core.js";
-import { selectProfileImg } from "../../core/core.js";
+import { Avatar } from "./Avatar.js";
 
 export class FriendProfile extends Component {
-    constructor(nick = 'unknown', image = 0, status_msg = '', onSelect = () => { }) {
+    constructor(name = 'unknown', image = 0, status_msg = '', onSelect = () => { }) {
         super({
             tagName: 'button'
         });
-        const src = selectProfileImg(image);
-        const img = document.createElement('img');
-        img.src = src;
-
-        const frame = document.createElement('div');
-        frame.classList.add('frame');
-        this.el.appendChild(frame);
-        frame.appendChild(img);
+        const img = new Avatar(image, 'm');
+        this.el.appendChild(img.el);
 
         // 프로필 정보를 담을 div 생성
         const infoContainer = document.createElement('div');
@@ -22,7 +16,7 @@ export class FriendProfile extends Component {
 
         // 첫 번째 span: 닉네임
         const spanNick = document.createElement('span');
-        spanNick.textContent = nick;
+        spanNick.textContent = name;
         infoContainer.appendChild(spanNick);
 
         // 두 번째 span: 상태 메시지

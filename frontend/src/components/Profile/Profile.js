@@ -1,14 +1,14 @@
 import { Component } from "../../core/core.js";
-import { ProfileIcon } from "./ProfileIcon.js";
+import { Avatar } from "./Avatar.js";
 
 export class CharactorProfile extends Component {
-    constructor(image = 1, name = "unknown", onSelect = () => {}) {
+    constructor(image = 0, name = "unknown", onSelect = () => {}) {
 		super({
 			tagName: 'button'
 		});
 		this.image = image;
 
-		const img = new ProfileIcon(this.image);
+		const img = new Avatar(this.image, 'm');
 		const frame = document.createElement('div');
 		frame.classList.add('frame');
 		this.el.appendChild(frame);

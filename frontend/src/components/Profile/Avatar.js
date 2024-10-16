@@ -1,0 +1,28 @@
+import { Component } from "../../core/core.js";
+import { selectProfileImg } from "../../core/core.js";
+
+export class Avatar extends Component {
+    constructor ( imageIndex = 0, size = 'm' ) {
+        super(
+            {
+                tagName: 'div',
+                classNames: ['Avatar']
+            }
+        );
+        
+        this.el.classList.add(`Avatar--${size}`);
+        const img = document.createElement('img');
+        const src = selectProfileImg(imageIndex);
+        img.src = src;
+        img.classList.add('Avatar_img');
+        this.el.appendChild(img);
+    
+        const frame = document.createElement('div');
+        frame.classList.add('Avatar_frame');
+        this.el.appendChild(frame);
+        
+    }
+    render() {
+        this.el.classList.add('Avatar');
+    }
+}
