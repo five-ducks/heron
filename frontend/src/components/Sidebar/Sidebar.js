@@ -1,9 +1,8 @@
 import { Component } from "../../core/core.js";
-import { FriendProfile } from "../Profile/FriendProfile.js";
 import { InfoFriendModal } from "../InfoFriendModal/InfoFriendModal.js";
 import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
 import { Button } from "../Button.js";
-import { Profile } from "../Profile/Charactor.js";
+import { Profile } from "../Profile/Profile.js";
 import store from "../../store/game.js"; // Store 불러오기
 
 export class Sidebar extends Component {
@@ -68,7 +67,6 @@ export class Sidebar extends Component {
         const friendsContainer = this.el.querySelector('.friends');
         friendsContainer.innerHTML = ''; // Clear existing friend list
     
-        // Use store.state.userFriends to create FriendProfile components
         store.state.userFriends.forEach(friendData => {
             const friend = new Profile(
                 friendData.profile_img,

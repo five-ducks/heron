@@ -1,30 +1,47 @@
 import { Component } from "../../core/core.js";
 import { Avatar } from "./Avatar.js";
 
-export class CharactorProfile extends Component {
-    constructor(image = 0, name = "unknown", onSelect = () => {}) {
-		super({
-			tagName: 'button'
-		});
-		this.image = image;
+export class Profile extends Component {
+    constructor(image = 0, name = "unknown", size = 'm', options = {}) {
+        super({
+            tagName: 'button'
+        });
+        
+        const { status_msg, onSelect = () => {} } = options;
+        
+        this.size = size;
+        this.el.classList.add(`size-${this.size}`);
+        
+        // Avatar 생성
+        const img = new Avatar(image, size);
+        this.el.appendChild(img.el);
 
-		const img = new Avatar(this.image, 'm');
-		const frame = document.createElement('div');
-		frame.classList.add('frame');
-		this.el.appendChild(frame);
-		frame.appendChild(img.el);
+        // 정보를 담을 컨테이너 생성
+        const infoContainer = document.createElement('div');
+        infoContainer.classList.add('info-container');
+        this.el.appendChild(infoContainer);
 
-		const span = document.createElement('span');
-		span.textContent = name;
-		this.el.appendChild(span);
+        // 이름 span 생성
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+        nameSpan.classList.add('character-name');
+        infoContainer.appendChild(nameSpan);
 
-		this.isSelected = false;
-		this.el.addEventListener('click', () => {onSelect(this);});
+        // status_msg가 제공된 경우에만 추가 span 생성
+        if (status_msg) {
+            const statusSpan = document.createElement('span');
+            statusSpan.textContent = status_msg;
+            statusSpan.classList.add('status-message');
+            infoContainer.appendChild(statusSpan);
+        }
 
-		this.render();
-	}
+        this.isSelected = false;
+        this.el.addEventListener('click', () => { onSelect(this); });
 
-	render() {
-        this.el.classList.add('charactor-profile');
-	}
+        this.render();
+    }
+
+    render() {
+        this.el.classList.add('character-profile', `size-${this.size}`);
+    }
 }

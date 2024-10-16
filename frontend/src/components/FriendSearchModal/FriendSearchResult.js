@@ -1,5 +1,5 @@
-import { FriendProfile } from "../Profile/FriendProfile.js";
 import { getCookie } from "../../core/core.js";
+import { Profile } from "../Profile/Profile.js";
 
 export class FriendSearchResult {
     constructor(friend) {
@@ -9,12 +9,14 @@ export class FriendSearchResult {
     }
 
     render() {
-        // FriendProfile 컴포넌트 생성
-        const friendProfile = new FriendProfile(
-            this.friend.username,
+        const friendProfile = new Profile(
             this.friend.profile_img,
-            this.friend.status_msg,
-            () => {} // 클릭 이벤트는 여기서는 비워둡니다
+            this.friend.username,
+            'm',
+            {
+                status_msg: this.friend.status_msg,
+                onSelect: () => {}
+            }
         );
     
         // 친구 추가 버튼 생성
