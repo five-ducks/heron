@@ -1,0 +1,90 @@
+/* 프로필 친구 목록 스타일 */
+.character-profile {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    padding: 0.625rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.character-profile .info-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-left: 0.625rem;
+}
+
+.character-profile .info-container span {
+    font-family: 'Pixeboy', sans-serif;
+    color: white;
+    background: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Size-specific styles */
+.character-profile.size-s .info-container .character-name {
+    font-size: 1.5rem;
+}
+
+.character-profile.size-s .info-container .status-message {
+    font-size: 0.75rem;
+}
+
+.character-profile.size-m .info-container .character-name {
+    font-size: 2.5rem;
+}
+
+.character-profile.size-m .info-container .status-message {
+    font-size: 0.875rem;
+}
+
+.character-profile.size-l .info-container .character-name {
+    font-size: 5rem;
+}
+
+.character-profile.size-l .info-container .status-message {
+    font-size: 0.9375rem;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .character-profile.size-l .info-container .character-name {
+        font-size: 3rem;
+    }
+
+    .character-profile.size-l .info-container .status-message {
+        font-size: 0.875rem;
+    }
+
+    .character-profile.size-m .info-container .character-name {
+        font-size: 2rem;
+    }
+
+    .character-profile.size-m .info-container .status-message {
+        font-size: 0.8125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .character-profile.size-l .info-container .character-name {
+        font-size: 2.5rem;
+    }
+
+    .character-profile.size-l .info-container .status-message {
+        font-size: 0.8125rem;
+    }
+
+    .character-profile.size-m .info-container .character-name {
+        font-size: 1.75rem;
+    }
+
+    .character-profile.size-m .info-container .status-message {
+        font-size: 0.75rem;
+    }
+}

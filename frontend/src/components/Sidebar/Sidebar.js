@@ -3,6 +3,7 @@ import { FriendProfile } from "../Profile/FriendProfile.js";
 import { InfoFriendModal } from "../InfoFriendModal/InfoFriendModal.js";
 import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
 import { Button } from "../Button.js";
+import { Profile } from "../Profile/Charactor.js";
 import store from "../../store/game.js"; // Store 불러오기
 
 export class Sidebar extends Component {
@@ -69,15 +70,18 @@ export class Sidebar extends Component {
     
         // Use store.state.userFriends to create FriendProfile components
         store.state.userFriends.forEach(friendData => {
-            const friend = new FriendProfile(
-                friendData.username, 
-                friendData.profile_img, 
-                friendData.status_msg, 
-                () => {
-                    console.log(store.state.userFriends);
-                    const infoFriendModal = new InfoFriendModal(friendData);
-                    this.el.appendChild(infoFriendModal.el);
-                    infoFriendModal.open();
+            const friend = new Profile(
+                friendData.profile_img,
+                friendData.username,
+                'm',
+                {
+                    status_msg: friendData.status_msg,
+                    onSelect: () => {
+                        console.log(store.state.userFriends);
+                        const infoFriendModal = new InfoFriendModal(friendData);
+                        this.el.appendChild(infoFriendModal.el);
+                        infoFriendModal.open();
+                    }
                 }
             );
             friendsContainer.appendChild(friend.el);

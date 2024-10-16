@@ -1,4 +1,5 @@
 import { Component } from "../../core/core.js";
+import { Avatar } from "../Profile/Avatar.js";
 
 export class Friendoutcome extends Component {
 	constructor() {
@@ -19,12 +20,9 @@ export class Friendoutcome extends Component {
 				${result}
 			</div>
 		`
-		const profileImg = this.el.querySelector('.profile-result-img'); 
-		const img = document.createElement('img');
-		img.src = '../../../public/images/charactors/pikachu.png';
-		// 여기 userId로 이미지 찾는거 넣어야함
-		// 지금은 임시 이미지
-		profileImg.appendChild(img);
+		const profileImg = this.el.querySelector('.profile-result-img');
+		const img = new Avatar(0, 'm');
+		profileImg.appendChild(img.el);
 
 		const resultEl = this.el.querySelector('.result');
 

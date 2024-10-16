@@ -12,13 +12,7 @@ export class FriendGameRecords extends Component {
 		});
 	}
 
-	async render(record, name) {
-		// store에 저장된 게임 기록 불러오기,
-		// 현재 하나의 record store를 여러 유저가 사용중,
-		// 추가적인 공간을 준비 할 이유가 있는가 검토 필요
-
-		await loadGameRecords();
-
+	render(record, name) {
 		this.el.innerHTML = /*html*/``;
 
 		if (record) {

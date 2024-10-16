@@ -1,13 +1,17 @@
 .Avatar {
   position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 .Avatar_img {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
 }
 
 .Avatar_frame {
@@ -19,6 +23,7 @@
   border: 0.125em solid var(--primary-color, #007bff);
   border-radius: 50%;
   pointer-events: none;
+  box-sizing: border-box;
 }
 
 .Avatar--s {
@@ -34,6 +39,11 @@
 .Avatar--l {
   width: 4rem;
   height: 4rem;
+}
+
+/* Avatar--l header size */
+.Avatar--l .Avatar_frame {
+  border: 0.03125em solid var(--primary-color, #007bff);
 }
 
 @media screen and (max-width: 48em) {

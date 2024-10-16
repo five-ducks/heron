@@ -20,7 +20,7 @@ export class InfoFriendModal extends Modal {
 
         const matchRecordList = this.el.querySelector(".info_record");
         const gameRecords = new FriendGameRecords();
-        gameRecords.render(this.userinfo.matches, this.userinfo.username);
+        gameRecords.render(this.userinfo.matches, this.userinfo.username, this.userinfo.profile_img);// 
         matchRecordList.appendChild(gameRecords.el);
 
 

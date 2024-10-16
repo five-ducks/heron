@@ -1,16 +1,19 @@
 import { Component } from "../../core/core.js";
 import { Avatar } from "./Avatar.js";
 
-export class CharacterProfile extends Component {
-    constructor(image = 0, name = "unknown", options = {}) {
+export class Profile extends Component {
+    constructor(image = 0, name = "unknown", size = 'l', options = {}) {
         super({
             tagName: 'button'
         });
         
         const { status_msg, onSelect = () => {} } = options;
         
+        this.size = size;
+        this.el.classList.add(`size-${this.size}`);
+        
         // Avatar 생성
-        const img = new Avatar(image);
+        const img = new Avatar(image, size);
         this.el.appendChild(img.el);
 
         // 정보를 담을 컨테이너 생성
@@ -39,6 +42,6 @@ export class CharacterProfile extends Component {
     }
 
     render() {
-        this.el.classList.add('character-profile');
+        this.el.classList.add('character-profile', `size-${this.size}`);
     }
 }
