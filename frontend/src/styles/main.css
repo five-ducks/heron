@@ -1,0 +1,19 @@
+.main {
+	background-color: var(--header-color);
+}
+
+.contents {
+	display: flex;
+	flex-direction: row;
+	margin-top: 15vh;
+	height: 85vh;
+	width: 100vw;
+}
+
+.contents .game-section {
+	width: 80vw;
+}
+
+.contents .sidebar {
+	width: 20vw;
+}
