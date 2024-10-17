@@ -1,65 +1,87 @@
 /* FriendSearchModal 특정 스타일 */
 .modal-content h2 {
     font-family: 'DungGeunMo', sans-serif;
-    font-size: 30px;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: bold;
     color: #333;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.search-container {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .search-container {
     display: flex;
-    margin-bottom: 20px;
-}
-
-#friend-search-input {
-    flex-grow: 1;
-    font-size: 16px;
-    padding: 8px;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  
+  #friend-search-input {
+    flex: 1;
+    min-width: 0;
+    font-size: 1rem;
+    padding: 0.5rem;
     border: 2px solid #ddd;
-    border-radius: 4px 0 0 4px;
-}
-
-#search-button {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+  
+  #search-button {
     font-family: 'DungGeunMo', sans-serif;
-    font-size: 16px;
-    padding: 8px 15px;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 0.25rem 0.25rem 0;
     cursor: pointer;
     transition: background-color 0.3s;
-}
-
-#search-button:hover {
+  }
+  
+  #search-button:hover {
     background-color: #45a049;
-}
-
-#search-results {
-    margin-top: 20px;
+  }
+  
+  #search-results {
+    margin-top: 1rem;
     font-family: 'DungGeunMo', sans-serif;
-}
-
-#search-results p {
-    font-size: 18px;
+  }
+  
+  #search-results p {
+    font-size: 1.125rem;
     color: #333;
-    margin-bottom: 10px;
-}
-
-#search-results ul {
+    margin-bottom: 0.5rem;
+  }
+  
+  #search-results ul {
     list-style-type: none;
     padding: 0;
-}
-
-#search-results li {
-    font-size: 16px;
+  }
+  
+  #search-results li {
+    font-size: 1rem;
     color: #666;
-    padding: 5px 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid #eee;
-}
-
-#search-results li:last-child {
+  }
+  
+  #search-results li:last-child {
     border-bottom: none;
-}
+  }
+  
+  @media (max-width: 768px) {
+    .search-container {
+      flex-direction: row;
+    }
+  
+    #friend-search-input,
+    #search-button {
+      border-radius: 0.25rem;
+    }
+  
+    #friend-search-input {
+      margin-bottom: 0;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+  
+    #search-button {
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+  }

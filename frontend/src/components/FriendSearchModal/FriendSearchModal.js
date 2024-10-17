@@ -50,7 +50,6 @@ export class FriendSearchModal extends Modal {
                 }
 
                 // 검색 결과 표시
-                console.log(friendList);
                 friendList.forEach(friend => {
                     const friendResult = new FriendSearchResult(friend);
                     friendResult.render();
