@@ -4,7 +4,6 @@ import { Profile } from "../Profile/Profile.js";
 export class FriendSearchResult {
     constructor(friend) {
         this.friend = friend;
-        this.el = document.createElement('div');
         this.el.className = 'friend-search-result';
     }
 
