@@ -4,12 +4,16 @@ import { Profile } from "../Profile/Profile.js";
 
 export class Header extends Component {
     constructor(props) {
-        super();
+        super({
+            tagName: 'div',
+            props: {
+                className: 'header'
+            }
+        });
         this.props = props;
         this.headerRender(props);
     }
     headerRender(props) {
-        this.el.classList.add('header');
         this.el.innerHTML = /*html*/`
             <button class="return">42 PP</button>
             <div class="profile"></div>
