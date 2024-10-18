@@ -69,9 +69,10 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					document.cookie = 'ppstate=; player=;';
-					location.href = '/#/';
+					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					alert('로그아웃 되었습니다.');
+					location.href = '/#/';
 				}
 				else
 					alert('로그아웃에 실패했습니다.');
@@ -94,9 +95,10 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					document.cookie = 'ppstate=; player=;';
-					location.href = '/#/';
+					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					alert('회원탈퇴 되었습니다.');
+					location.href = '/#/';
 				}
 				else
 					alert('회원탈퇴에 실패했습니다.');
