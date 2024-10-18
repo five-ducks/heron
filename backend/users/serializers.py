@@ -4,7 +4,6 @@ from .models import User
 from friends.models import Friend
 from games.models import Match
 from django.contrib.sessions.models import Session
-from drf_spectacular.utils import extend_schema_field
 
 
 class LoginSerializer(serializers.Serializer):
