@@ -45,14 +45,11 @@ export default class Login extends Component {
         );
 
         // Create buttons
-        const loginButton = new Button(
-            {
-                background: "url('../public/images/button.png')",
-                width: '300px',
-                height: '169px',
-                size: '70px'
-            },
-            'Login',
+        const loginButton = new Button({
+            style: 'gray',
+            size: 'm',
+            text: 'Login'
+        },
             async () => {
                 // Retrieve input values
                 const username = inputID.getValue(); // getValue() 사용
@@ -94,25 +91,19 @@ export default class Login extends Component {
             }
         );
 
-        const authButton = new Button(
-            {
-                background: "url('../public/images/button.png')",
-                width: '300px',
-                height: '169px',
-                size: '70px',
-            },
-            '42 Auth',
+        const authButton = new Button({
+            style: 'gray',
+            size: 'm',
+            text: '42 Auth',
+        },
             () => { }
         );
 
-        const signUpButton = new Button(
-            {
-                background: "url('../public/images/button.png')",
-                width: '300px',
-                height: '169px',
-                size: '70px',
-            },
-            'JOIN',
+        const signUpButton = new Button({
+            style: 'gray',
+            size: 'm',
+            text: 'JOIN',
+        },
             () => {
                 joinModal.open();
                 this.el.appendChild(joinModal.el);

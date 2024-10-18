@@ -38,7 +38,12 @@ export class JoinModal extends Modal {
         this.el.querySelector('#curpwInput').appendChild(curpwInput.el);
 
         // 완료 버튼 추가
-        const finishButton = new Button({ background: "url('../public/images/button.png')", width: '100px', height: '50px', size: '30px' }, '완료', async () => {
+        const finishButton = new Button({ 
+            style: 'gray',
+            size: 'l',
+            text: '완료',
+        }, 
+        async () => {
             // Validate inputs
             const username = nameInput.getValue();
             const password = pwInput.getValue();
