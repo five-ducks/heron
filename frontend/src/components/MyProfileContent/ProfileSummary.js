@@ -86,7 +86,7 @@ export class ProfileSummary extends Component {
 			async () => {
 				if (!confirm('정말로 탈퇴하시겠습니까?'))
 					return;
-				const response = await fetch('/api/users/self', {
+				const response = await fetch('/api/users/self/', {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export class ProfileSummary extends Component {
 					return;
 				}
 
-				const response = await fetch('/api/users/self', {
+				const response = await fetch('/api/users/self/', {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
