@@ -5,8 +5,8 @@
 }
 
 .addfriend {
-    width: 120px;
-    height: 40px;
+    width: 100%;
+    /* height: 40px; */
     background: none;
     border: none;
     color: white;

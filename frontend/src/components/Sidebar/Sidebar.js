@@ -24,13 +24,9 @@ export class Sidebar extends Component {
         // 이미지 수정 필요 
         const addFriendButton = new Button(
             {
-                width: '200px',
-                height: '50px',
-                background: "url('../public/images/button.png')",
-                color: 'white',
-                size: '16px'
+                size: 'sidebar',
+                text: '친구추가 +'
             },
-            '친구추가 +',
             () => {
                 const friendSearchModal = new FriendSearchModal();
                 this.el.appendChild(friendSearchModal.el);

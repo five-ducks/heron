@@ -10,7 +10,7 @@ export default store;
 
 export const loadGameRecords = async () => {
 	try {
-		const response = await fetch('/api/users/self');
+		const response = await fetch('/api/users/self/');
 		if (response.status === 200)
 		{
 			const user = await response.json();
