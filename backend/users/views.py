@@ -17,7 +17,8 @@ from .serializers import (
     DeleteFriendshipSerializer,
     RetrieveFriendSerializer,
     RetrieveSearchUserSerializer,
-    RetrieveSearchUserResponseSerializer
+    RetrieveSearchUserResponseSerializer,
+    RetrieveUserSerializer
 )
 
 from django.views.decorators.csrf import csrf_exempt
@@ -494,11 +495,16 @@ class UserViewSet(viewsets.ViewSet):
                             "username": friend_user.username,
                             "status_msg": friend_user.status_msg,
                             "status": friend_user.status,
+                            "exp": friend_user.exp,
+                            "win_cnt": friend_user.win_cnt,
+                            "lose_cnt": friend_user.lose_cnt,
                             "profile_img": friend_user.profile_img,
                             "matches": [
                                 {
                                     'user1_name': match.match_username1.username,
                                     'user2_name': match.match_username2.username,
+                                    'user1_profile_img': match.match_username1.profile_img,
+                                    'user2_profile_img': match.match_username2.profile_img,
                                     'match_result': match.match_result,
                                     'match_start_time': match.match_start_time,
                                     'match_end_time': match.match_end_time,
@@ -551,28 +557,8 @@ class UserViewSet(viewsets.ViewSet):
         description="Get the user's details through authentication",
         responses={
             200: OpenApiResponse(
-                response=OpenApiTypes.OBJECT,
+                response=RetrieveUserSerializer,
                 description="Successfully obtaining user details",
-                examples=[
-                    OpenApiExample(
-                        name="userinfo details",
-                        value={
-                            'exp': 'int',
-                            'profile_img': 'int',
-                            'win_cnt': 'int',
-                            'lose_cnt': 'int',
-                            'status_msg': 'string',
-                            'macrotext': [
-                                'string',
-                                'string',
-                                'string',
-                                'string',
-                                'string'
-                            ]
-                        },
-                        media_type='application/json'
-                    )
-                ]
             ),
             403: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
@@ -700,6 +686,8 @@ class UserViewSet(viewsets.ViewSet):
                         {
                             'user1_name': match.match_username1.username,
                             'user2_name': match.match_username2.username,
+                            'user1_profile_img': match.match_username1.profile_img,
+                            'user2_profile_img': match.match_username2.profile_img,
                             'match_result': match.match_result,
                             'match_start_time': match.match_start_time,
                             'match_end_time': match.match_end_time,
