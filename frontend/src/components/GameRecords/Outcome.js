@@ -12,7 +12,7 @@ export class Outcome extends Component {
 	render(isWin, userName) {
 
 		const result = isWin ? 'WIN' : 'LOSE';
-		
+
 		this.el.innerHTML = /*html*/`
 			<div class="profile-container">
 				<div class="profile-result-img"></div>
@@ -22,6 +22,7 @@ export class Outcome extends Component {
 				${result}
 			</div>
 		`
+
 		const profileImg = this.el.querySelector('.profile-result-img');
 		const img = new Avatar(0, 'm');
 		profileImg.appendChild(img.el);
