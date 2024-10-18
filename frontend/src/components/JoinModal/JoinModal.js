@@ -108,7 +108,8 @@ export class JoinModal extends Modal {
         const charactors = new SelectCharactor();
         charactorRow.appendChild(charactors.el);
 
-        // 캐릭터 선택 이벤트 리스너 추가
+        // 캐릭터 선택 이벤트 리스너 추가 (default: 0)
+        this.selectedCharactorIndex = 0; // 캐릭터 인덱스 기본값 설정
         charactors.el.addEventListener('charactorSelected', (event) => {
             this.selectedCharactorIndex = event.detail.index; // 선택된 캐릭터 인덱스 저장
         });
