@@ -1,8 +1,15 @@
 import { Component } from "../../core/core.js";
 
 export class SelectPage extends Component {
+    constructor() {
+        super({
+            tagName: 'div',
+            props: {
+                className: 'selectpage'
+            }
+        });
+    }
     render() {
-        this.el.classList.add('selectpage');
         this.el.innerHTML = /*html*/`
             <div class="contents">
                 <div class="title">게임 선택</div>

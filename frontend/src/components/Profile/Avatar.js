@@ -2,7 +2,7 @@ import { Component } from "../../core/core.js";
 import { selectProfileImg } from "../../core/core.js";
 
 export class Avatar extends Component {
-    constructor ( imageIndex = 0, size = 'm' ) {
+    constructor ( imageIndex = 0, size = 'm', status = 0 ) {
         super(
             {
                 tagName: 'div',

@@ -7,8 +7,16 @@ import store from "../../store/game.js"; // Store 불러오기
 
 export class Sidebar extends Component {
     constructor(props) {
-        super();
-        this.userInfo = props;
+        super({
+            tagName: 'div',
+            props: {
+                className: 'friendwindow'
+            },
+            state: {
+                userInfo: props
+            }
+        });
+        // this.userInfo = props;
 
         // 친구 목록을 불러오기 위해 fetchFriends 함수를 호출합니다.
         this.friendRender(this.userInfo);
@@ -18,7 +26,7 @@ export class Sidebar extends Component {
     }
 
     friendRender(userInfo) {
-        this.el.classList.add('friendwindow');
+        // this.el.classList.add('friendwindow');
         this.el.innerHTML = /*html*/`
             <div class="addfriend"></div>
             <div class="friends"></div>
