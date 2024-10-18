@@ -1,5 +1,5 @@
 import { Component } from "../../core/core.js";
-import { Avatar } from "./Avatar.js";
+import { Avatar } from "../Avatar/Avatar.js";
 
 export class Profile extends Component {
     constructor(image = 0, name = "unknown", size = 'm', options = {}) {

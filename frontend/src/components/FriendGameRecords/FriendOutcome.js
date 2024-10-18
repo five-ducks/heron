@@ -1,5 +1,5 @@
 import { Component } from "../../core/core.js";
-import { Avatar } from "../Profile/Avatar.js";
+import { Avatar } from "../Avatar/Avatar.js";
 
 export class Friendoutcome extends Component {
 	constructor() {
