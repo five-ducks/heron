@@ -1,14 +1,17 @@
 button {
+	padding: 30px;
+	width: fit-content;
 	background-size: 100% 100%;
 	background-color: transparent;
-	font-size: 5vw;
 }
 
 .button-container {
-	width: auto;
+	width: fit-content;
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: column;
 	align-items: center;
+	gap: 10px;
 }
 
 .default {
@@ -36,53 +39,29 @@ button {
 }
 
 .sidebar {
-	width: 100%;
+	/* width: 100%; */
 	min-height: 6vh;
 	padding: 10px;
 	margin: 1vw 0.5vw;
-	font-size: 2.5vw;
+	font-size: var(--small-font-size);
 }
 
 .s {
-	aspect-ratio: 7/3;
-	width: 10vw;
-	height: auto;
-	background-size: 100% 100%;
-	font-size: 2vw;
+	/* aspect-ratio: 7/3; */
+	font-size: var(--small-font-size);
 }
 
 .m {
-	aspect-ratio: 5/3;
-	width: 13vw;
-	height: auto;
-	background-size: 100% 100%;
-	font-size: 2.5vw;
+	/* aspect-ratio: 5/3; */
+	font-size: var(--medium-font-size);
 }
 
 .l {
-	aspect-ratio: 1.9/1;
-	width: 23vw;
-	height: auto;
-	background-size: 100% 100%;
-	font-size: 5vw;
+	/* aspect-ratio: 1.9/1; */
+	font-size: var(--large-font-size);
 }
 
 .xl {
-	aspect-ratio: 2.5/1;
-	width: 30vw;
-	height: auto;
-	background-size: 100% 100%;
-	font-size: 6vw;
-}
-
-/* 모바일 화면에서 버튼 크기 조정 */
-@media (max-width: 1000px) {
-	button {
-		aspect-ratio: unset !important;
-		width: 40vw !important;
-		min-height: max-content !important;
-		font-size: 5vw !important;
-		max-height: fit-content !important;
-		padding: 3vw 0 !important;
-	}
+	/* aspect-ratio: 2.5/1; */
+	font-size: var(--xlarge-font-size);
 }
