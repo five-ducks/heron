@@ -4,6 +4,13 @@ button {
 	font-size: 5vw;
 }
 
+.button-container {
+	width: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .default {
 	/* height: 100px; */
 	background-color: #4a4a4a72;
@@ -29,7 +36,6 @@ button {
 }
 
 .sidebar {
-	/* aspect-ratio: 4/1 ; */
 	width: 100%;
 	min-height: 6vh;
 	padding: 10px;
@@ -67,4 +73,16 @@ button {
 	height: auto;
 	background-size: 100% 100%;
 	font-size: 6vw;
+}
+
+/* 모바일 화면에서 버튼 크기 조정 */
+@media (max-width: 1000px) {
+	button {
+		aspect-ratio: unset !important;
+		width: 40vw !important;
+		min-height: max-content !important;
+		font-size: 5vw !important;
+		max-height: fit-content !important;
+		padding: 3vw 0 !important;
+	}
 }

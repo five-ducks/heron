@@ -18,36 +18,32 @@
 	width: 20vw;
 }
 
-/* 화면 너비가 768px 이하로 줄어들 때 */
+/* 화면 너비가 1000px 이하로 줄어들 때 */
 @media (max-width: 1000px) {
 	.contents {
 		flex-direction: column;
-		/* 가로에서 세로 배치로 변경 */
 		align-items: center;
-		/* 중앙 정렬 */
+		/* 스크롤 가능하도록 */
+		overflow-y: scroll;
 	}
 
-	.contents .game-section {
+	.contents .my-profile-content {
+		padding: 0;
+	}
+	.contents .profile-summary {
+		margin: 0;
+		flex-direction: column;
 		width: 100%;
-		/* game-section이 전체 너비를 차지 */
-		/* height: 70vh; */
-		/* 높이를 화면 비율에 맞게 조정 */
+	}
+
+	.contents .profile-summary .vertical-line {
+		width: 80%;
+		height: 1px;
 	}
 
 	.contents .sidebar {
-		width: 100%;
-		/* 사이드바도 전체 너비를 차지 */
-		/* height: 30vh; */
-		/* 높이를 나머지 비율에 맞게 설정 */
+		width: 100% !important;
 		font-size: 1.7rem;
 		margin: 1.5vw 3vw;
-	}
-}
-
-/* 화면 최소 너비 설정 */
-@media (min-width: 400px) {
-	body {
-		min-width: 400px;
-		/* 페이지 전체의 최소 너비를 400px로 제한 */
 	}
 }
