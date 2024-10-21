@@ -1,4 +1,4 @@
-/* 전역 스타일 정의 */ 
+/* 전역 스타일 정의 */
 
 @font-face {
 	font-family: 'Pixeboy';
@@ -20,9 +20,18 @@ html {
 	--strong-color: yellow;
 	--base-font: 'DungGeunMo', sans-serif;
 	--title-font: 'Pixeboy', sans-serif;
-	--base-font-size: 1rem; /*라벨, 헤더 사용중*/
-	--big-font-size: 3rem; /* 게임 선택창 버튼 사용중*/
-	--title-font-size: 5rem;
+
+	/* for button */
+	--small-font-size: clamp(22px, 2vw, 40px);
+	--medium-font-size: clamp(33px, 3.5vw, 70px);
+	--large-font-size: clamp(55px, 5vw, 100px);
+	--xlarge-font-size: clamp(66px, 6vw, 120px);
+
+	/* for text */
+	--base-font-size: clamp(27px, 2.5vw, 50px);
+	--big-font-size: clamp(82px, 7.5vw, 150px);
+	--title-font-size: clamp(110px, 10vw, 200px);
+
 	--base-line-height: 1.6;
 	--header-color: #011635;
 	--gate-page-background-img: url('../../public/images/space_bg.png');
@@ -31,19 +40,19 @@ html {
 }
 
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 15vh;
-    width: 100vw;
-    z-index: 100;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 15vh;
+	width: 100vw;
+	z-index: 100;
 	background-color: var(--header-color);
 }
 
 body {
 	display: flex;
 	justify-content: center;
-	align-items: center;   
+	align-items: center;
 	font-family: var(--title-font);
 	color: var(--text-color);
 	background-image: var(--gate-page-background-img);

@@ -55,12 +55,10 @@ export class ProfileSummary extends Component {
 		const profileWin = this.el.querySelector('.profile-summary-win');
 
 		const logoutBtn = new Button({
-			width: '130px',
-			height: '60px',
-			size: '25px',
-			background: "url('../../../public/images/ui/profile-button.png')",
+			style: 'blue',
+			size: 's',
+			text: '로그아웃',
 		},
-			'로그아웃',
 			async () => {
 				const response = await fetch('/api/users/logout/', {
 					method: 'POST',
@@ -71,25 +69,24 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					document.cookie = 'ppstate=; player=;';
-					location.href = '/#/';
+					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					alert('로그아웃 되었습니다.');
+					location.href = '/#/';
 				}
 				else
 					alert('로그아웃에 실패했습니다.');
 			}
 		);
 		const withdrawalBtn = new Button({
-			width: '130px',
-			height: '60px',
-			size: '25px',
-			background: "url('../../../public/images/ui/profile-button.png')",
+			style: 'blue',
+			size: 's',
+			text: '회원탈퇴',
 		},
-			'회원탈퇴',
 			async () => {
 				if (!confirm('정말로 탈퇴하시겠습니까?'))
 					return;
-				const response = await fetch('/api/users/self', {
+				const response = await fetch('/api/users/self/', {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
@@ -98,21 +95,20 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					document.cookie = 'ppstate=; player=;';
-					location.href = '/#/';
+					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					alert('회원탈퇴 되었습니다.');
+					location.href = '/#/';
 				}
 				else
 					alert('회원탈퇴에 실패했습니다.');
 			});
 
 		const saveBtn = new Button({
-			width: '200px',
-			height: '100px',
-			size: '25px',
-			background: "url('../../../public/images/ui/profile-button.png')",
+			style: 'blue',
+			size: 'm',
+			text: '저장하기',
 		},
-			'저장하기',
 			async () => {
 				const request_body = {};
 				const add_field = (selector, key, scope = this.el) => { // element에 접근하여 key에 해당하는 value를 request_body에 추가
@@ -148,7 +144,7 @@ export class ProfileSummary extends Component {
 					return;
 				}
 
-				const response = await fetch('/api/users/self', {
+				const response = await fetch('/api/users/self/', {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',

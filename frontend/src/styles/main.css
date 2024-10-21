@@ -17,3 +17,33 @@
 .contents .sidebar {
 	width: 20vw;
 }
+
+/* 화면 너비가 1000px 이하로 줄어들 때 */
+@media (max-width: 1000px) {
+	.contents {
+		flex-direction: column;
+		align-items: center;
+		/* 스크롤 가능하도록 */
+		overflow-y: scroll;
+	}
+
+	.contents .my-profile-content {
+		padding: 0;
+	}
+	.contents .profile-summary {
+		margin: 0;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.contents .profile-summary .vertical-line {
+		width: 80%;
+		height: 1px;
+	}
+
+	.contents .sidebar {
+		width: 100% !important;
+		font-size: 1.7rem;
+		margin: 1.5vw 3vw;
+	}
+}

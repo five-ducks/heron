@@ -21,22 +21,26 @@ export default class Home extends Component {
 		let button;
 		// 로그인 되어있는지 확인
 		if (player) {
-			button = new Button(
-				{},
-				'Start',
-				() => {
-					location.href = '/#/main';
-				}
-			);	
+			button = new Button({
+				style: 'gray',
+				size: 'l',
+				text: 'Start'
+			},
+			() => {
+				location.href = '/#/main';
+			}
+		);
 		}
 		else {
-			button = new Button(
-				{},
-				'Login',
-				() => {
-					location.href = '/#/login';
-				}
-			);	
+			button = new Button({
+				style: 'gray',
+				size: 'l',
+				text: 'Login'
+			},
+			() => {
+				location.href = '/#/login';
+			}
+		);
 		}
 		this.el.querySelector('.button-row').appendChild(button.el);
 	}

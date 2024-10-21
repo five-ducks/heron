@@ -15,7 +15,7 @@
 }
 .selectpage .one-on-one,
 .selectpage .tournament {
-    font-size: var(--big-font-size);
+    font-size: var(--medium-font-size);
     color: var(--text-color);
     min-width: 210px;
     min-height: 210px;
