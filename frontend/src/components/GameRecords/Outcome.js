@@ -1,5 +1,5 @@
 import { Component } from "../../core/core.js";
-import { Avatar } from "../Avatar/Avatar.js";
+import { Profile } from "../Profile/Profile.js";
 
 export class Outcome extends Component {
 	constructor() {
@@ -14,18 +14,15 @@ export class Outcome extends Component {
 		const result = isWin ? 'WIN' : 'LOSE';
 
 		this.el.innerHTML = /*html*/`
-			<div class="profile-container">
-				<div class="profile-result-img"></div>
-				<div class="user-name">${userName}</div>
-			</div>
+			<div class="profile-container"></div>
 			<div class="result">
 				${result}
 			</div>
-		`
+		`;
 
-		const profileImg = this.el.querySelector('.profile-result-img');
-		const img = new Avatar(0, 'm');
-		profileImg.appendChild(img.el);
+		const profilecontainer = this.el.querySelector('.profile-container');
+		const img = new Profile(0, userName, 'm', { style: 'inner' });
+		profilecontainer.appendChild(img.el);
 
 		const resultEl = this.el.querySelector('.result');
 
