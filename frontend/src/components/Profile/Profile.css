@@ -1,23 +1,126 @@
-/* 헤더 프로필 */
-.my-charactor-profile {
-    display: flex; /* 이미지와 텍스트를 가로로 배치 */
-    align-items: center; /* 세로 중앙 정렬 */
-    border: none; /* 버튼 기본 테두리 제거 */
-    background: none; /* 버튼 기본 배경 제거 */
-    padding: 10px; /* 버튼 내 여백 추가 */
-    cursor: pointer; /* 클릭할 수 있는 요소로 설정 */
-    transition: background-color 0.3s ease; /* 클릭 시 배경색 변화에 부드러운 전환 추가 */
+/* 프로필 친구 목록 스타일 */
+.character-profile {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    padding: 0.625rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
 }
 
-.my-charactor-profile .frame {
-    display: flex; /* 이미지 중앙 정렬을 위한 Flex 설정 */
-    align-items: center; /* 세로 중앙 정렬 */
-    justify-content: center; /* 가로 중앙 정렬 */
-    margin-right: 10px; /* 이미지와 텍스트 사이의 간격 추가 */
+.character-profile .info-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-left: 0.625rem;
 }
 
-.my-charactor-profile span {
-    font-family: 'Pixeboy', sans-serif; /* 폰트 설정 (예시) */
-    font-size: 20px; /* 폰트 크기 */
-    color: white; /* 폰트 색상 */
+.character-profile .info-container span {
+    font-family: 'Pixeboy', sans-serif;
+    color: white;
+    background: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inner-container-profile {
+    position: relative;
+    min-width: 2.125rem;
+    min-height: 1.125rem;
+    background-color: #dee2e6;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.325rem;
+}
+
+.inner-container-profile img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-left: 0.625rem;
+}
+
+.inner-character-name {
+    position: absolute;
+    bottom: 0; /* 이미지의 아래쪽에 위치 */
+    left: 0; /* 왼쪽 정렬 */
+    right: 0; /* 전체 너비를 차지하도록 설정 */
+    text-shadow: 
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        -1px  1px 0 black,
+        1px  1px 0 black; /* 텍스트 그림자 */
+    color: white;
+    padding: 0rem 0.625rem;
+    text-align: center;
+}
+
+/* Size-specific styles */
+.character-profile.size-s .info-container .character-name {
+    font-size: 1.5rem;
+}
+
+.character-profile.size-s .info-container .status-message {
+    font-size: 0.75rem;
+}
+
+.character-profile.size-m .info-container .character-name {
+    font-size: 2.5rem;
+}
+
+.character-profile.size-m .info-container .status-message {
+    font-size: 0.875rem;
+}
+
+.character-profile.size-l .info-container .character-name {
+    font-size: 5rem;
+}
+
+.character-profile.size-l .info-container .status-message {
+    font-size: 0.9375rem;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .character-profile.size-l .info-container .character-name {
+        font-size: 3rem;
+    }
+
+    .character-profile.size-l .info-container .status-message {
+        font-size: 0.875rem;
+    }
+
+    .character-profile.size-m .info-container .character-name {
+        font-size: 2rem;
+    }
+
+    .character-profile.size-m .info-container .status-message {
+        font-size: 0.8125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .character-profile.size-l .info-container .character-name {
+        font-size: 2.5rem;
+    }
+
+    .character-profile.size-l .info-container .status-message {
+        font-size: 0.8125rem;
+    }
+
+    .character-profile.size-m .info-container .character-name {
+        font-size: 1.75rem;
+    }
+
+    .character-profile.size-m .info-container .status-message {
+        font-size: 0.75rem;
+    }
 }

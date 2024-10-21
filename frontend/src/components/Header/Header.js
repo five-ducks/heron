@@ -1,6 +1,6 @@
 import { Component, getCookie } from "../../core/core.js";
-import { CharactorProfile } from "../Profile/profile.js";
 import { MyProfileContent } from "../MyProfileContent/MyProfileContent.js";
+import { Profile } from "../Profile/Profile.js";
 
 export class Header extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ export class Header extends Component {
             <div class="profile"></div>
         `;
         const player = getCookie('player');
-        const profile = new CharactorProfile(props.profile_img, player);
+        const profile = new Profile(props.profile_img, player, 'l');
         this.el.querySelector('.profile').appendChild(profile.el);
         this.el.querySelector('.return').addEventListener('click', () => {
             location.href = '/#/';

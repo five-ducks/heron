@@ -1,30 +1,59 @@
 import { Component } from "../../core/core.js";
-import { ProfileIcon } from "./ProfileIcon.js";
+import { Avatar } from "../Avatar/Avatar.js";
 
-export class CharactorProfile extends Component {
-    constructor(image = 1, name = "unknown", onSelect = () => {}) {
-		super({
-			tagName: 'button'
-		});
-		this.image = image;
+export class Profile extends Component {
+    constructor(image = 0, name = "unknown", size = 'm', options = {}) {
+        const { status_msg, onSelect = () => {}, style } = options;
+        
+        super({
+            tagName: 'button',
+            props: {
+                className: `character-profile size-${size}`,
+            }
+        });
 
-		const img = new ProfileIcon(this.image);
-		const frame = document.createElement('div');
-		frame.classList.add('frame');
-		this.el.appendChild(frame);
-		frame.appendChild(img.el);
+        // Avatar 생성
+        const img = new Avatar(image, size);
+        
+        if (style === "inner") {
+            const innerContainer = document.createElement('div');
+            innerContainer.classList.add('inner-container-profile');
+            innerContainer.appendChild(img.el);
 
-		const span = document.createElement('span');
-		span.textContent = name;
-		this.el.appendChild(span);
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = name;
+            nameSpan.classList.add('inner-character-name');
+            innerContainer.appendChild(nameSpan);
 
-		this.isSelected = false;
-		this.el.addEventListener('click', () => {onSelect(this);});
+            this.el.appendChild(innerContainer);
+        } else {
+            this.el.appendChild(img.el);
+            this.createInfoContainer(name, status_msg);
+            this.isSelected = false;
+            this.el.addEventListener('click', () => { onSelect(this); });
+        }
+    }
 
-		this.render();
-	}
+    createInfoContainer(name, status_msg) {
+        const infoContainer = document.createElement('div');
+        infoContainer.classList.add('info-container');
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+        nameSpan.classList.add('character-name');
+        infoContainer.appendChild(nameSpan);
 
-	render() {
-        this.el.classList.add('charactor-profile');
-	}
+        if (status_msg) {
+            const statusSpan = document.createElement('span');
+            statusSpan.textContent = status_msg;
+            statusSpan.classList.add('status-message');
+            infoContainer.appendChild(statusSpan);
+        }
+
+        this.el.appendChild(infoContainer);
+    }
+
+    render() {
+        // 렌더링 로직이 필요한 경우 여기에 추가
+    }
 }

@@ -1,4 +1,5 @@
 import { Component } from "../../core/core.js";
+import { Profile } from "../Profile/Profile.js";
 
 export class Outcome extends Component {
 	constructor() {
@@ -11,22 +12,17 @@ export class Outcome extends Component {
 	render(isWin, userName) {
 
 		const result = isWin ? 'WIN' : 'LOSE';
-		
+
 		this.el.innerHTML = /*html*/`
-			<div class="profile-container">
-				<div class="profile-result-img"></div>
-				<div class="user-name">${userName}</div>
-			</div>
+			<div class="profile-container"></div>
 			<div class="result">
 				${result}
 			</div>
-		`
-		const profileImg = this.el.querySelector('.profile-result-img'); 
-		const img = document.createElement('img');
-		img.src = '../../../public/images/charactors/pikachu.png';
-		// 여기 userId로 이미지 찾는거 넣어야함
-		// 지금은 임시 이미지
-		profileImg.appendChild(img);
+		`;
+
+		const profilecontainer = this.el.querySelector('.profile-container');
+		const img = new Profile(0, userName, 'm', { style: 'inner' });
+		profilecontainer.appendChild(img.el);
 
 		const resultEl = this.el.querySelector('.result');
 

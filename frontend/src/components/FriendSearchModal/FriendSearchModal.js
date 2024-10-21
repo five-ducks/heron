@@ -52,7 +52,7 @@ export class FriendSearchModal extends Modal {
                 // 검색 결과 표시
                 friendList.forEach(friend => {
                     const friendResult = new FriendSearchResult(friend);
-                    this.searchResults.appendChild(friendResult.element);
+                    friendResult.render();
                 });
             }
             if (response.status === 404) {
