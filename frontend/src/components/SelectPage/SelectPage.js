@@ -1,29 +1,20 @@
 import { Component } from "../../core/core.js";
 
 export class SelectPage extends Component {
-    constructor() {
-        super({
-            tagName: 'div',
-            props: {
-                className: 'selectpage'
-            }
-        });
-    }
-    render() {
-        this.el.innerHTML = /*html*/`
-            <div class="contents">
-                <div class="title">게임 선택</div>
-                <div class="game-list">
-                    <button class="onetoone">1 : 1</button>
-                    <button class="tournament">토너먼트</button>
-                </div>
-            </div>
-        `;
-
-		// 1:1 게임 버튼 event listener
-        const onetooneButton = this.el.querySelector('.onetoone');
-        onetooneButton.addEventListener('click', () => {
-            window.location.hash = '/game/onetoone/';
-        });
-    }
+	constructor() {
+		super({
+			props: {
+				className: 'selectpage',
+			}
+		});
+	}
+	render() {
+		this.el.innerHTML = /*html*/`
+			<h1>게임 선택</h1>
+			<div class="game-list">
+				<button class="one-on-one">일대일</button>
+				<button class="tournament">토너먼트</button>
+			</div>
+		`;
+	}
 }

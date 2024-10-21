@@ -1,0 +1,67 @@
+button {
+	padding: 30px;
+	width: fit-content;
+	background-size: 100% 100%;
+	background-color: transparent;
+}
+
+.button-container {
+	width: fit-content;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.default {
+	/* height: 100px; */
+	background-color: #4a4a4a72;
+	/* 버튼 배경색 */
+	border: 5px solid #bfbfbf;
+	/* 버튼 테두리 */
+	border-radius: 10px;
+	/* 버튼 모서리 둥글게 */
+	color: white;
+	text-align: center;
+}
+
+.gray {
+	background-image: url(../../public/images/button.png);
+	color: white;
+	border: none;
+}
+
+.blue {
+	background-image: url(../../public/images/ui/profile-button.png);
+	color: white;
+	border: lightskyblue;
+}
+
+.sidebar {
+	/* width: 100%; */
+	min-height: 6vh;
+	padding: 10px;
+	margin: 1vw 0.5vw;
+	font-size: var(--small-font-size);
+}
+
+.s {
+	/* aspect-ratio: 7/3; */
+	font-size: var(--small-font-size);
+}
+
+.m {
+	/* aspect-ratio: 5/3; */
+	font-size: var(--medium-font-size);
+}
+
+.l {
+	/* aspect-ratio: 1.9/1; */
+	font-size: var(--large-font-size);
+}
+
+.xl {
+	/* aspect-ratio: 2.5/1; */
+	font-size: var(--xlarge-font-size);
+}

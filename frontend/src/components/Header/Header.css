@@ -1,71 +1,17 @@
-:root {
-    --header-height: 7.5rem;
-    --button-size: 6.875rem;
-    --button-font-size: 6.25rem;
-    --side-margin: 2.5rem;
-  }
-  
-  .headerpos {
-    position: relative;
-  }
-  
-  .header {
-    padding: 0.625rem;
-    border-bottom: 0.0625rem solid #dee2e6;
-    width: 100%;
-    height: var(--header-height);
+.header {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .header .return,
-  .header .profile {
+    height: 100%;
+    padding: 0 20px;
+}
+
+.header .return {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--button-size);
-    height: calc(var(--header-height) - 0.625rem);
-    border: none;
-    outline: none;
-    color: var(--color-white);
-    background-color: var(--color-area);
-    font-family: 'Pixeboy', sans-serif;
-    font-size: var(--button-font-size);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .header .return {
-    margin-left: var(--side-margin);
-    width: 12.5rem;
-  }
-  
-  .header .profile {
-    margin-right: var(--side-margin);
-    width: 17.5rem;
-  }
-  
-  @media (max-width: 768px) {
-    :root {
-      --header-height: 6rem;
-      --button-size: 5.5rem;
-      --button-font-size: 5rem;
-      --side-margin: 1.25rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    :root {
-      --header-height: 4.5rem;
-      --button-size: 4rem;
-      --button-font-size: 3.75rem;
-      --side-margin: 0.625rem;
-    }
-  
-    .header .profile {
-      width: 12.5rem;
-    }
-  }
+    background-image: url('../../../public/images/header-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 200px;
+    aspect-ratio: 670 / 220;
+    cursor: pointer;
+}

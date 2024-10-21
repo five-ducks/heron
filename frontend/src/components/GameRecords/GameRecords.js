@@ -17,13 +17,16 @@ export class GameRecords extends Component {
 
 		this.el.innerHTML = /*html*/``;
 
-		const gameRecords = store.state.gameRecords.gameRecords;
+		const gameRecords = store.state.gameRecords;
 		if (gameRecords) {
 			gameRecords.forEach(gameRecord => {
 				const oneGameRecord = new OneGameRecord();
 				oneGameRecord.render(gameRecord);
 				this.el.appendChild(oneGameRecord.el);
 			});
+		}
+		else {
+			this.el.appendChild(document.createTextNode('게임 기록이 없습니다.'));
 		}
 	}
 }

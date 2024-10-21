@@ -23,12 +23,23 @@ export class ProfileLevel extends Component {
 		this.render(level, src);
 	}
 
-	// exp 값을 이용하여 레벨을 계산하는 함수
+	// 레벨당 필요한 exp 양 계산 함수
+	static BASE_EXP = 1000; // 레벨당 기본 exp
+	static EXP_MULTIPLIER = 1.5; // 레벨당 증가하는 exp 배율
+
 	calculateLevel(exp) {
-		const baseLevel = 1; // 기본 레벨 1
-		const additionalLevels = Math.floor(exp / 1000); // 1000 exp 당 1 레벨 추가
-		return baseLevel + additionalLevels;
+		let level = 1;
+		let expForNextLevel = ProfileLevel.BASE_EXP; // 클래스 변수 접근 시 ProfileLevel 사용
+
+		while (exp >= expForNextLevel) {
+			exp -= expForNextLevel; // 다음 레벨로 가기 위해 필요한 exp 차감
+			level++; // 레벨 업
+			expForNextLevel = Math.floor(expForNextLevel * ProfileLevel.EXP_MULTIPLIER); // 다음 레벨에 필요한 exp 증가
+		}
+
+		return level;
 	}
+
 
 	render(level, src) {
 		this.el.innerHTML = /*html*/`
