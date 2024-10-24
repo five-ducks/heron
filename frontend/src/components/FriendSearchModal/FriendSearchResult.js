@@ -1,54 +1,78 @@
-import { getCookie } from "../../core/core.js";
+import { Component } from "../../core/core.js";
 import { Profile } from "../Profile/Profile.js";
+import { getCookie } from "../../core/core.js";
+import { Button } from "../Button.js";
+import store from "../../store/game.js";
 
-export class FriendSearchResult {
+export class FriendSearchResult extends Component {
     constructor(friend) {
+        super({
+            tagName: 'div',
+            props: {
+                className: 'friend-search-result',
+            }
+        });
         this.friend = friend;
-        this.el = document.createElement('div');
-        this.el.className = 'friend-search-result';
+        this.addButton = null;
+        this.isFriend = store.state.userFriends.some(f => f.username === this.friend.username);
     }
 
-    render() {
+    friendProfileRender() {
         const friendProfile = new Profile(
             this.friend.profile_img,
             this.friend.username,
             'm',
             {
                 status_msg: this.friend.status_msg,
-                onSelect: () => {}
+                onSelect: () => { }
             }
         );
-    
-        // 친구 추가 버튼 생성
-        const addButton = document.createElement('button');
-        addButton.className = 'add-friend-btn';
-        addButton.textContent = '친구 추가';
-        addButton.addEventListener('click', () => this.addFriend());
-    
+        friendProfile.el.classList.add('friend-profile');
+
+        const bt = this.isFriend ? '추가됨' : '친구 +';
+
+        this.addButton = new Button({
+            style: 'gray',
+            size: 's',
+            text: bt
+        }, () => this.addFriend());
+        this.addButton.el.classList.add('add-friend-btn');
+
         // 컴포넌트에 요소들 추가
-        const searchResultsContainer = document.getElementById('search-results');
-        searchResultsContainer.appendChild(friendProfile.el);
-        searchResultsContainer.appendChild(addButton);
+        this.el.appendChild(friendProfile.el);
+        this.el.appendChild(this.addButton.el);
     }
 
     async addFriend() {
-        const response = await fetch(`api/users/self/friends/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': getCookie('csrftoken'),
-            },
-            body: JSON.stringify({
-                friendname: this.friend.username,
-            }),
-        });
-        this.updateButtonState();
+        try {
+            const response = await fetch(`api/users/self/friends/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': getCookie('csrftoken'),
+                },
+                body: JSON.stringify({
+                    friendname: this.friend.username,
+                }),
+            });
+
+            if (response.ok) {
+                this.updateButtonState();
+            } else {
+                console.error('친구 추가 에러:', await response.text());
+            }
+        } catch (error) {
+            console.error('친구 추가 에러:', error);
+        }
     }
-    
+
     updateButtonState() {
-        const addButton = document.querySelector('.add-friend-btn');
-        addButton.textContent = '추가됨';
-        addButton.disabled = true;
-        addButton.classList.add('added');
+        if (this.addButton) {
+            this.addButton.setText('추가됨');
+            this.addButton.el.disabled = true;
+            this.addButton.el.classList.add('added');
+        } else {
+            console.error('버튼이 없습니다.');
+        }
     }
 }

@@ -1,79 +1,44 @@
-/* FriendSearchResult 특정 스타일 */
 .friend-search-result {
     display: flex;
     align-items: center;
+    width: 100%;
     padding: 10px;
-    border-bottom: 1px solid #eee;
-    font-family: 'DungGeunMo', sans-serif;
+    box-sizing: border-box;
 }
 
-.friend-search-result:last-child {
-    border-bottom: none;
+.search-results {
+    max-height: 400px;
+    /* Adjust this value as needed */
+    overflow-y: auto;
+    padding-right: 10px;
+    /* To prevent content from touching the scrollbar */
 }
 
-.friend-search-result .profile-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
+.friend-profile {
+    flex: 1;
+    min-width: 0;
+    /* 자식 요소가 부모 컨테이너를 벗어나지 않도록 함 */
 }
 
-.friend-search-result .friend-info {
-    flex-grow: 1;
+.add-friend-btn {
+    margin-left: 10px;
+    /* friend-profile과의 간격 */
 }
 
-.friend-search-result h3 {
-    font-size: 18px;
+.add-friend-btn added {
+    background-color: #f0f0f0;
     color: #333;
-    margin: 0 0 5px 0;
-}
-
-.friend-search-result p {
-    font-size: 14px;
-    color: #666;
-    margin: 0;
-}
-
-.friend-search-result button {
-    font-family: 'DungGeunMo', sans-serif;
-    font-size: 14px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.friend-search-result .add-friend {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.friend-search-result .add-friend:hover {
-    background-color: #45a049;
-}
-
-.friend-search-result .remove-friend {
-    background-color: #f44336;
-    color: white;
-}
-
-.friend-search-result .remove-friend:hover {
-    background-color: #d32f2f;
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 */
-@media (max-width: 600px) {
+@media (max-width: 480px) {
     .friend-search-result {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .friend-search-result .profile-img {
-        margin-bottom: 10px;
-    }
-
-    .friend-search-result button {
+    .add-friend-btn {
+        margin-left: 0;
         margin-top: 10px;
         align-self: flex-end;
     }

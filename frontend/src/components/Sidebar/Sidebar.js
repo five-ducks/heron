@@ -26,7 +26,6 @@ export class Sidebar extends Component {
     }
 
     friendRender(userInfo) {
-        // this.el.classList.add('friendwindow');
         this.el.innerHTML = /*html*/`
             <div class="addfriend"></div>
             <div class="friends"></div>
@@ -70,7 +69,7 @@ export class Sidebar extends Component {
     renderFriendList() {
         const friendsContainer = this.el.querySelector('.friends');
         friendsContainer.innerHTML = ''; // Clear existing friend list
-    
+
         store.state.userFriends.forEach(friendData => {
             const friend = new Profile(
                 friendData.profile_img,
