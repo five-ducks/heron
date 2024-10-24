@@ -37,6 +37,9 @@ html {
 	--gate-page-background-img: url('../../public/images/space_bg.png');
 	--gate-logo-img: url('../../public/images/gate-logo.png');
 	--modal-bg-color: #011635;
+
+	/* for Avatar */
+	--avatar-border-color: #007bff;
 }
 
 header {
