@@ -5,7 +5,7 @@ export class InfoFriendModal extends Modal {
     constructor(props, onClose) {
         const name = props.username;
         const content = /*html*/`
-            <h1 class="title">친구 정보</h1>
+            <h2 class="modal-title">친구 정보</h1>
             <div class="friend_info">
                 <div class="friend_name">이름: ${name}</div>
                 <div class="friend_level">레벨: 0</div>
