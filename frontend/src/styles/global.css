@@ -71,6 +71,7 @@ h1 {
 	font-family: var(--title-font);
 }
 
+/* button.css로 이동하지 않아도 될까요? */
 button {
 	cursor: pointer;
 	font-family: var(--base-font);

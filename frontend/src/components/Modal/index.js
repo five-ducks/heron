@@ -12,7 +12,7 @@ export class Modal extends Component {
 			<div class="modal-content">
 				<div class="close-button"></div>
 				<div class="modal-title">${title}</div>
-				${content}
+				<div class="modal-body">${content}</div>
 			</div>
 		`;
 

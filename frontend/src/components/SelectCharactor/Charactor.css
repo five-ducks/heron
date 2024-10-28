@@ -6,7 +6,7 @@
     border-radius: 10px;
     display: inline-block;
     font-size: 15px;
-	margin: 5px;
+    margin: 5px;
 }
 
 .charactor img {
@@ -19,11 +19,11 @@
 .charactor span {
     display: block;
     text-align: center;
-	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+    text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
 }
 
 .charactor.selected {
-	background-image: url('../../../public/images/ui/select_cursor.png');
-	background-size: 100% 100%;
-	z-index: 1;
+    background-image: url('../../../public/images/ui/select_cursor.png');
+    background-size: 100% 100%;
+    z-index: 1;
 }

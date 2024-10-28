@@ -5,16 +5,15 @@ export class InfoFriendModal extends Modal {
     constructor(props, onClose) {
         console.log(props);
         const name = props.username;
-        // const content = /*html*/`
-        //     <div class="friend_info">
-        //         <div class="friend_name">이름: ${name}</div>
-        //         <div class="friend_level">레벨: 0</div>
-        //         <div class="friend_winrate">승률: 75%</div>
-        //     </div>
-        //     <div class="info_record"></div>
-        // `;
-        // super('친구 정보', content, onClose);
-        super('친구 정보', InfoFriendModal.getContent(name), onClose);
+        const content = /*html*/`
+            <div class="friend_info">
+                <div class="friend_name">이름: ${name}</div>
+                <div class="friend_level">레벨: 0</div>
+                <div class="friend_winrate">승률: 75%</div>
+            </div>
+            <div class="info_record"></div>
+        `;
+        super('친구 정보', content, onClose);
         this.userinfo = props;
 
         this.el.classList.add("info_friend_modal");
@@ -28,16 +27,16 @@ export class InfoFriendModal extends Modal {
         this.render();
     }
 
-    static getContent(name) {
-        return /*html*/`
-            <div class="friend_info">
-                <div class="friend_name">이름: ${name}</div>
-                <div class="friend_level">레벨: </div>
-                <div class="friend_win
-            </div>
-            <div class="info_record"></div>
-        `;
-    }
+    // static getContent() {
+    //     return /*html*/`
+    //         <div class="friend_info">
+    //             <div class="friend_name">이름: </div>
+    //             <div class="friend_level">레벨: </div>
+    //             <div class="friend_win
+    //         </div>
+    //         <div class="info_record"></div>
+    //     `;
+    // }
 
     calculateLevel(exp) {
         let level = 1;

@@ -5,10 +5,12 @@
 }
 
 .input_label {
-	width: 60px; /* Adjust the width as needed */
+	width: 60px;
+	/* Adjust the width as needed */
 	font-family: 'Pixeboy';
 	color: white;
-	margin-right: 60px; /* Space between the label and input */
+	margin-right: 60px;
+	/* Space between the label and input */
 }
 
 .input_field {
@@ -33,19 +35,6 @@
 /* .input-group {
 	margin-bottom: 20px;
 } */
-
-.joinInputLabel{
-	display: block;
-	font-family: 'DungGeunMo';
-	color: black;
-	margin-bottom: 5px; /* Space between the label and input */
-}
-
-.join_row {
-	align-items: center;
-	padding-left: 30px;
-	/* margin-top: 55px; 모달 ui 바꾸면 수정 */
-}
 
 /* mainpage 영역 스타일 */
 /* .main {

@@ -5,7 +5,7 @@ export class Button extends Component {
 		super({
 			tagName: 'button',
 			props: {
-				className: `${style} ${size}` // 기본값으로 style과 size 적용
+				className: `button ${style} ${size}` // 기본값으로 style과 size 적용
 			}
 		});
 		this.el.textContent = text;

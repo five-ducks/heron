@@ -1,11 +1,15 @@
-@keyframes modalopen {
-    from {
-        opacity: 0
-    }
+.joinInputLabel {
+    display: block;
+    font-family: 'DungGeunMo';
+    color: black;
+    margin-bottom: 5px;
+    /* Space between the label and input */
+}
 
-    to {
-        opacity: 1
-    }
+.join_row {
+    align-items: center;
+    padding-left: 30px;
+    /* margin-top: 55px; 모달 ui 바꾸면 수정 */
 }
 
 .modal-content .input_row {

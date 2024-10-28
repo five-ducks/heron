@@ -2,11 +2,11 @@ import { Modal } from "../Modal/index.js";
 import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input.js";
+import { getCookie } from "../../core/core.js";
 
 export class JoinModal extends Modal {
     constructor(onClose = () => { }) {
         const content = /*html*/`
-            <div class="join_row">
                 <div class="input_join">
                     <p class="joinInputLabel">닉네임</p>
                     <div id="nameInput"></div>
@@ -19,9 +19,8 @@ export class JoinModal extends Modal {
                     <p class="joinInputLabel">비밀번호 확인</p>
                     <div id="curpwInput"></div>
                 </div>
-            </div>
-            <div class="charactor-row">
-            </div>
+                <div class="charactor-row">
+                </div>
         `;
         super('회원 가입', content, onClose);
         this.addCharactors();
@@ -79,9 +78,13 @@ export class JoinModal extends Modal {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            // 로그인 상태일때 요청이가면 csrf token을 요구하는 현상이 있음.
+                            // 로그아웃 상태일때는 요구하지 않음.
+                            // 이슈를 올려야함.
                         },
                         body: JSON.stringify(requestData),
                     });
+
                     // 응답 처리
                     if (response.status === 201) {
                         alert('회원가입이 완료되었습니다!');
