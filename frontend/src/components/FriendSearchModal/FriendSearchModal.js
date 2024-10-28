@@ -5,7 +5,7 @@ import { Input } from "../Input.js";
 
 export class FriendSearchModal extends Modal {
     constructor() {
-        super(FriendSearchModal.getContent(), () => this.onModalClose());
+        super('친구 검색', FriendSearchModal.getContent(), () => this.onModalClose());
         this.searchResults = this.el.querySelector('.search-results');
         this.searchContainer = this.el.querySelector('.search-container');
 
@@ -24,7 +24,6 @@ export class FriendSearchModal extends Modal {
 
     static getContent() {
         return /*html*/`
-            <h2 class="modal-title">친구 검색</h2>
             <div class="search-container"></div>
             <div class="search-results"></div>
         `;

@@ -6,7 +6,6 @@ import { Input } from "../Input.js";
 export class JoinModal extends Modal {
     constructor(onClose = () => { }) {
         const content = /*html*/`
-            <h2 class="modal-title">회원가입</h1>
             <div class="join_row">
                 <div class="input_join">
                     <p class="joinInputLabel">닉네임</p>
@@ -24,7 +23,7 @@ export class JoinModal extends Modal {
             <div class="charactor-row">
             </div>
         `;
-        super(content, onClose);
+        super('회원 가입', content, onClose);
         this.addCharactors();
 
         // 인풋 필드 생성

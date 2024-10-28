@@ -2,7 +2,7 @@
 .modal-title {
   font-family: 'DungGeunMo', sans-serif;
   font-size: clamp(18px, 5vw, 40px);
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
