@@ -1,5 +1,5 @@
 import { Component } from "../../core/core.js";
-import { Input } from "../../components/Input.js";
+import { Input } from "../../components/Input/Input.js";
 
 export class MyMacro extends Component {
 	constructor(props) {

@@ -1,7 +1,7 @@
 import { Component, getCookie, selectProfileImg } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
-import { Input } from "../Input.js";
+import { Input } from "../Input/Input.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {

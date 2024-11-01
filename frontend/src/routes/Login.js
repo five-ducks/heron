@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js";
 import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
-import { Input } from "../components/Input.js";
+import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
 
 export default class Login extends Component {
