@@ -18,6 +18,7 @@ html {
 :root {
 	--text-color: #fff;
 	--strong-color: yellow;
+	--absolute-color-black: #000;
 	--base-font: 'DungGeunMo', sans-serif;
 	--title-font: 'Pixeboy', sans-serif;
 
@@ -76,4 +77,6 @@ button {
 input {
 	outline: none;
 	padding: 5px;
+	color: var(--text-color);
+	font-family: 'DungGeunMo';
 }

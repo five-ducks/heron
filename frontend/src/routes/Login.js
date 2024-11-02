@@ -27,22 +27,19 @@ export default class Login extends Component {
         }
 
         // Initialize input fields
-        const inputID = new Input('Your Nickname!', 'text', {
-            width: '440px',
-            height: '80px'
-        },
-            '',
-            'nickname',
-            'nickname'
-        );
-        const inputPW = new Input('****', 'password', {
-            width: '440px',
-            height: '80px'
-        }
-            , '',
-            'password',
-            'password'
-        );
+        const inputID = new Input({
+            placeholder: 'Your nickname!',
+            variant: 'background',
+            id: 'nickname',
+            label: 'ID',
+        });
+        const inputPW = new Input({
+            placeholder: 'Password',
+            variant: 'background',
+            type: 'password',
+            id: 'password',
+            label: 'PW',
+        });
 
         // Create buttons
         const loginButton = new Button({
