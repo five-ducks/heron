@@ -1,4 +1,4 @@
-import { Modal } from "../../core/modal.js";
+import { Modal } from "../Modal/index.js";
 import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input.js";
@@ -38,7 +38,12 @@ export class JoinModal extends Modal {
         this.el.querySelector('#curpwInput').appendChild(curpwInput.el);
 
         // 완료 버튼 추가
-        const finishButton = new Button({ background: "url('../public/images/button.png')", width: '100px', height: '50px', size: '30px' }, '완료', async () => {
+        const finishButton = new Button({ 
+            style: 'gray',
+            size: 'l',
+            text: '완료',
+        }, 
+        async () => {
             // Validate inputs
             const username = nameInput.getValue();
             const password = pwInput.getValue();
@@ -103,7 +108,8 @@ export class JoinModal extends Modal {
         const charactors = new SelectCharactor();
         charactorRow.appendChild(charactors.el);
 
-        // 캐릭터 선택 이벤트 리스너 추가
+        // 캐릭터 선택 이벤트 리스너 추가 (default: 0)
+        this.selectedCharactorIndex = 0; // 캐릭터 인덱스 기본값 설정
         charactors.el.addEventListener('charactorSelected', (event) => {
             this.selectedCharactorIndex = event.detail.index; // 선택된 캐릭터 인덱스 저장
         });

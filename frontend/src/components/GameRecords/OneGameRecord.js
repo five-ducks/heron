@@ -1,4 +1,4 @@
-import { Component } from "../../core/core.js";
+import { Component, getCookie } from "../../core/core.js";
 import store from "../../store/game.js";
 import { Outcome } from "./Outcome.js";
 
@@ -12,7 +12,7 @@ export class OneGameRecord extends Component {
 		});
 	}
 	render(gameRecord) {
-		const myName = "Ava"; // 내 아이디 (임시)
+		const myName = getCookie('player');
 		if (gameRecord) {
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;

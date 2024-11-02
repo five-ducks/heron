@@ -1,0 +1,30 @@
+.login {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.login .login-input-container {
+	display: flex;
+	flex-direction: column;
+	gap: 3vh;
+}
+
+.login .login-input-container .input-field {
+	display: flex;
+	gap: 1vw;
+	justify-content: center;
+	align-items: center;
+}
+
+.login .login-input-container .input-field label {
+	font-size: var(--base-font-size);
+}
+
+.login .button-row {
+	display: flex;
+	justify-content: center;
+	gap: 5vw;
+	margin: 10vh 0;
+}

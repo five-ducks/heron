@@ -12,8 +12,7 @@ services:
       - type: bind
         source: ./backend
         target: /app
-    env_file:
-      ./.env
+    env_file: ./.env
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - DJANGO_SUPERUSER_USERNAME=admin
@@ -32,6 +31,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     expose:
       - "5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
     container_name: postgres
     env_file: ./.env
     networks:
@@ -55,3 +56,8 @@ services:
 networks:
   pingpong_net:
     driver: bridge
+
+volumes:
+  db_data:
+    name: db_data
+    driver: local
