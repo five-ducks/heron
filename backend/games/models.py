@@ -58,7 +58,7 @@ class Match(models.Model):
     match_type = models.CharField(
         max_length=10,
         choices=TYPE_CHOICES,
-        default='match',
+        default='onetoone',
         help_text="Type of match, either tournament or onetoone."
     )
 

@@ -37,9 +37,9 @@ export class FriendOneGameRecord extends Component {
 
 			// 형식에 맞게 날짜와 시간 결합
 			const formattedDateTime = `${year}/${month}/${day}<br>${hours}:${minutes}`;
-			let match_type = 'single';
+			let match_type = 'onetoone';
 
-			if (gameRecord.match_type === 'single') {
+			if (gameRecord.match_type === 'onetoone') {
 				match_type = '1 : 1';
 			} else {
 				match_type = '토너먼트';
