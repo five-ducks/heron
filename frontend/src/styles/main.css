@@ -8,6 +8,7 @@
 	margin-top: 15vh;
 	height: 85vh;
 	width: 100vw;
+	justify-content: space-between;
 }
 
 .contents .game-section {
@@ -17,7 +18,7 @@
 }
 
 .contents .sidebar {
-	width: 20vw;
+	width: 345px;
 }
 
 /* 화면 너비가 1000px 이하로 줄어들 때 */
@@ -46,6 +47,6 @@
 	.contents .sidebar {
 		width: 100% !important;
 		font-size: 1.7rem;
-		margin: 1.5vw 3vw;
+		margin: 1px 8.5px;
 	}
 }

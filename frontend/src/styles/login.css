@@ -13,7 +13,7 @@
 
 .login .login-input-container .input-field {
 	display: flex;
-	gap: 1vw;
+	gap: 45px;
 	justify-content: center;
 	align-items: center;
 }
@@ -25,6 +25,6 @@
 .login .button-row {
 	display: flex;
 	justify-content: center;
-	gap: 5vw;
+	gap: 50px;
 	margin: 10vh 0;
 }

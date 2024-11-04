@@ -14,7 +14,7 @@
 .game-list {
     display: flex;
     justify-content: center;
-    gap: 10vw;
+    gap: 160px;
 }
 
 .selectpage .one-on-one,

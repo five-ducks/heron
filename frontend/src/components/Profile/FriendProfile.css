@@ -7,6 +7,8 @@
     padding: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: var(--base-font-size);
+    color: var(--text-color);
 }
 
 .charactor-profile .frame {
