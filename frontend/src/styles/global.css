@@ -22,7 +22,7 @@ html {
 	--title-font: 'Pixeboy', sans-serif;
 
 	/* for button */
-	--small-font-size: clamp(22px, 2vw, 40px);
+	--small-font-size: clamp(22px, 2vw, 25px);
 	--medium-font-size: clamp(33px, 3.5vw, 70px);
 	--large-font-size: clamp(55px, 5vw, 100px);
 	--xlarge-font-size: clamp(66px, 6vw, 120px);

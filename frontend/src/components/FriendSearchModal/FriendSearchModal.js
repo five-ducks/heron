@@ -1,35 +1,38 @@
 import { Modal } from "../Modal/index.js";
 import { FriendSearchResult } from "./FriendSearchResult.js";
+import { Button } from "../Button.js";
+import { Input } from "../Input.js";
 
 export class FriendSearchModal extends Modal {
     constructor() {
         super(FriendSearchModal.getContent(), () => this.onModalClose());
-        this.searchInput = this.el.querySelector('#friend-search-input');
-        this.searchResults = this.el.querySelector('#search-results');
-        this.searchButton = this.el.querySelector('#search-button');
+        this.searchResults = this.el.querySelector('.search-results');
+        this.searchContainer = this.el.querySelector('.search-container');
 
-        this.searchButton.addEventListener('click', () => this.performSearch());
-        this.searchInput.addEventListener('keypress', (e) => {
+        this.searchInput = new Input('친구 이름 입력', 'text', { width: '330px', height: '65px', fontsize: '20px' }, '', '', 'friend-search-input');
+        this.searchButton = new Button({ style: 'gray', size: 's', text: '검색' }, () => this.performSearch());
+
+        this.searchContainer.appendChild(this.searchInput.el);
+        this.searchContainer.appendChild(this.searchButton.el);
+
+        this.searchInput.el.querySelector('input').addEventListener('keypress', async (e) => {
             if (e.key === 'Enter') {
-                this.performSearch();
+                await this.performSearch();
             }
         });
     }
 
     static getContent() {
         return /*html*/`
-            <h2>친구 검색</h2>
-            <input type="text" id="friend-search-input" placeholder="친구 이름을 입력하세요">
-            <button id="search-button">검색</button>
-            <div id="search-results"></div>
+            <h2 class="modal-title">친구 검색</h2>
+            <div class="search-container"></div>
+            <div class="search-results"></div>
         `;
     }
 
     async performSearch() {
-        // 입력된 검색어 가져오기
-        const searchTerm = this.searchInput.value.trim();
+        const searchTerm = this.searchInput.getValue();
 
-        // API 호출
         try {
             const response = await fetch(`api/users/?search=${searchTerm}`, {
                 method: 'GET',
@@ -37,36 +40,36 @@ export class FriendSearchModal extends Modal {
                     'Content-Type': 'application/json',
                 },
             });
-            if (response.status === 200) {
+
+            this.searchResults.innerHTML = '';
+
+            if (response.ok) {
                 const friendList = await response.json();
 
-                // 검색 결과 초기화
-                this.searchResults.innerHTML = '';
-
-                // 검색 결과가 없는 경우 메시지 표시
                 if (friendList.length === 0) {
-                    this.searchResults.innerHTML = '<p>검색 결과가 없습니다.</p>';
+                    this.searchResults.innerHTML = '<p>친구를 찾을 수 없음.</p>';
                     return;
                 }
 
-                // 검색 결과 표시
                 friendList.forEach(friend => {
+                    console.log(friend);
                     const friendResult = new FriendSearchResult(friend);
-                    this.searchResults.appendChild(friendResult.element);
+                    this.searchResults.appendChild(friendResult.el);
+                    friendResult.friendProfileRender();
                 });
-            }
-            if (response.status === 404) {
-                this.searchResults.innerHTML = '<p>검색 결과가 없습니다.</p>';
+            } else if (response.status === 404) {
+                this.searchResults.innerHTML = '<p>결과 없음.</p>';
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
         } catch (error) {
-            console.error('검색 중 오류 발생:', error);
-            this.searchResults.innerHTML = '<p>검색 중 오류가 발생했습니다. 다시 시도해주세요.</p>';
+            console.error('에러:', error);
+            this.searchResults.innerHTML = '<p>에러</p>';
         }
     }
 
     onModalClose() {
-        // 모달이 닫힐 때 수행할 작업
-        this.searchInput.value = '';
+        this.searchInput.setValue('');
         this.searchResults.innerHTML = '';
     }
 }
