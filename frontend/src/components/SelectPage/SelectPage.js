@@ -13,7 +13,7 @@ export class SelectPage extends Component {
 	async fakeLoadingProcess() {
 		// 실제 게임 로딩 과정
 		// 현재는 2초간 대기하는 것으로 대체
-		return new Promise(resolve => setTimeout(resolve, 2000));
+		return new Promise(resolve => setTimeout(resolve, 8000));
 	}
 
 	render() {

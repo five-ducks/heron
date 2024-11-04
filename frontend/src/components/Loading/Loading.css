@@ -22,7 +22,7 @@
 
 .loading-screen .loading-text {
 	position: absolute;
-	top: 400px;
+	top: 350px;
 	color: white;
 	font-family: var(--base-font);
 }
@@ -33,5 +33,16 @@
 	height: 250px;
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	font-family: var(--base-font);
+	size: 16px;
+}
 
+.loading-screen .living-point p {
+	padding: 15px;
+	size: 16px;
+	line-height: 30px;
+	transition: 0.5s;
+	opacity: 1;
+	transition: opacity 0.5s ease;
 }
