@@ -9,7 +9,6 @@ export class SelectPage extends Component {
 		});
 	}
 	render() {
-		console.log(this.el);
 		this.el.classList.add('selectpage');
 		this.el.innerHTML = /*html*/`
 			<h1>게임 선택</h1>
