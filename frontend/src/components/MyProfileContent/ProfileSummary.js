@@ -43,13 +43,11 @@ export class ProfileSummary extends Component {
 
 		const profileName = this.el.querySelector('.profile-summary-name');
 
-		profileName.appendChild(new Input(
-			'', 'text', {
-			background: "url('../../../public/images/ui/profile-input.png')",
-			width: '300px',
-			height: '50px',
-			fontsize: '20px',
-		}, props.status_msg).el);
+		profileName.appendChild(new Input({
+			variant: 'defalut',
+			defaultValue: props.status_msg,
+			size: 'm',
+		}).el);
 
 		// 승부 요약
 		const profileWin = this.el.querySelector('.profile-summary-win');

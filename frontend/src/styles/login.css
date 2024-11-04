@@ -3,17 +3,19 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	overflow: auto;
+	white-space: nowrap;
 }
 
 .login .login-input-container {
 	display: flex;
 	flex-direction: column;
-	gap: 3vh;
+	gap: 20px;
 }
 
 .login .login-input-container .input-field {
 	display: flex;
-	gap: 1vw;
+	gap: 20px;
 	justify-content: center;
 	align-items: center;
 }

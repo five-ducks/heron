@@ -51,7 +51,6 @@ export default class Login extends Component {
                 // Retrieve input values
                 const username = inputID.getValue(); // getValue() 사용
                 const password = inputPW.getValue(); // getValue() 사용
-
                 // Basic validation
                 if (!username) {
                     alert('Please enter your ID.');
@@ -73,13 +72,13 @@ export default class Login extends Component {
                         body: JSON.stringify({ username, password }),
                     });
                     if (response.ok) {
-                        const data = await response;
+                        const data = response;
                         setCookie('ppstate', data.status, 365);
                         setCookie('player', username, 365);
                         alert('Login successful!');
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
-                        const error = await response;
+                        const error = response;
                         alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
                     }
                 } catch (error) {

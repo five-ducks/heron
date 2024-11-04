@@ -11,47 +11,48 @@ export class MyMacro extends Component {
 		this.macroTextRender(props);
 	}
 	macroTextRender(macroText) {
-		this.el.innerHTML = /*html*/`
-			<div class="macro-input f1"><div class="macro-key-name">F1</div></div>
-			<div class="macro-input f2"><div class="macro-key-name">F2</div></div>
-			<div class="macro-input f3"><div class="macro-key-name">F3</div></div>
-			<div class="macro-input f4"><div class="macro-key-name">F4</div></div>
-			<div class="macro-input f5"><div class="macro-key-name">F5</div></div>
-		`
-		this.el.querySelector('.f1').appendChild(new Input(
-			'', 'text', {
-				background: "url('../../../public/images/ui/macro-input.png')",
-				width: '400px',
-				height: '60px',
-				fontsize: '25px',
-			}, macroText[0]).el);
-		this.el.querySelector('.f2').appendChild(new Input(
-			'', 'text', {
-				background: "url('../../../public/images/ui/macro-input.png')",
-				width: '400px',
-				height: '60px',
-				fontsize: '25px',
-			}, macroText[1]).el);
-		this.el.querySelector('.f3').appendChild(new Input(
-			'', 'text', {
-				background: "url('../../../public/images/ui/macro-input.png')",
-				width: '400px',
-				height: '60px',
-				fontsize: '25px',
-			}, macroText[2]).el);
-		this.el.querySelector('.f4').appendChild(new Input(
-			'', 'text', {
-				background: "url('../../../public/images/ui/macro-input.png')",
-				width: '400px',
-				height: '60px',
-				fontsize: '25px',
-			}, macroText[3]).el);
-		this.el.querySelector('.f5').appendChild(new Input(
-			'', 'text', {
-				background: "url('../../../public/images/ui/macro-input.png')",
-				width: '400px',
-				height: '60px',
-				fontsize: '25px',
-			}, macroText[4]).el);
+		const f1 = new Input({
+            variant: 'background',
+            id: 'f1',
+			size: 'l',
+			defaultValue: macroText[0],
+            label: 'f1',
+        });
+		const f2 = new Input({
+            variant: 'background',
+            id: 'f2',
+			size: 'l',
+			defaultValue: macroText[1],
+            label: 'f2',
+        });
+
+		const f3 = new Input({
+            variant: 'background',
+            id: 'f3',
+			size: 'l',
+			defaultValue: macroText[2],
+            label: 'f3',
+        });
+
+		const f4 = new Input({
+            variant: 'background',
+            id: 'f4',
+			size: 'l',
+			defaultValue: macroText[3],
+            label: 'f4',
+        });
+
+		const f5 = new Input({
+            variant: 'background',
+            id: 'f5',
+			size: 'l',
+			defaultValue: macroText[4],
+            label: 'f5',
+        });
+		this.el.appendChild(f1.el);
+		this.el.appendChild(f2.el);
+		this.el.appendChild(f3.el);
+		this.el.appendChild(f4.el);
+		this.el.appendChild(f5.el);
 	}
 }

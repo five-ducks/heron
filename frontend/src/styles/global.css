@@ -62,6 +62,11 @@ body {
 	height: 100vh;
 }
 
+#root {
+	overflow: auto;
+	transform: translateX(0);
+}
+
 h1 {
 	font-size: var(--title-font-size);
 	line-height: var(--base-line-height);

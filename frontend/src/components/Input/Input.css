@@ -1,3 +1,10 @@
+.input-field {
+	gap: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .input-default {
 	border: 1px solid #ccc;
 	background-color: transparent;
@@ -22,5 +29,17 @@
 
 .input-large {
 	width: 200px;
+	font-size: 32px;
+}
+
+.label-small {
+	font-size: 16px;
+}
+
+.label-medium {
+	font-size: 24px;
+}
+
+.label-large {
 	font-size: 32px;
 }

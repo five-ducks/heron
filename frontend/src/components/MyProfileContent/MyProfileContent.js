@@ -25,6 +25,7 @@ export class MyProfileContent extends Component {
 		const macroAndRecords = document.createElement('div');
 		macroAndRecords.className = 'macro-and-records';
 		macroAndRecords.appendChild(new MyMacro(store.state.userInfo.macrotext).el);
+		console.log(macroAndRecords);
 		macroAndRecords.appendChild(new GameRecords().el);
 
 		this.el.appendChild(macroAndRecords);
