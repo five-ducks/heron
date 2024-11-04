@@ -11,7 +11,9 @@
 }
 
 .contents .game-section {
-	width: 80vw;
+	width: 2004px;
+	display: flex;
+	flex-direction: column;
 }
 
 .contents .sidebar {
