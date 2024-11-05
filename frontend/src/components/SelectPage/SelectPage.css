@@ -5,20 +5,23 @@
     min-width: max-content;
     font-family: var(--base-font);
 }
-.selectpage  h1 {
+
+.selectpage h1 {
     font-family: var(--base-font);
 }
+
 .game-list {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     gap: 10vw;
 }
+
 .selectpage .one-on-one,
 .selectpage .tournament {
     font-size: var(--medium-font-size);
     color: var(--text-color);
-    min-width: 210px;
-    min-height: 210px;
+    min-width: 227px;
+    min-height: 227px;
     background: none;
     border: none;
 }

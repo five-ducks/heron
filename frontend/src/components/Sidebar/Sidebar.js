@@ -1,21 +1,31 @@
 import { Component } from "../../core/core.js";
-import { FriendProfile } from "../Profile/FriendProfile.js";
 import { InfoFriendModal } from "../InfoFriendModal/InfoFriendModal.js";
 import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
 import { Button } from "../Button.js";
-
+import { Profile } from "../Profile/Profile.js";
+import store from "../../store/game.js"; // Store 불러오기
 
 export class Sidebar extends Component {
-    // Store의 userInfo를 받아옵니다.
     constructor(props) {
-        super();
-        this.userInfo = props;
+        super({
+            tagName: 'div',
+            props: {
+                className: 'friendwindow'
+            },
+            state: {
+                userInfo: props
+            }
+        });
+        // this.userInfo = props;
 
         // 친구 목록을 불러오기 위해 fetchFriends 함수를 호출합니다.
         this.friendRender(this.userInfo);
+
+        // Store에 친구 목록이 업데이트될 때 마다 renderFriendList를 호출합니다.
+        store.subscribe('userFriends', this.renderFriendList.bind(this));
     }
+
     friendRender(userInfo) {
-        this.el.classList.add('friendwindow');
         this.el.innerHTML = /*html*/`
             <div class="addfriend"></div>
             <div class="friends"></div>
@@ -46,21 +56,37 @@ export class Sidebar extends Component {
                 });
                 const friendsInfo = await response.json();
 
-                // 가져온 친구 목록을 반복하면서 FriendProfile 컴포넌트를 생성합니다.
-                friendsInfo.forEach(friendData => {
-                    const friend = new FriendProfile(friendData.username, friendData.profile_img, friendData.status_msg, () => {
-                        const infoFriendModal = new InfoFriendModal();
-                        this.el.appendChild(infoFriendModal.el);
-                        infoFriendModal.open();
-                    });
+                // 가져온 친구 목록을 Store의 userFriends 상태에 저장합니다.
+                store.state.userFriends = friendsInfo;
 
-                    this.el.querySelector('.friends').appendChild(friend.el);
-                });
             } catch (error) {
-                // console.error('친구 목록을 가져오는 중 오류 발생:', error);
+                console.error('친구 목록을 가져오는 중 오류 발생:', error);
             }
         };
         fetchFriends();
     }
+
+    renderFriendList() {
+        const friendsContainer = this.el.querySelector('.friends');
+        friendsContainer.innerHTML = ''; // Clear existing friend list
+
+        store.state.userFriends.forEach(friendData => {
+            const friend = new Profile(
+                friendData.profile_img,
+                friendData.username,
+                'm',
+                {
+                    status_msg: friendData.status_msg,
+                    onSelect: () => {
+                        const infoFriendModal = new InfoFriendModal(friendData);
+                        this.el.appendChild(infoFriendModal.el);
+                        infoFriendModal.open();
+                    }
+                }
+            );
+            friendsContainer.appendChild(friend.el);
+        });
+    }
+
     render() { }
 }

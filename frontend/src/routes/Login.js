@@ -78,6 +78,7 @@ export default class Login extends Component {
                     if (response.ok) {
                         const data = await response;
                         setCookie('ppstate', data.status, 365);
+                        sessionStorage.setItem('isLoggedIn', 'true');
                         setCookie('player', username, 365);
                         alert('Login successful!');
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동

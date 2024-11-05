@@ -13,7 +13,7 @@ export class SelectCharactor extends Component {
 		this.selectedCharactor = null;
 
 		this.charactors = [
-			new Charactor({ src: '../public/images/charactors/pikachu.png'}, '피카츄', this.selectCharactor.bind(this)),
+			new Charactor({ src: '../public/images/charactors/pikachu.png' }, '피카츄', this.selectCharactor.bind(this)),
 			new Charactor({ src: '../public/images/charactors/charmander.png' }, '파이리', this.selectCharactor.bind(this)),
 			new Charactor({ src: '../public/images/charactors/bulbasaur.png' }, '이상해씨', this.selectCharactor.bind(this)),
 			new Charactor({ src: '../public/images/charactors/squirtle.png' }, '꼬부기', this.selectCharactor.bind(this)),

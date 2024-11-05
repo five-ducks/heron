@@ -11,8 +11,8 @@ export class FriendOneGameRecord extends Component {
 			}
 		});
 	}
-	render(gameRecord) {
-		const myName = "Ava"; // 내 아이디 (임시)
+	render(gameRecord, name) {
+		const myName = name;
 		if (gameRecord) {
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;
@@ -21,11 +21,13 @@ export class FriendOneGameRecord extends Component {
 			const user1IsWin = ( match_result === 'user1_win');
 			const user2IsWin = ( match_result === 'user2_win');
 			let isWin; // 내가 이겼는지 졌는지
+			let enemy;
 			if (user1_name === myName) {
 				isWin = user1IsWin;
-			}
-			if (user2_name === myName) {
+				enemy = user2_name;
+			} else {
 				isWin = user2IsWin;
+				enemy = user1_name;
 			}
 
 			// 날짜와 시간 포맷 지정
@@ -54,7 +56,7 @@ export class FriendOneGameRecord extends Component {
 
 			const leftUSer = this.el.querySelector('.left-user');
 			const leftOutcome = new Friendoutcome();
-			leftOutcome.render(user1IsWin, user1_name);
+			leftOutcome.render(isWin, enemy);
 			leftUSer.appendChild(leftOutcome.el);
 
 			if (isWin) {

@@ -1,65 +1,36 @@
-/* FriendSearchModal 특정 스타일 */
-.modal-content h2 {
-    font-family: 'DungGeunMo', sans-serif;
-    font-size: 30px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-    margin-bottom: 20px;
+/* Modal styles */
+.modal-title {
+  font-family: 'DungGeunMo', sans-serif;
+  font-size: clamp(18px, 5vw, 40px);
+  color: var(--text-color);
+  margin-bottom: 20px;
 }
 
+/* Search container styles */
 .search-container {
-    display: flex;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  white-space: nowrap;
 }
 
-#friend-search-input {
-    flex-grow: 1;
-    font-size: 16px;
-    padding: 8px;
-    border: 2px solid #ddd;
-    border-radius: 4px 0 0 4px;
+/* Input styles */
+.search-container input {
+  flex: 4.5;
+  margin-left: 1rem;
+  max-width: fit-content;
 }
 
-#search-button {
-    font-family: 'DungGeunMo', sans-serif;
-    font-size: 16px;
-    padding: 8px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.search-container button {
+  flex: 1;
+  margin-left: 0.5rem;
+  max-width: fit-content;
+  font-family: 'DungGeunMo', sans-serif;
 }
 
-#search-button:hover {
-    background-color: #45a049;
-}
-
-#search-results {
-    margin-top: 20px;
-    font-family: 'DungGeunMo', sans-serif;
-}
-
-#search-results p {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-#search-results ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#search-results li {
-    font-size: 16px;
-    color: #666;
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-}
-
-#search-results li:last-child {
-    border-bottom: none;
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
