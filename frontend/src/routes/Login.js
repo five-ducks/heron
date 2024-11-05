@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js";
 import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
-import { Input } from "../components/Input.js";
+import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
 
 export default class Login extends Component {
@@ -27,22 +27,19 @@ export default class Login extends Component {
         }
 
         // Initialize input fields
-        const inputID = new Input('Your Nickname!', 'text', {
-            width: '440px',
-            height: '80px'
-        },
-            '',
-            'nickname',
-            'nickname'
-        );
-        const inputPW = new Input('****', 'password', {
-            width: '440px',
-            height: '80px'
-        }
-            , '',
-            'password',
-            'password'
-        );
+        const inputID = new Input({
+            placeholder: 'Your nickname!',
+            variant: 'background',
+            id: 'nickname',
+            label: 'ID',
+        });
+        const inputPW = new Input({
+            placeholder: 'Password',
+            variant: 'background',
+            type: 'password',
+            id: 'password',
+            label: 'PW',
+        });
 
         // Create buttons
         const loginButton = new Button({
@@ -54,7 +51,6 @@ export default class Login extends Component {
                 // Retrieve input values
                 const username = inputID.getValue(); // getValue() 사용
                 const password = inputPW.getValue(); // getValue() 사용
-
                 // Basic validation
                 if (!username) {
                     alert('Please enter your ID.');
@@ -76,13 +72,13 @@ export default class Login extends Component {
                         body: JSON.stringify({ username, password }),
                     });
                     if (response.ok) {
-                        const data = await response;
+                        const data = response;
                         setCookie('ppstate', data.status, 365);
                         setCookie('player', username, 365);
                         alert('Login successful!');
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
-                        const error = await response;
+                        const error = response;
                         alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
                     }
                 } catch (error) {

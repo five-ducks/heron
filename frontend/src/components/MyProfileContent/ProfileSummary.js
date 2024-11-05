@@ -1,7 +1,7 @@
 import { Component, getCookie, selectProfileImg } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
-import { Input } from "../Input.js";
+import { Input } from "../Input/Input.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -43,13 +43,11 @@ export class ProfileSummary extends Component {
 
 		const profileName = this.el.querySelector('.profile-summary-name');
 
-		profileName.appendChild(new Input(
-			'', 'text', {
-			background: "url('../../../public/images/ui/profile-input.png')",
-			width: '300px',
-			height: '50px',
-			fontsize: '20px',
-		}, props.status_msg).el);
+		profileName.appendChild(new Input({
+			variant: 'defalut',
+			defaultValue: props.status_msg,
+			size: 'm',
+		}).el);
 
 		// 승부 요약
 		const profileWin = this.el.querySelector('.profile-summary-win');
@@ -126,7 +124,7 @@ export class ProfileSummary extends Component {
 				const parentBlock = this.el.closest('.my-profile-content');
 				const macroBlock = parentBlock.querySelector('.my-macro');
 				for (let i = 1; i <= 5; i++) {
-					add_field(`.macro-input.f${i} input`, `macrotext${i}`, macroBlock);
+					add_field(`#f${i}`, `macrotext${i}`, macroBlock);
 				}
 
 				// props와 request_body를 비교하여 달라진 내용만 request_body에 남기기

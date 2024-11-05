@@ -6,7 +6,7 @@ button {
 }
 
 .button-container {
-	width: fit-content;
+	display: inline-flex;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
