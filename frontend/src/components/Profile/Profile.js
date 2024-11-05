@@ -16,16 +16,11 @@ export class Profile extends Component {
         const img = new Avatar(image, size);
         
         if (style === "inner") {
-            const innerContainer = document.createElement('div');
-            innerContainer.classList.add('inner-container-profile');
-            innerContainer.appendChild(img.el);
-
+            this.el.appendChild(img.el);
             const nameSpan = document.createElement('span');
             nameSpan.textContent = name;
             nameSpan.classList.add('inner-character-name');
-            innerContainer.appendChild(nameSpan);
-
-            this.el.appendChild(innerContainer);
+            this.el.appendChild(nameSpan);
         } else {
             this.el.appendChild(img.el);
             this.createInfoContainer(name, status_msg);

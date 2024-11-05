@@ -15,12 +15,7 @@ export class Avatar extends Component {
         const src = selectProfileImg(imageIndex);
         img.src = src;
         img.classList.add('Avatar_img');
-        this.el.appendChild(img);
-    
-        const frame = document.createElement('div');
-        frame.classList.add('Avatar_frame');
-        this.el.appendChild(frame);
-        
+        this.el.appendChild(img);        
     }
     render() {
         this.el.classList.add('Avatar');
