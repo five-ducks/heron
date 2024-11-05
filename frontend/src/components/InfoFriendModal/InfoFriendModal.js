@@ -6,19 +6,19 @@ export class InfoFriendModal extends Modal {
         console.log(props);
         const name = props.username;
         const content = /*html*/`
-            <div class="friend_info">
-                <div class="friend_name">이름: ${name}</div>
-                <div class="friend_level">레벨: 0</div>
-                <div class="friend_winrate">승률: 75%</div>
+            <div class="friend-info">
+                <div class="friend-name">이름: ${name}</div>
+                <div class="friend-level">레벨: 0</div>
+                <div class="friend-winrate">승률: 75%</div>
             </div>
-            <div class="info_record"></div>
+            <div class="info-record"></div>
         `;
         super('친구 정보', content, onClose);
         this.userinfo = props;
 
-        this.el.classList.add("info_friend_modal");
+        this.el.classList.add("info_friend-modal");
 
-        const matchRecordList = this.el.querySelector(".info_record");
+        const matchRecordList = this.el.querySelector(".info-record");
         const gameRecords = new FriendGameRecords();
         gameRecords.render(this.userinfo.matches, this.userinfo.username, this.userinfo.profile_img);// 
         matchRecordList.appendChild(gameRecords.el);
@@ -29,12 +29,12 @@ export class InfoFriendModal extends Modal {
 
     // static getContent() {
     //     return /*html*/`
-    //         <div class="friend_info">
+    //         <div class="friend-info">
     //             <div class="friend_name">이름: </div>
     //             <div class="friend_level">레벨: </div>
     //             <div class="friend_win
     //         </div>
-    //         <div class="info_record"></div>
+    //         <div class="info-record"></div>
     //     `;
     // }
 

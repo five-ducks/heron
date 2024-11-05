@@ -52,8 +52,7 @@
 }
 
 
-.modal .finish-button {
-    display: inline-block;
-    margin-top: 20px;
-    margin-left: 70%;
+.finish-button {
+    right: 28px;
+    margin-top: 12px;
 }

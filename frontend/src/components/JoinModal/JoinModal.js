@@ -38,7 +38,7 @@ export class JoinModal extends Modal {
         // 완료 버튼 추가
         const finishButton = new Button({
             style: 'gray',
-            size: 'm',
+            size: 's',
             text: '완료',
         },
             async () => {
@@ -102,7 +102,7 @@ export class JoinModal extends Modal {
             });
 
         finishButton.el.classList.add('finish-button');
-        this.el.append(finishButton.el);
+        this.el.querySelector('.modal-body').append(finishButton.el);
     }
 
     addCharactors() {
