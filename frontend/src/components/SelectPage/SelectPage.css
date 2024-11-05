@@ -13,7 +13,7 @@
     justify-content: space-around;
     gap: 10vw;
 }
-.selectpage .one-on-one,
+.selectpage .one-to-one,
 .selectpage .tournament {
     font-size: var(--medium-font-size);
     color: var(--text-color);
@@ -23,13 +23,13 @@
     border: none;
 }
 
-.selectpage .one-on-one {
+.selectpage .one-to-one {
     background-image: url('../../../public/images/ui/1vs1border.png');
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.selectpage .one-on-one:hover,
+.selectpage .one-to-one:hover,
 .selectpage .tournament:hover {
     color: var(--strong-color);
 }

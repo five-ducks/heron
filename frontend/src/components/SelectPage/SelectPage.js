@@ -20,12 +20,12 @@ export class SelectPage extends Component {
 		this.el.innerHTML = /*html*/`
 			<h1>게임 선택</h1>
 			<div class="game-list">
-				<button class="one-on-one">일대일</button>
+				<button class="one-to-one">일대일</button>
 				<button class="tournament">토너먼트</button>
 			</div>
 		`;
 
-		this.el.querySelector('.one-on-one').addEventListener('click', async () => {
+		this.el.querySelector('.one-to-one').addEventListener('click', async () => {
 			this.loading.show();
 			await this.fakeLoadingProcess();
 			this.loading.remove();
