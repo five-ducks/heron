@@ -21,6 +21,11 @@
 	flex-wrap: nowrap;
 	padding: 20px;
 	gap: 40px;
+    justify-content: space-between;
+}
+
+.macro-and-records > * {
+	margin: 0px 50px;
 }
 
 .my-profile-content {

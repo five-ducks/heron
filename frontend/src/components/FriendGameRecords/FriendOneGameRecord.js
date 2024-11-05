@@ -50,7 +50,6 @@ export class FriendOneGameRecord extends Component {
 			this.el.innerHTML = /*html*/`
 				<div class="game-type">${match_type}</div>
 				<div class="left-user"></div>
-				<div class="right-user"></div>
 				<div class="match-time">${formattedDateTime}</div>
 			`
 

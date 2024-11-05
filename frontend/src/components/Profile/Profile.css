@@ -82,49 +82,60 @@
 
 .character-profile.size-m .info-container .status-message {
     font-size: 14px;
+    font-family: inherit;
 }
 
 .character-profile.size-l .info-container .character-name {
     font-size: 80px;
+    font-family: inherit;
 }
 
 .character-profile.size-l .info-container .status-message {
     font-size: 15px;
+    font-family: inherit;
 }
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
     .character-profile.size-l .info-container .character-name {
         font-size: 48px;
+        font-family: inherit;
     }
 
     .character-profile.size-l .info-container .status-message {
         font-size: 14px;
+        font-family: inherit;
     }
 
     .character-profile.size-m .info-container .character-name {
         font-size: 32px;
+        font-family: inherit;
     }
 
     .character-profile.size-m .info-container .status-message {
         font-size: 13px;
+        font-family: inherit;
     }
 }
 
 @media (max-width: 480px) {
     .character-profile.size-l .info-container .character-name {
         font-size: 40px;
+        font-family: inherit;
     }
 
     .character-profile.size-l .info-container .status-message {
         font-size: 13px;
+        font-family: inherit;
     }
 
     .character-profile.size-m .info-container .character-name {
         font-size: 28px;
+        font-family: inherit;
     }
 
     .character-profile.size-m .info-container .status-message {
         font-size: 12px;
+        font-family: inherit;
     }
 }

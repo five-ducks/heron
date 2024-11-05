@@ -1,32 +1,45 @@
 .one-game-record {
 	display: flex;
-	width: 600px;
+	width: 100%;
+	max-width: 693px;
 	height: 95px;
 	padding: 10px;
 	font-family: 'DungGeunMo';
 	background-size: cover;
-}
+	align-items: center;
+  }
 
-.one-game-record .game-type {
-	display: flex;
-    min-width: 75px;
+  .one-game-record > * {
+	flex: 1; /* 모든 직계 자식 요소들이 동일한 너비를 가지도록 설정 */
+	/* margin: 5px; 요소들 사이에 약간의 간격 추가 (선택사항) */
+  }
+
+  .one-game-record .right-user, .one-game-record .left-user {
+	margin-right: 25px;
+  }
+  
+  .one-game-record .game-type {
+    display: flex;
     align-items: center;
-    font-size: 15px;
+    font-size: 24px;
     flex-direction: column;
     justify-content: center;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+    width: 100%; /* 너비를 100%로 설정하여 부모 요소의 크기에 맞춤 */
 }
-
-.one-game-record .vs-text {
+  
+  .one-game-record .vs-text {
 	display: flex;
 	font-size: 50px;
 	align-items: center;
 	justify-content: center;
-	padding: 5px 5px 5px 15px;
-}
-
-.one-game-record .match-time {
+	padding: 5px;
+  }
+  
+  .one-game-record .match-time {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: 15px;
-}
+	font-size: 24px;
+  }
