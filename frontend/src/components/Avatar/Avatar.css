@@ -20,7 +20,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 0.125em solid var(--primary-color, #007bff);
+  border: 0.125em solid var(--avatar-border-color);
   border-radius: 50%;
   pointer-events: none;
   box-sizing: border-box;
@@ -37,13 +37,12 @@
 }
 
 .Avatar--l {
-  width: 4rem;
   height: 4rem;
 }
 
 /* Avatar--l header size */
 .Avatar--l .Avatar_frame {
-  border: 0.03125em solid var(--primary-color, #007bff);
+  border: 0.03125em solid var(--avatar-border-color);
 }
 
 @media screen and (max-width: 48em) {

@@ -71,6 +71,8 @@ export class ProfileSummary extends Component {
 				if (status === 200) {
 					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+					// 세션 스토리지에 로그인 상태를 false로 변경
+					sessionStorage.setItem('isLoggedIn', false);
 					alert('로그아웃 되었습니다.');
 					location.href = '/#/';
 				}
@@ -134,7 +136,7 @@ export class ProfileSummary extends Component {
 					delete request_body.status_msg;
 				}
 				for (let i = 1; i <= 5; i++) {
-					if (props.macrotext[i-1] === request_body[`macrotext${i}`]) {
+					if (props.macrotext[i - 1] === request_body[`macrotext${i}`]) {
 						delete request_body[`macrotext${i}`];
 					}
 				}

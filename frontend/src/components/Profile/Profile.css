@@ -20,7 +20,7 @@
 
 .character-profile .info-container span {
     font-family: 'Pixeboy', sans-serif;
-    color: white;
+    color: var(--text-color);
     background: none;
     white-space: nowrap;
     overflow: hidden;
@@ -31,7 +31,7 @@
     position: relative;
     min-width: 2.125rem;
     min-height: 1.125rem;
-    background-color: #dee2e6;
+    background-color: white;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
@@ -50,14 +50,18 @@
 
 .inner-character-name {
     position: absolute;
-    bottom: 0; /* 이미지의 아래쪽에 위치 */
-    left: 0; /* 왼쪽 정렬 */
-    right: 0; /* 전체 너비를 차지하도록 설정 */
-    text-shadow: 
+    bottom: 0;
+    /* 이미지의 아래쪽에 위치 */
+    left: 0;
+    /* 왼쪽 정렬 */
+    right: 0;
+    /* 전체 너비를 차지하도록 설정 */
+    text-shadow:
         -1px -1px 0 black,
         1px -1px 0 black,
-        -1px  1px 0 black,
-        1px  1px 0 black; /* 텍스트 그림자 */
+        -1px 1px 0 black,
+        1px 1px 0 black;
+    /* 텍스트 그림자 */
     color: white;
     padding: 0rem 0.625rem;
     text-align: center;
