@@ -59,7 +59,7 @@ class Match(models.Model):
         max_length=10,
         choices=TYPE_CHOICES,
         default='match',
-        help_text="Type of match, either tournament or one-on-one."
+        help_text="Type of match, either tournament or one-to-one."
     )
 
     def __str__(self):
