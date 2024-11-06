@@ -51,7 +51,6 @@ export class FriendSearchModal extends Modal {
                 }
 
                 friendList.forEach(friend => {
-                    console.log(friend);
                     const friendResult = new FriendSearchResult(friend);
                     this.searchResults.appendChild(friendResult.el);
                     friendResult.friendProfileRender();

@@ -16,18 +16,23 @@ export class FriendOneGameRecord extends Component {
 		if (gameRecord) {
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;
+			const user1_profile_img = gameRecord.user1_profile_img;
+			const user2_profile_img = gameRecord.user2_profile_img;
 			const match_result = gameRecord.match_result;
 			const match_time = new Date(gameRecord.match_end_time);
 			const user1IsWin = ( match_result === 'user1_win');
 			const user2IsWin = ( match_result === 'user2_win');
 			let isWin; // 내가 이겼는지 졌는지
 			let enemy;
+			let enemypic;
 			if (user1_name === myName) {
 				isWin = user1IsWin;
 				enemy = user2_name;
+				enemypic = user2_profile_img;
 			} else {
 				isWin = user2IsWin;
 				enemy = user1_name;
+				enemypic = user1_profile_img;
 			}
 
 			// 날짜와 시간 포맷 지정
@@ -55,7 +60,7 @@ export class FriendOneGameRecord extends Component {
 
 			const leftUSer = this.el.querySelector('.left-user');
 			const leftOutcome = new Friendoutcome();
-			leftOutcome.render(isWin, enemy);
+			leftOutcome.render(isWin, enemy, enemypic);
 			leftUSer.appendChild(leftOutcome.el);
 
 			if (isWin) {

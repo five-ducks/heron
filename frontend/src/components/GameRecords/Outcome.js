@@ -9,7 +9,7 @@ export class Outcome extends Component {
 			}
 		});
 	}
-	render(isWin, userName) {
+	render(isWin, userName, userImg) {
 
 		const result = isWin ? 'WIN' : 'LOSE';
 
@@ -21,7 +21,7 @@ export class Outcome extends Component {
 		`;
 
 		const profilecontainer = this.el.querySelector('.profile-container');
-		const img = new Profile(0, userName, 'm', { style: 'inner' });
+		const img = new Profile(userImg, userName, 'm', { style: 'inner' });
 		profilecontainer.appendChild(img.el);
 
 		const resultEl = this.el.querySelector('.result');

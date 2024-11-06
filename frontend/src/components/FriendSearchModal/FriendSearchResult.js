@@ -14,9 +14,6 @@ export class FriendSearchResult extends Component {
         });
         this.friend = friend;
         this.addButton = null;
-        console.log(friend);
-        console.log(store.state.userFriends);
-        console.log(store.state.userFriends.some(f => f.username === this.friend.username));
         this.isFriend = store.state.userFriends.some(f => f.username === this.friend.username);
     }
 

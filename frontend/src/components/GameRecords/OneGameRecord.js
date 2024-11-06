@@ -16,6 +16,8 @@ export class OneGameRecord extends Component {
 		if (gameRecord) {
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;
+			const user1_profile_img = gameRecord.user1_profile_img;
+			const user2_profile_img = gameRecord.user2_profile_img;
 			const match_result = gameRecord.match_result;
 			const match_time = new Date(gameRecord.match_end_time);
 			const user1IsWin = ( match_result === 'user1_win');
@@ -57,8 +59,8 @@ export class OneGameRecord extends Component {
 			const rightUser = this.el.querySelector('.right-user');
 			const leftOutcome = new Outcome();
 			const rightOutcome = new Outcome();
-			leftOutcome.render(user1IsWin, user1_name);
-			rightOutcome.render(user2IsWin, user2_name);
+			leftOutcome.render(user1IsWin, user1_name, user1_profile_img);
+			rightOutcome.render(user2IsWin, user2_name, user2_profile_img);
 			leftUSer.appendChild(leftOutcome.el);
 			rightUser.appendChild(rightOutcome.el);
 

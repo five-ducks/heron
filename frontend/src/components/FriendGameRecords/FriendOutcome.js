@@ -9,7 +9,7 @@ export class Friendoutcome extends Component {
 			}
 		});
 	}
-	render(isWin, userName) {
+	render(isWin, userName, userImg) {
 		const result = isWin ? 'WIN' : 'LOSE';
 		this.el.innerHTML = /*html*/`
 			<div class="profile-container">
@@ -20,7 +20,7 @@ export class Friendoutcome extends Component {
 		`;
 
 		const profilecontainer = this.el.querySelector('.profile-container');
-		const img = new Profile(0, userName, 's', { style: 'inner' });
+		const img = new Profile(userImg, userName, 's', { style: 'inner' });
 		profilecontainer.appendChild(img.el);
 
 		const resultEl = this.el.querySelector('.result');
