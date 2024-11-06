@@ -13,7 +13,7 @@ class Match(models.Model):
 
     TYPE_CHOICES = [
         ('tournament', '토너먼트 경기'),
-        ('single', '1대1경기'),
+        ('onetoone', '1대1경기'),
     ]
 
     match_username1 = models.ForeignKey(
@@ -58,8 +58,8 @@ class Match(models.Model):
     match_type = models.CharField(
         max_length=10,
         choices=TYPE_CHOICES,
-        default='match',
-        help_text="Type of match, either tournament or one-on-one."
+        default='onetoone',
+        help_text="Type of match, either tournament or onetoone."
     )
 
     def __str__(self):
