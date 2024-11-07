@@ -1,0 +1,38 @@
+/* customAlert.css */
+.custom-alert-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+}
+
+.custom-alert-box {
+  background-color: black;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 288px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.custom-alert-message {
+  margin-top: 12px;
+  margin-bottom: 16px;
+  font-size: x-large;
+  white-space: pre-line;
+}
+
+.custom-alert-button {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: larger;
+  pointer-events: auto;
+}
+
+.custom-alert-button:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}

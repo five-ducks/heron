@@ -2,6 +2,7 @@ import { Modal } from "../Modal/index.js";
 import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
 import { Input } from "../../components/Input/Input.js";
+import { CustomAlert } from "../Alert/Alert.js";
 
 export class JoinModal extends Modal {
     constructor(onClose = () => { }) {
@@ -51,15 +52,30 @@ export class JoinModal extends Modal {
 
             // Basic validation checks
             if (!username || username.length >= 7) {
-                alert('닉네임을 7자 미만으로 입력해주세요.');
+                const alert = new CustomAlert({
+                    message: '닉네임을 7자 미만으로 입력해주세요.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                alert.show();
                 return;
             }
             if (!password || password.length < 6) {
-                alert('비밀번호는 6자 이상이여야 합니다.');
+                const alert = new CustomAlert({
+                    message: '비밀번호는 6자 이상이여야 합니다.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                alert.show();
                 return;
             }
             if (password !== confirmPassword) {
-                alert('비밀번호가 일치하지 않습니다.');
+                const alert = new CustomAlert({
+                    message: '비밀번호가 일치하지 않습니다.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                alert.show();
                 return;
             }
 
@@ -85,17 +101,37 @@ export class JoinModal extends Modal {
                 });
                 // 응답 처리
                 if (response.status === 201) {
-                    alert('회원가입이 완료되었습니다!');
+                    const alert = new CustomAlert({
+                        message: '회원가입이 완료되었습니다!',
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    alert.show();
                     this.close();  // 모달 닫기
                 } else if (response.status === 400) {
                     const responseData = await response.json();
                     const error = responseData.error;  // 오류 메시지 가져오기
-                    alert(`error: ${response.status}, ${error}`);
+                    const alert = new CustomAlert({
+                        message: `에러: ${response.status}, ${error}`,
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    alert.show();
                 } else {
-                    alert('알 수 없는 오류가 발생했습니다.');
+                    const alert = new CustomAlert({
+                        message: '알 수 없는 오류가 발생했습니다.',
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    alert.show();
                 }
             } catch (error) {
-                alert(`서버 오류: ${error.message}`);
+                const alert = new CustomAlert({
+                    message: `서버 오류: ${error.message}`,
+                    okButtonText: '확인',
+                });
+                alert.render();
+                alert.show();
             }
         });
 

@@ -1,7 +1,7 @@
 import { Modal } from "../Modal/index.js";
 import { FriendSearchResult } from "./FriendSearchResult.js";
 import { Button } from "../Button.js";
-import { Input } from "../Input.js";
+import { Input } from "../Input/Input.js";
 
 export class FriendSearchModal extends Modal {
     constructor() {

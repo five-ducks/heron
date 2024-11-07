@@ -3,6 +3,7 @@ import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
 import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
+import { CustomAlert } from "../components/Alert/Alert.js";
 
 export default class Login extends Component {
     constructor() {
@@ -53,11 +54,21 @@ export default class Login extends Component {
                 const password = inputPW.getValue(); // getValue() 사용
                 // Basic validation
                 if (!username) {
-                    alert('Please enter your ID.');
+                    const alert = new CustomAlert({
+                        message: '아아디를 입력해주세요.',
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    await alert.show();
                     return;
                 }
                 if (!password) {
-                    alert('Please enter your password.');
+                    const alert = new CustomAlert({
+                        message: '비밀번호를 입력해주세요.',
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    await alert.show();
                     return;
                 }
                 try {
@@ -75,14 +86,29 @@ export default class Login extends Component {
                         const data = response;
                         setCookie('ppstate', data.status, 365);
                         setCookie('player', username, 365);
-                        alert('Login successful!');
+                        const alert = new CustomAlert({
+                            message: '로그인 성공!',
+                            okButtonText: '확인',
+                        });
+                        alert.render();
+                        await alert.show();
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
                         const error = response;
-                        alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
+                        const alert = new CustomAlert({
+                            message: `-로그인 실패-\n${error.message || '알 수 없는 오류가 발생했습니다.'}`,
+                            okButtonText: '확인',
+                        });
+                        alert.render();
+                        await alert.show();
                     }
                 } catch (error) {
-                    alert(`Server error: ${error.message}`);
+                    const alert = new CustomAlert({
+                        message: `Server error: ${error.message}`,
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    await alert.show();
                 }
             }
         );
