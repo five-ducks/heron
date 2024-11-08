@@ -2,18 +2,18 @@
 .custom-alert-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   display: grid;
   place-items: center;
+  font-family: var(--base-font);
 }
 
 .custom-alert-box {
-  background-color: black;
+  background-color: var(--absolute-color-black);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
   width: 288px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  box-shadow: var(--alert-box-shadow);
 }
 
 .custom-alert-message {
