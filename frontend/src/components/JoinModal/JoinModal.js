@@ -57,7 +57,7 @@ export class JoinModal extends Modal {
                     okButtonText: '확인',
                 });
                 alert.render();
-                alert.show();
+                await alert.show();
                 return;
             }
             if (!password || password.length < 6) {
@@ -66,7 +66,7 @@ export class JoinModal extends Modal {
                     okButtonText: '확인',
                 });
                 alert.render();
-                alert.show();
+                await alert.show();
                 return;
             }
             if (password !== confirmPassword) {
@@ -75,7 +75,7 @@ export class JoinModal extends Modal {
                     okButtonText: '확인',
                 });
                 alert.render();
-                alert.show();
+                await alert.show();
                 return;
             }
 
@@ -106,7 +106,7 @@ export class JoinModal extends Modal {
                         okButtonText: '확인',
                     });
                     alert.render();
-                    alert.show();
+                    await alert.show();
                     this.close();  // 모달 닫기
                 } else if (response.status === 400) {
                     const responseData = await response.json();
@@ -116,14 +116,14 @@ export class JoinModal extends Modal {
                         okButtonText: '확인',
                     });
                     alert.render();
-                    alert.show();
+                    await alert.show();
                 } else {
                     const alert = new CustomAlert({
                         message: '알 수 없는 오류가 발생했습니다.',
                         okButtonText: '확인',
                     });
                     alert.render();
-                    alert.show();
+                    await alert.show();
                 }
             } catch (error) {
                 const alert = new CustomAlert({
@@ -131,7 +131,7 @@ export class JoinModal extends Modal {
                     okButtonText: '확인',
                 });
                 alert.render();
-                alert.show();
+                await alert.show();
             }
         });
 

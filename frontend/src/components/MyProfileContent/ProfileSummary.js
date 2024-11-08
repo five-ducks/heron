@@ -75,7 +75,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 					location.href = '/#/';
 				}
 				else
@@ -85,7 +85,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 				}
 			}
 		);
@@ -113,7 +113,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 					location.href = '/#/';
 				}
 				else
@@ -123,7 +123,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 				}
 			});
 
@@ -168,7 +168,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 					return;
 				}
 
@@ -187,7 +187,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 					location.reload();
 				}
 				else
@@ -197,7 +197,7 @@ export class ProfileSummary extends Component {
 						okButtonText: '확인',
 					});
 					alert.render();
-					alert.show();
+					await alert.show();
 				}
 			});
 		this.el.querySelector('.button-container').appendChild(logoutBtn.el);
