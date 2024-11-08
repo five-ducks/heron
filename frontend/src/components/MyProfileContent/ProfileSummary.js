@@ -2,6 +2,7 @@ import { Component, getCookie, selectProfileImg } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input.js";
+import { closeWebSocketConnection } from "../../status/status.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -73,6 +74,7 @@ export class ProfileSummary extends Component {
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					alert('로그아웃 되었습니다.');
 					location.href = '/#/';
+					closeWebSocketConnection(username);
 				}
 				else
 					alert('로그아웃에 실패했습니다.');
@@ -134,7 +136,7 @@ export class ProfileSummary extends Component {
 					delete request_body.status_msg;
 				}
 				for (let i = 1; i <= 5; i++) {
-					if (props.macrotext[i-1] === request_body[`macrotext${i}`]) {
+					if (props.macrotext[i - 1] === request_body[`macrotext${i}`]) {
 						delete request_body[`macrotext${i}`];
 					}
 				}

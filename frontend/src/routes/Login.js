@@ -3,6 +3,7 @@ import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
 import { Input } from "../components/Input.js";
 import { getCookie } from "../core/core.js";
+import { startWebSocketConnection } from '../status/status.js';
 
 export default class Login extends Component {
     constructor() {
@@ -81,6 +82,8 @@ export default class Login extends Component {
                         setCookie('player', username, 365);
                         alert('Login successful!');
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
+
+                        startWebSocketConnection(username);
                     } else {
                         const error = await response;
                         alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
