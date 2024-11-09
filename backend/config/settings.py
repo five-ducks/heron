@@ -33,7 +33,12 @@ ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ['https://localhost']
 
 
-# Application definition
+# 브라우저가 종료되면 세션이 함깨 삭제됨 (탭이 삭제되는 경우는 관계없음)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# 세션 유지시간을 5분으로 설정
+SESSION_COOKIE_AGE = 300
+# 요청이 들어오면 세션의 마지막 활동시간이 초기화
+SESSION_SAVE_EVERY_REQUEST = True
 
 INSTALLED_APPS = [
     'oauth.apps.OauthConfig',
