@@ -74,7 +74,7 @@ export class ProfileSummary extends Component {
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					alert('로그아웃 되었습니다.');
 					location.href = '/#/';
-					closeWebSocketConnection(username);
+					closeWebSocketConnection();
 				}
 				else
 					alert('로그아웃에 실패했습니다.');
