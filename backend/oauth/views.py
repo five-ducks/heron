@@ -2,9 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.conf import settings
+from django.http import HttpResponseRedirect
 import requests
 
 from users.models import User
@@ -38,7 +38,8 @@ def login_redirect(request):
                 if int(error_code[0]) == 400:
                     raise ValueError(str(detail[0]))
             serializer.save()
-            return JsonResponse({"detail": "user created"}, status=status.HTTP_201_CREATED)
+
+            return HttpResponseRedirect("https://localhost")
         except ValueError as e:
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -47,7 +48,7 @@ def login_redirect(request):
         try:
             # 유저가 있다면 로그인
             user_data = {"username": username, "password": "42oauth"}
-            serializer = LoginSerializer(data=user_data)
+            serializer = LoginSerializer(data=user_data, context={'request': request})
             if not serializer.is_valid():
                 error_code = serializer.errors.get('error_code')
                 detail = serializer.errors.get('detail')
@@ -60,7 +61,7 @@ def login_redirect(request):
             login(request, user)
             serializer.save()
 
-            return JsonResponse({"detail": "user logged in"}, status=status.HTTP_200_OK)
+            return HttpResponseRedirect("https://localhost/#/main")
         except ValueError as e:
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
@@ -125,6 +126,5 @@ class OAuthViewSet(viewsets.ViewSet):
         # OAuth 42 로그인 페이지로 리다이렉트
         url = (
             f"https://api.intra.42.fr/oauth/authorize"
-            f"?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
-        )
-        return redirect(url)
+            f"?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code")
+        return JsonResponse({"redirect_url": url})

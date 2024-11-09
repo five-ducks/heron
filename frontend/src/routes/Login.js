@@ -82,8 +82,6 @@ export default class Login extends Component {
                         setCookie('player', username, 365);
                         alert('Login successful!');
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
-
-                        startWebSocketConnection(username);
                     } else {
                         const error = await response;
                         alert(`Login failed: ${error.message || 'Unknown error occurred.'}`);
@@ -99,7 +97,26 @@ export default class Login extends Component {
             size: 'm',
             text: '42 Auth',
         },
-            () => { }
+            async () => {
+                try {
+                    const response = await fetch('/api/oauth/login/', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': getCookie('csrftoken'),
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        window.location.href = data.redirect_url;  // 리디렉션 처리
+                    } else {
+                        console.error('Login failed');
+                    }
+                } catch (error) {
+                    console.error('Server error:', error);
+                }
+            }
         );
 
         const signUpButton = new Button({
@@ -121,6 +138,4 @@ export default class Login extends Component {
             // Handle actions when the modal is closed
         });
     }
-
-
 }
