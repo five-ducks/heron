@@ -670,6 +670,7 @@ class UserViewSet(viewsets.ViewSet):
             if request.method == 'GET':
                 matches = Match.objects.filter((Q(match_username1=user) | Q(match_username2=user)) & ~Q(match_result='pending_result'))
                 user_data = {
+                    'username': user.username,
                     'exp': user.exp,
                     'profile_img': user.profile_img,
                     'win_cnt': user.win_cnt,
