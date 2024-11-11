@@ -1,8 +1,16 @@
-FROM python:3
+FROM python:3 AS builder
+
+COPY requirements.txt .
+RUN pip install --user -r requirements.txt && rm -f requirements.txt
+
+FROM python:3-slim
+
+RUN apt-get update && apt-get install -y libpq-dev dumb-init
 
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
+
+COPY --from=builder /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
 
 ENTRYPOINT ["sh", "docker-entrypoint.sh"]
