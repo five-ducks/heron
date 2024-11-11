@@ -4,7 +4,7 @@
     align-items: center;
     border: none;
     background: none;
-    padding: 0.625rem;
+    padding: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
@@ -15,7 +15,7 @@
     flex-direction: column;
     flex-grow: 1;
     overflow: hidden;
-    margin-left: 0.625rem;
+    margin-left: 10px;
 }
 
 .character-profile .info-container span {
@@ -29,15 +29,15 @@
 
 .inner-container-profile {
     position: relative;
-    min-width: 2.125rem;
-    min-height: 1.125rem;
+    min-width: 34px;
+    min-height: 18px;
     background-color: #dee2e6;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1.325rem;
+    margin-bottom: 21px;
 }
 
 .inner-container-profile img {
@@ -45,7 +45,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    margin-left: 0.625rem;
+    margin-left: 10px;
 }
 
 .inner-character-name {
@@ -59,68 +59,68 @@
         -1px  1px 0 black,
         1px  1px 0 black; /* 텍스트 그림자 */
     color: white;
-    padding: 0rem 0.625rem;
+    padding: 0px 10px;
     text-align: center;
 }
 
 /* Size-specific styles */
 .character-profile.size-s .info-container .character-name {
-    font-size: 1.5rem;
+    font-size: 24px;
 }
 
 .character-profile.size-s .info-container .status-message {
-    font-size: 0.75rem;
+    font-size: 12px;
 }
 
 .character-profile.size-m .info-container .character-name {
-    font-size: 2.5rem;
+    font-size: 40px;
 }
 
 .character-profile.size-m .info-container .status-message {
-    font-size: 0.875rem;
+    font-size: 14px;
 }
 
 .character-profile.size-l .info-container .character-name {
-    font-size: 5rem;
+    font-size: 80px;
 }
 
 .character-profile.size-l .info-container .status-message {
-    font-size: 0.9375rem;
+    font-size: 15px;
 }
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
     .character-profile.size-l .info-container .character-name {
-        font-size: 3rem;
+        font-size: 48px;
     }
 
     .character-profile.size-l .info-container .status-message {
-        font-size: 0.875rem;
+        font-size: 14px;
     }
 
     .character-profile.size-m .info-container .character-name {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .character-profile.size-m .info-container .status-message {
-        font-size: 0.8125rem;
+        font-size: 13px;
     }
 }
 
 @media (max-width: 480px) {
     .character-profile.size-l .info-container .character-name {
-        font-size: 2.5rem;
+        font-size: 40px;
     }
 
     .character-profile.size-l .info-container .status-message {
-        font-size: 0.8125rem;
+        font-size: 13px;
     }
 
     .character-profile.size-m .info-container .character-name {
-        font-size: 1.75rem;
+        font-size: 28px;
     }
 
     .character-profile.size-m .info-container .status-message {
-        font-size: 0.75rem;
+        font-size: 12px;
     }
 }

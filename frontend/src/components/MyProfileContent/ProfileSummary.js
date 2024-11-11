@@ -2,6 +2,7 @@ import { Component, getCookie, selectProfileImg } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input/Input.js";
+import { CustomAlert } from "../Alert/Alert.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -69,11 +70,23 @@ export class ProfileSummary extends Component {
 				if (status === 200) {
 					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					alert('로그아웃 되었습니다.');
+					const alert = new CustomAlert({
+						message: '로그아웃 되었습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
 					location.href = '/#/';
 				}
 				else
-					alert('로그아웃에 실패했습니다.');
+				{
+					const alert = new CustomAlert({
+						message: '로그아웃에 실패했습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
+				}
 			}
 		);
 		const withdrawalBtn = new Button({
@@ -95,11 +108,23 @@ export class ProfileSummary extends Component {
 				if (status === 200) {
 					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					alert('회원탈퇴 되었습니다.');
+					const alert = new CustomAlert({
+						message: '회원탈퇴 되었습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
 					location.href = '/#/';
 				}
 				else
-					alert('회원탈퇴에 실패했습니다.');
+				{
+					const alert = new CustomAlert({
+						message: '회원탈퇴에 실패했습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
+				}
 			});
 
 		const saveBtn = new Button({
@@ -138,7 +163,12 @@ export class ProfileSummary extends Component {
 				}
 
 				if (Object.keys(request_body).length === 0) {
-					alert('변경된 내용이 없습니다.');
+					const alert = new CustomAlert({
+						message: '변경된 내용이 없습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
 					return;
 				}
 
@@ -152,11 +182,23 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					alert('저장되었습니다.');
+					const alert = new CustomAlert({
+						message: '저장되었습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
 					location.reload();
 				}
 				else
-					alert('저장에 실패했습니다.');
+				{
+					const alert = new CustomAlert({
+						message: '저장에 실패했습니다.',
+						okButtonText: '확인',
+					});
+					alert.render();
+					await alert.show();
+				}
 			});
 		this.el.querySelector('.button-container').appendChild(logoutBtn.el);
 		this.el.querySelector('.button-container').appendChild(withdrawalBtn.el);

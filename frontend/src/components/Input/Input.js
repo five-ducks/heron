@@ -18,7 +18,6 @@ export class Input extends Component {
 			size = 'm',
 		} = props;
 
-
 		const labelEl = document.createElement('label');
 		labelEl.textContent = label;
 		labelEl.setAttribute('for', id);

@@ -38,6 +38,8 @@ html {
 	--gate-page-background-img: url('../../public/images/space_bg.png');
 	--gate-logo-img: url('../../public/images/gate-logo.png');
 	--modal-bg-color: #011635;
+
+	--alert-box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 header {
