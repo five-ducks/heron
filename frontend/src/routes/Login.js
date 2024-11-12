@@ -129,7 +129,7 @@ export default class Login extends Component {
         },
             () => {
                 joinModal.open();
-                this.el.appendChild(joinModal.el);
+                document.body.append(joinModal.el);
             }
         );
         this.el.querySelector('.login-input-container').append(inputID.el);

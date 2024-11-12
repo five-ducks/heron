@@ -70,6 +70,7 @@ export class ProfileSummary extends Component {
 				if (status === 200) {
 					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+					sessionStorage.setItem('isLoggedIn', 'false');
 					const alert = new CustomAlert({
 						message: '로그아웃 되었습니다.',
 						okButtonText: '확인',

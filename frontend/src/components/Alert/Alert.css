@@ -5,6 +5,7 @@
   display: grid;
   place-items: center;
   font-family: var(--base-font);
+  z-index: 999;
 }
 
 .custom-alert-box {

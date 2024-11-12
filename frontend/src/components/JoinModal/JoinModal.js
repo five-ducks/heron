@@ -47,34 +47,34 @@ export class JoinModal extends Modal {
                 const password = pwInput.getValue();
                 const confirmPassword = curpwInput.getValue();
 
-                // Basic validation checks
-                if (!username || username.length >= 7) {
-                    const alert = new CustomAlert({
-                        message: '닉네임을 7자 미만으로 입력해주세요.',
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
-                    return;
-                }
-                if (!password || password.length < 6) {
-                    const alert = new CustomAlert({
-                        message: '비밀번호는 6자 이상이여야 합니다.',
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
-                    return;
-                }
-                if (password !== confirmPassword) {
-                    const alert = new CustomAlert({
-                        message: '비밀번호가 일치하지 않습니다.',
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
-                    return;
-                }
+            // Basic validation checks
+            if (!username || username.length >= 7) {
+                const alert = new CustomAlert({
+                    message: '닉네임을 7자 미만으로 입력해주세요.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
+                return;
+            }
+            if (!password || password.length < 6) {
+                const alert = new CustomAlert({
+                    message: '비밀번호는 6자 이상이여야 합니다.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
+                return;
+            }
+            if (password !== confirmPassword) {
+                const alert = new CustomAlert({
+                    message: '비밀번호가 일치하지 않습니다.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
+                return;
+            }
 
             // 요청 데이터 생성
             const requestData = {
