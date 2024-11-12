@@ -321,4 +321,4 @@ class RetrieveUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['exp', 'profile_img', 'win_cnt', 'lose_cnt', 'status_msg', 'macrotext', 'matches']
+        fields = ['username', 'exp', 'profile_img', 'win_cnt', 'lose_cnt', 'status_msg', 'macrotext', 'matches']

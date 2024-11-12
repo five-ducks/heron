@@ -17,6 +17,7 @@ export class SelectPage extends Component {
 	}
 
 	render() {
+		this.el.classList.add('selectpage');
 		this.el.innerHTML = /*html*/`
 			<h1>게임 선택</h1>
 			<div class="game-list">
@@ -25,10 +26,15 @@ export class SelectPage extends Component {
 			</div>
 		`;
 
-		this.el.querySelector('.one-to-one').addEventListener('click', async () => {
-			this.loading.show();
-			await this.fakeLoadingProcess();
-			this.loading.remove();
-		});
+		// this.el.querySelector('.one-to-one').addEventListener('click', async () => {
+		// 	this.loading.show();
+		// 	await this.fakeLoadingProcess();
+		// 	this.loading.remove();
+		// });
+		// 1:1 게임 버튼 event listener
+        const onetooneButton = this.el.querySelector('.one-to-one');
+        onetooneButton.addEventListener('click', () => {
+            window.location.hash = '/game/onetoone/';
+        });
 	}
 }

@@ -119,7 +119,26 @@ export default class Login extends Component {
             size: 'm',
             text: '42 Auth',
         },
-            () => { }
+            async () => {
+                try {
+                    const response = await fetch('/api/oauth/login/', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': getCookie('csrftoken'),
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        window.location.href = data.redirect_url;  // 리디렉션 처리
+                    } else {
+                        console.error('Login failed');
+                    }
+                } catch (error) {
+                    console.error('Server error:', error);
+                }
+            }
         );
 
         const signUpButton = new Button({
@@ -141,6 +160,4 @@ export default class Login extends Component {
             // Handle actions when the modal is closed
         });
     }
-
-
 }

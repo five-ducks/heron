@@ -3,6 +3,7 @@ import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input/Input.js";
 import { CustomAlert } from "../Alert/Alert.js";
+import { closeWebSocketConnection } from "../../status/status.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -78,6 +79,7 @@ export class ProfileSummary extends Component {
 					alert.render();
 					await alert.show();
 					location.href = '/#/';
+					closeWebSocketConnection();
 				}
 				else
 				{

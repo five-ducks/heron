@@ -2,7 +2,7 @@ FROM nginx
 
 RUN apt-get -y update && \
 	apt-get -y upgrade && \
-	apt-get -y install openssl
+	apt-get -y install openssl dumb-init
 
 RUN	openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
 	-subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Gun/CN=localhost" \
@@ -12,5 +12,8 @@ RUN	openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
+WORKDIR /usr/share/nginx/html
+
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "dumb-init" ]

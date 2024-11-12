@@ -58,8 +58,8 @@ class Match(models.Model):
     match_type = models.CharField(
         max_length=10,
         choices=TYPE_CHOICES,
-        default='match',
-        help_text="Type of match, either tournament or one-to-one."
+        default='onetoone',
+        help_text="Type of match, either tournament or onetoone."
     )
 
     def __str__(self):
