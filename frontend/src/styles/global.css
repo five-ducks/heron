@@ -18,6 +18,7 @@ html {
 :root {
 	--text-color: #fff;
 	--strong-color: yellow;
+	--absolute-color-black: #000;
 	--base-font: 'DungGeunMo', sans-serif;
 	--title-font: 'Pixeboy', sans-serif;
 
@@ -40,6 +41,7 @@ html {
 
 	/* for Avatar */
 	--avatar-border-color: #007bff;
+	--alert-box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 header {
@@ -64,6 +66,11 @@ body {
 	height: 100vh;
 }
 
+#root {
+	overflow: auto;
+	transform: translateX(0);
+}
+
 h1 {
 	font-size: var(--title-font-size);
 	line-height: var(--base-line-height);
@@ -80,4 +87,6 @@ button {
 input {
 	outline: none;
 	padding: 5px;
+	color: var(--text-color);
+	font-family: 'DungGeunMo';
 }
