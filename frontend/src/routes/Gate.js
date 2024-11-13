@@ -19,17 +19,17 @@ export default class Home extends Component {
 		`;
 		const player = getCookie('player');
 		let button;
-		// 로그인 되어있는지 확인
-		if (player) {
+		// 로그인 되어있는지 세션 스토리지로 확인
+		if (sessionStorage.getItem('isLoggedIn') === 'true') {
 			button = new Button({
 				style: 'gray',
 				size: 'l',
 				text: 'Start'
 			},
-			() => {
-				location.href = '/#/main';
-			}
-		);
+				() => {
+					location.href = '/#/main';
+				}
+			);
 		}
 		else {
 			button = new Button({
@@ -37,10 +37,10 @@ export default class Home extends Component {
 				size: 'l',
 				text: 'Login'
 			},
-			() => {
-				location.href = '/#/login';
-			}
-		);
+				() => {
+					location.href = '/#/login';
+				}
+			);
 		}
 		this.el.querySelector('.button-row').appendChild(button.el);
 	}

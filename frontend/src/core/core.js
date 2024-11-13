@@ -33,15 +33,17 @@ function routeRender(routes) {
 		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
 	}
 
-	// 해시를 확인했는데 로그인 되었는데 login 페이지로 가려고 하면 main 로 이동
-	if (location.hash === '#/login' && getCookie('ppstate') == 200) {
-		location.href = '/#/main';
+	// // 해시를 확인했는데 로그인 되었는데 login 페이지로 가려고 하면 main 로 이동
+	console.log('sessionStorage.getItem(isLoggedIn)', sessionStorage.getItem('isLoggedIn'))
+	if (sessionStorage.getItem('isLoggedIn') === 'true' && location.hash === '#/login') {
+		location.href = '/#/'
 	}
 
-	// 쿠키를 통해 로그인 여부를 확인하고, 로그인이 되어 있지 않다면 gate 페이지로 이동
-	// if (getCookie('ppstate') !== 200) {
-	// 	location.href = '/#/login';
-	// }
+	// 세션 스토리지에 로그인 정보가 없는데 /#/ 또는 /#/login이 아닌 경우 /#/ 페이지로 이동
+	//     sessionStorage.setItem('isLoggedIn', 'true');
+	if (sessionStorage.getItem('isLoggedIn') !== 'true' && location.hash !== '#/' && location.hash !== '#/login') {
+		location.href = '/#/'
+	}
 
 	const routerView = document.querySelector('router-view')
 	const [hash, queryString = ''] = location.hash.split('?') // 물음표를 기준으로 해시 정보와 쿼리스트링을 구분

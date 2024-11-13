@@ -8,7 +8,6 @@
 .game-records .one-game-record .profile-container {
 	display: flex;
     position: relative;
-    top: 15%;
     width: 85px;
     height: 75px;
     flex-direction: column;
@@ -54,5 +53,5 @@
 	align-items: center;
 	justify-content: center;
 	min-width: 65px;
-	font-size: 30px;
+	font-size: 50px;
 }

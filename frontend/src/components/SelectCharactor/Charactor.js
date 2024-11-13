@@ -1,10 +1,10 @@
 import { Component } from "../../core/core.js";
 
 export class Charactor extends Component {
-	constructor(style = {}, name = "unknown", onSelect = () => {}) {
+	constructor(style = {}, name = "unknown", onSelect = () => { }) {
 		super({
 			tagName: 'button',
-			props : {
+			props: {
 				className: 'charactor'
 			}
 		});
@@ -12,12 +12,12 @@ export class Charactor extends Component {
 		const {
 			src = "../public/images/charactors/pikachu.png",
 		} = style;
-	
+
 		const img = document.createElement('img');
 		img.src = src;
 
 		this.el.appendChild(img);
-	
+
 		const span = document.createElement('span');
 		span.textContent = name;
 		this.el.appendChild(span);

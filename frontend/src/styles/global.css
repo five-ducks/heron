@@ -18,25 +18,30 @@ html {
 :root {
 	--text-color: #fff;
 	--strong-color: yellow;
+	--absolute-color-black: #000;
 	--base-font: 'DungGeunMo', sans-serif;
 	--title-font: 'Pixeboy', sans-serif;
 
 	/* for button */
-	--small-font-size: clamp(22px, 2vw, 40px);
-	--medium-font-size: clamp(33px, 3.5vw, 70px);
-	--large-font-size: clamp(55px, 5vw, 100px);
-	--xlarge-font-size: clamp(66px, 6vw, 120px);
+	--small-font-size: 40px;
+	--medium-font-size: 50px;
+	--large-font-size: 80px;
+	--xlarge-font-size: 120px;
 
 	/* for text */
-	--base-font-size: clamp(27px, 2.5vw, 50px);
-	--big-font-size: clamp(82px, 7.5vw, 150px);
-	--title-font-size: clamp(110px, 10vw, 200px);
+	--base-font-size: 50px;
+	--big-font-size: 150px;
+	--title-font-size: 200px;
 
 	--base-line-height: 1.6;
 	--header-color: #011635;
 	--gate-page-background-img: url('../../public/images/space_bg.png');
 	--gate-logo-img: url('../../public/images/gate-logo.png');
 	--modal-bg-color: #011635;
+
+	/* for Avatar */
+	--avatar-border-color: #007bff;
+	--alert-box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 header {
@@ -61,6 +66,11 @@ body {
 	height: 100vh;
 }
 
+#root {
+	overflow: auto;
+	transform: translateX(0);
+}
+
 h1 {
 	font-size: var(--title-font-size);
 	line-height: var(--base-line-height);
@@ -68,6 +78,7 @@ h1 {
 	font-family: var(--title-font);
 }
 
+/* button.css로 이동하지 않아도 될까요? */
 button {
 	cursor: pointer;
 	font-family: var(--base-font);
@@ -76,4 +87,6 @@ button {
 input {
 	outline: none;
 	padding: 5px;
+	color: var(--text-color);
+	font-family: 'DungGeunMo';
 }

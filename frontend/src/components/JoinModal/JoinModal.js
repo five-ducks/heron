@@ -1,13 +1,12 @@
 import { Modal } from "../Modal/index.js";
 import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
-import { Input } from "../Input.js";
+import { Input } from "../../components/Input/Input.js";
+import { CustomAlert } from "../Alert/Alert.js";
 
 export class JoinModal extends Modal {
     constructor(onClose = () => { }) {
         const content = /*html*/`
-            <h1>회원가입</h1>
-            <div class="join_row">
                 <div class="input_join">
                     <p class="joinInputLabel">닉네임</p>
                     <div id="nameInput"></div>
@@ -20,11 +19,10 @@ export class JoinModal extends Modal {
                     <p class="joinInputLabel">비밀번호 확인</p>
                     <div id="curpwInput"></div>
                 </div>
-            </div>
-            <div class="charactor-row">
-            </div>
+                <div class="charactor-row">
+                </div>
         `;
-        super(content, onClose);
+        super('회원 가입', content, onClose);
         this.addCharactors();
 
         // 인풋 필드 생성
@@ -38,32 +36,45 @@ export class JoinModal extends Modal {
         this.el.querySelector('#curpwInput').appendChild(curpwInput.el);
 
         // 완료 버튼 추가
-        const finishButton = new Button({ 
+        const finishButton = new Button({
             style: 'gray',
-            size: 'l',
+            size: 's',
             text: '완료',
-        }, 
-        async () => {
-            // Validate inputs
-            const username = nameInput.getValue();
-            const password = pwInput.getValue();
-            const confirmPassword = curpwInput.getValue();
+        },
+            async () => {
+                // Validate inputs
+                const username = nameInput.getValue();
+                const password = pwInput.getValue();
+                const confirmPassword = curpwInput.getValue();
 
             // Basic validation checks
             if (!username || username.length >= 7) {
-                alert('닉네임을 7자 미만으로 입력해주세요.');
+                const alert = new CustomAlert({
+                    message: '닉네임을 7자 미만으로 입력해주세요.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
                 return;
             }
             if (!password || password.length < 6) {
-                alert('비밀번호는 6자 이상이여야 합니다.');
+                const alert = new CustomAlert({
+                    message: '비밀번호는 6자 이상이여야 합니다.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
                 return;
             }
             if (password !== confirmPassword) {
-                alert('비밀번호가 일치하지 않습니다.');
+                const alert = new CustomAlert({
+                    message: '비밀번호가 일치하지 않습니다.',
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
                 return;
             }
-
-            // const profile_img = this.selectedCharactorIndex;
 
             // 요청 데이터 생성
             const requestData = {
@@ -85,22 +96,42 @@ export class JoinModal extends Modal {
                 });
                 // 응답 처리
                 if (response.status === 201) {
-                    alert('회원가입이 완료되었습니다!');
+                    const alert = new CustomAlert({
+                        message: '회원가입이 완료되었습니다!',
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    await alert.show();
                     this.close();  // 모달 닫기
                 } else if (response.status === 400) {
                     const responseData = await response.json();
                     const error = responseData.error;  // 오류 메시지 가져오기
-                    alert(`error: ${response.status}, ${error}`);
+                    const alert = new CustomAlert({
+                        message: `에러: ${response.status}, ${error}`,
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    await alert.show();
                 } else {
-                    alert('알 수 없는 오류가 발생했습니다.');
+                    const alert = new CustomAlert({
+                        message: '알 수 없는 오류가 발생했습니다.',
+                        okButtonText: '확인',
+                    });
+                    alert.render();
+                    await alert.show();
                 }
             } catch (error) {
-                alert(`서버 오류: ${error.message}`);
+                const alert = new CustomAlert({
+                    message: `서버 오류: ${error.message}`,
+                    okButtonText: '확인',
+                });
+                alert.render();
+                await alert.show();
             }
         });
 
         finishButton.el.classList.add('finish-button');
-        this.el.appendChild(finishButton.el);
+        this.el.querySelector('.modal-body').append(finishButton.el);
     }
 
     addCharactors() {

@@ -1,4 +1,5 @@
 import { Component } from "../../core/core.js";
+import { Loading } from "../Loading/Loading.js";
 
 export class SelectPage extends Component {
 	constructor() {
@@ -7,7 +8,14 @@ export class SelectPage extends Component {
 				className: 'selectpage',
 			}
 		});
+		this.loading = new Loading();
 	}
+	async fakeLoadingProcess() {
+		// 실제 게임 로딩 과정
+		// 현재는 2초간 대기하는 것으로 대체
+		return new Promise(resolve => setTimeout(resolve, 8000));
+	}
+
 	render() {
 		this.el.classList.add('selectpage');
 		this.el.innerHTML = /*html*/`
@@ -18,6 +26,11 @@ export class SelectPage extends Component {
 			</div>
 		`;
 
+		// this.el.querySelector('.one-to-one').addEventListener('click', async () => {
+		// 	this.loading.show();
+		// 	await this.fakeLoadingProcess();
+		// 	this.loading.remove();
+		// });
 		// 1:1 게임 버튼 event listener
         const onetooneButton = this.el.querySelector('.one-to-one');
         onetooneButton.addEventListener('click', () => {

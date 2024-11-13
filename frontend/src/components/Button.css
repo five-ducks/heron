@@ -1,4 +1,4 @@
-button {
+.button {
 	padding: 30px;
 	width: fit-content;
 	background-size: 100% 100%;
@@ -6,7 +6,7 @@ button {
 }
 
 .button-container {
-	width: fit-content;
+	display: inline-flex;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
@@ -42,26 +42,26 @@ button {
 	/* width: 100%; */
 	min-height: 6vh;
 	padding: 10px;
-	margin: 1vw 0.5vw;
+	margin: 1px 10px;
 	font-size: var(--small-font-size);
 }
 
 .s {
-	/* aspect-ratio: 7/3; */
+	aspect-ratio: 9/3;
 	font-size: var(--small-font-size);
 }
 
 .m {
-	/* aspect-ratio: 5/3; */
+	aspect-ratio: 5.3/3;
 	font-size: var(--medium-font-size);
 }
 
 .l {
-	/* aspect-ratio: 1.9/1; */
+	aspect-ratio: 5/1;
 	font-size: var(--large-font-size);
 }
 
 .xl {
-	/* aspect-ratio: 2.5/1; */
+	aspect-ratio: 2.5/1;
 	font-size: var(--xlarge-font-size);
 }

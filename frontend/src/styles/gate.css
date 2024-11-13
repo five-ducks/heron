@@ -15,14 +15,8 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 
-	/* 최대 및 최소 크기 제한 설정 */
-	max-width: 60vw;
-	max-height: 50vh;
-	min-width: 40vw;
-	min-height: 25vh;
-
 	/* 이미지 비율을 유지하면서 크기를 조정 */
-	width: 100%;
+	width: 680px;
 	height: auto;
 	aspect-ratio: 670 / 380;
 }

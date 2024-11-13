@@ -1,7 +1,7 @@
 import { Component } from "../../core/core.js";
 
 export class Modal extends Component {
-	constructor(content = '', onClose = () => {}) {
+	constructor(title, content = '', onClose = () => { }) {
 		super({
 			tagName: 'div',
 			props: {
@@ -11,7 +11,8 @@ export class Modal extends Component {
 		this.el.innerHTML = /*html*/`
 			<div class="modal-content">
 				<div class="close-button"></div>
-				${content}
+				<div class="modal-title">${title}</div>
+				<div class="modal-body">${content}</div>
 			</div>
 		`;
 
@@ -46,6 +47,6 @@ export class Modal extends Component {
 	}
 
 	preventGoBack() {
-		history.go(1); 
+		history.go(1);
 	}
 }
