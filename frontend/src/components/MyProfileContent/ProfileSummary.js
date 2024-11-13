@@ -69,9 +69,7 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					sessionStorage.setItem('isLoggedIn', 'false');
+					closeWebSocketConnection();
 					const alert = new CustomAlert({
 						message: '로그아웃 되었습니다.',
 						okButtonText: '확인',
@@ -79,10 +77,8 @@ export class ProfileSummary extends Component {
 					alert.render();
 					await alert.show();
 					location.href = '/#/';
-					closeWebSocketConnection();
 				}
-				else
-				{
+				else {
 					const alert = new CustomAlert({
 						message: '로그아웃에 실패했습니다.',
 						okButtonText: '확인',
@@ -119,8 +115,7 @@ export class ProfileSummary extends Component {
 					await alert.show();
 					location.href = '/#/';
 				}
-				else
-				{
+				else {
 					const alert = new CustomAlert({
 						message: '회원탈퇴에 실패했습니다.',
 						okButtonText: '확인',
@@ -193,8 +188,7 @@ export class ProfileSummary extends Component {
 					await alert.show();
 					location.reload();
 				}
-				else
-				{
+				else {
 					const alert = new CustomAlert({
 						message: '저장에 실패했습니다.',
 						okButtonText: '확인',

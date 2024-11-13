@@ -84,8 +84,6 @@ export default class Login extends Component {
                     });
                     if (response.ok) {
                         const data = response;
-                        setCookie('ppstate', data.status, 365);
-                        sessionStorage.setItem('isLoggedIn', 'true');
                         setCookie('player', username, 365);
                         const alert = new CustomAlert({
                             message: '로그인 성공!',
