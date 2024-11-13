@@ -1,3 +1,5 @@
+import { startWebSocketConnection, getSocketStatus } from '../status/status.js';
+
 ///// Component /////
 export class Component {
 	constructor(payload = {}) {
@@ -28,20 +30,26 @@ export function getCookie(name) {
 	return null;									// 쿠키 값이 존재하지 않는다면 null을 반환
 }
 
-function routeRender(routes) {
+// function setCookie(name, value, days) {
+// 	const expires = new Date(Date.now() + days * 864e5).toUTCString();
+// 	document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${window.location.hostname}; Secure; SameSite=Lax`;
+// }
+// 일단 사용하지 않아 주석처리 해놨으니, 필요 없다면 지워주세요.
+
+async function routeRender(routes) {
 	if (!location.hash) {
 		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
 	}
 
+	await startWebSocketConnection()
+
 	// // 해시를 확인했는데 로그인 되었는데 login 페이지로 가려고 하면 main 로 이동
-	console.log('sessionStorage.getItem(isLoggedIn)', sessionStorage.getItem('isLoggedIn'))
-	if (sessionStorage.getItem('isLoggedIn') === 'true' && location.hash === '#/login') {
+	if (getSocketStatus() && location.hash === '#/login') {
 		location.href = '/#/'
 	}
 
 	// 세션 스토리지에 로그인 정보가 없는데 /#/ 또는 /#/login이 아닌 경우 /#/ 페이지로 이동
-	//     sessionStorage.setItem('isLoggedIn', 'true');
-	if (sessionStorage.getItem('isLoggedIn') !== 'true' && location.hash !== '#/' && location.hash !== '#/login') {
+	if (!getSocketStatus() && location.hash !== '#/' && location.hash !== '#/login') {
 		location.href = '/#/'
 	}
 
@@ -100,3 +108,4 @@ export function selectProfileImg(profileImgIndex) {
 	]
 	return profileImg[profileImgIndex]
 }
+

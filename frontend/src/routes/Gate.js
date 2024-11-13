@@ -1,6 +1,6 @@
 import { Component } from "../core/core.js"
 import { Button } from "../components/Button.js";
-import { getCookie } from "../core/core.js";
+import { getSocketStatus } from "../status/status.js";
 
 export default class Home extends Component {
 	constructor() {
@@ -17,10 +17,9 @@ export default class Home extends Component {
 			<div class="button-row">
 			</div>
 		`;
-		const player = getCookie('player');
 		let button;
-		// 로그인 되어있는지 세션 스토리지로 확인
-		if (sessionStorage.getItem('isLoggedIn') === 'true') {
+		// 로그인 여부를 socket 을 통해 확인
+		if (getSocketStatus()) {
 			button = new Button({
 				style: 'gray',
 				size: 'l',
