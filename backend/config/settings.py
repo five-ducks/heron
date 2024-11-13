@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-zfc8_i1(e)xhnm6rk+g+hm1of9bwr$j+h_3)9vt3q_r#m1_l5-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "django"]
+ALLOWED_HOSTS = ["*"]
 
 # 없으면 csrf 에러 발생
 CSRF_TRUSTED_ORIGINS = ['https://localhost']
@@ -42,6 +42,8 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 INSTALLED_APPS = [
     'oauth.apps.OauthConfig',
+	'daphne',
+	'websocket',
     'users.apps.UsersConfig',
     'games.apps.GamesConfig',
     'friends.apps.FriendsConfig',
@@ -165,3 +167,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Channels
+
+# Daphne
+ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
