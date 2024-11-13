@@ -21,12 +21,6 @@ export default class Login extends Component {
         <div class="button-row"></div>
         `;
 
-        // 쿠키를 저장하는 함수
-        function setCookie(name, value, days) {
-            const expires = new Date(Date.now() + days * 864e5).toUTCString();
-            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${window.location.hostname}; Secure; SameSite=Lax`;
-        }
-
         // Initialize input fields
         const inputID = new Input({
             placeholder: 'Your nickname!',
@@ -84,7 +78,6 @@ export default class Login extends Component {
                     });
                     if (response.ok) {
                         const data = response;
-                        setCookie('player', username, 365);
                         const alert = new CustomAlert({
                             message: '로그인 성공!',
                             okButtonText: '확인',

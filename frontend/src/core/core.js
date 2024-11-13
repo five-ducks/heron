@@ -30,6 +30,12 @@ export function getCookie(name) {
 	return null;									// 쿠키 값이 존재하지 않는다면 null을 반환
 }
 
+// function setCookie(name, value, days) {
+// 	const expires = new Date(Date.now() + days * 864e5).toUTCString();
+// 	document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${window.location.hostname}; Secure; SameSite=Lax`;
+// }
+// 일단 사용하지 않아 주석처리 해놨으니, 필요 없다면 지워주세요.
+
 async function routeRender(routes) {
 	if (!location.hash) {
 		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
@@ -102,3 +108,4 @@ export function selectProfileImg(profileImgIndex) {
 	]
 	return profileImg[profileImgIndex]
 }
+

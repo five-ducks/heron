@@ -4,6 +4,7 @@ import { Button } from "../Button.js";
 import { Input } from "../Input/Input.js";
 import { CustomAlert } from "../Alert/Alert.js";
 import { closeWebSocketConnection } from "../../status/status.js";
+import store from "../../store/game.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -16,7 +17,7 @@ export class ProfileSummary extends Component {
 	}
 
 	profileContentsRender(props) {
-		const username = getCookie('player');
+		const username = store.state.userInfo.username;
 		this.el.innerHTML = /*html*/`
 			<div class="profile-summary-img-level">
 				<div class="profile-summary-img"></div>
