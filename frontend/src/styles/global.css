@@ -1,11 +1,13 @@
 /* 전역 스타일 정의 */
 
 @font-face {
+	/* 알파벳에 적용 */
 	font-family: 'Pixeboy';
 	src: url('../../public/fonts/Pixeboy.ttf');
 }
 
 @font-face {
+	/* 한글에 적용 */
 	font-family: 'DungGeunMo';
 	src: url('../../public/fonts/DungGeunMo.ttf');
 }
@@ -59,7 +61,6 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-family: var(--title-font);
 	color: var(--text-color);
 	background-image: var(--gate-page-background-img);
 	background-size: cover;
@@ -88,5 +89,4 @@ input {
 	outline: none;
 	padding: 5px;
 	color: var(--text-color);
-	font-family: 'DungGeunMo';
 }
