@@ -1,30 +1,52 @@
 let statusSocket = null;
 
 export const startWebSocketConnection = () => {
-    if (statusSocket) {
-        statusSocket.close();
-        console.log("Existing WebSocket connection closed.");
+    if (!getSocketStatus()) {
+        statusSocket = null;
+        statusSocket = new WebSocket(getWebsocketUrl());
     }
-    // 브라우저의 강제 종료로 인해 websocket이 닫힌 경우, 재 로그인을 진행할때 statausSockets 배열에서 이전에 지우지 못한 소켓을 삭제
+    return new Promise((resolve) => {
+        statusSocket.onopen = () => {
+            console.log("WebSocket connection opened.");
+            resolve(true); // WebSocket 연결이 열렸을 때 resolve 호출
+        };
 
-    statusSocket = new WebSocket('wss://localhost/ws/status/');
+        statusSocket.onclose = () => {
+            console.log("WebSocket connection closed.");
+            resolve(true); // WebSocket 연결이 열렸을 때 resolve 호출
+        };
 
-    statusSocket.onopen = () => {
-        console.log("WebSocket connection opened.");
-    };
-    // 웹소켓과 연결됨을 로그로 알림
+        statusSocket.onerror = () => {
+            console.log("Websocket connection failed.");
+            resolve(true);
+        };
 
-    statusSocket.onclose = () => {
-        console.log("WebSocket connection closed.");
-    };
-    // 웹소켓과 연결이 끊어짐을 로그로 알림
+        if (getSocketStatus())
+            resolve(true);
+    });
 };
 
 export const closeWebSocketConnection = () => {
     if (statusSocket) {
         statusSocket.close();
         statusSocket = null;
-        console.log("WebSocket connection closed and reset.");
+        console.log("WebSocket connection reset.");
     }
 };
 // logout 이후 정상적인 종료일 때 websocket 을 닫고 배열에서 삭제
+
+export const getSocketStatus = () => {
+    return statusSocket !== null && statusSocket.readyState === WebSocket.OPEN;
+};
+
+export function getWebsocketUrl() {
+    const { protocol, hostname } = location;
+
+    // protocol 설정
+    const wsProtocol = protocol === 'https:' ? 'wss' : 'ws';
+
+    // 게임 타입 설정
+    const wsUrl = `${wsProtocol}://${hostname}/ws/status/`;
+
+    return wsUrl;
+}
