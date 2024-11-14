@@ -1,11 +1,20 @@
 .input-background {
-	background-image: url("../../../public/images/ui/macro-input.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	min-width: 300px;
+    background-image: url("../../../public/images/ui/macro-input.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    max-width: 100%;
 }
 
 .input-bright {
-	color: #000;
-	min-width: 300px;
+    color: #000;
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 576px) {
+    .input-background,
+    .input-bright {
+        min-width: 20rem; /* 데스크톱에서 최소 너비 유지 */
+    }
 }
