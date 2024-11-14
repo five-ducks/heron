@@ -21,7 +21,7 @@
 }
 
 .login .login-input-container .input-field label {
-	font-size: var(--base-font-size);
+	font-size: 50px;
 }
 
 .login .button-row {
