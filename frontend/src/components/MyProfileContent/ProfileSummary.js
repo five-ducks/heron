@@ -23,7 +23,6 @@ export class ProfileSummary extends Component {
 				<div class="profile-summary-img"></div>
 			</div>
 			<div class="profile-summary-name">
-				<div>${username}</div>
 			</div>
 			<div class="vertical-line"></div>
 			<div class="profile-summary-win">
@@ -47,9 +46,10 @@ export class ProfileSummary extends Component {
 		const profileName = this.el.querySelector('.profile-summary-name');
 
 		profileName.appendChild(new Input({
-			variant: 'defalut',
+			label: `${username}의 기분`,
+			variant: 'background',
 			defaultValue: props.status_msg,
-			size: 'm',
+			size: 'l',
 		}).el);
 
 		// 승부 요약

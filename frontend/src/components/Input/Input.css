@@ -1,45 +1,11 @@
-.input-field {
-	gap: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.input-default {
-	border: 1px solid #ccc;
-	background-color: transparent;
-	background-color: var(--absolute-color-black);
-}
-
 .input-background {
 	background-image: url("../../../public/images/ui/macro-input.png");
 	background-size: cover;
 	background-repeat: no-repeat;
+	min-width: 300px;
 }
 
-.input-small {
-	width: 150px;
-	font-size: 16px;
-}
-
-.input-medium {
-	width: 200px;
-	font-size: 24px;
-}
-
-.input-large {
-	width: 200px;
-	font-size: 32px;
-}
-
-.label-small {
-	font-size: 16px;
-}
-
-.label-medium {
-	font-size: 24px;
-}
-
-.label-large {
-	font-size: 32px;
+.input-bright {
+	color: #000;
+	min-width: 300px;
 }
