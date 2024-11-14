@@ -33,7 +33,6 @@ html {
 
 	/* for text */
 	--big-font-size: 150px;
-	--title-font-size: 200px;
 
 	--base-line-height: 1.6;
 	--header-color: #011635;
@@ -74,7 +73,7 @@ body {
 }
 
 h1 {
-	font-size: var(--title-font-size);
+	font-size: calc(5rem + 3vw);
 	line-height: var(--base-line-height);
 	text-align: center;
 }
