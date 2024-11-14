@@ -3,12 +3,7 @@
     flex-direction: column;
     gap: 120px;
     min-width: max-content;
-    font-family: var(--base-font);
     padding: 20px;
-}
-
-.selectpage h1 {
-    font-family: var(--base-font);
 }
 
 .game-list {

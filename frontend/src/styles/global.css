@@ -19,7 +19,8 @@ html {
 	--text-color: #fff;
 	--strong-color: yellow;
 	--absolute-color-black: #000;
-	--base-font: 'DungGeunMo', sans-serif;
+	/* edit bootstrap variables */
+	--bs-body-font-family: 'DungGeunMo', var(--bs-font-sans-serif);
 	--title-font: 'Pixeboy', sans-serif;
 
 	/* for button */
@@ -82,7 +83,6 @@ h1 {
 /* button.css로 이동하지 않아도 될까요? */
 button {
 	cursor: pointer;
-	font-family: var(--base-font);
 }
 
 input {
