@@ -39,7 +39,7 @@ export default class Login extends Component {
         // Create buttons
         const loginButton = new Button({
             style: 'gray',
-            size: 'm',
+            size: 'xxl',
             text: 'Login'
         },
             async () => {
@@ -86,9 +86,9 @@ export default class Login extends Component {
                         await alert.show();
                         window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
                     } else {
-                        const error = response;
+                        const message = await response.json();
                         const alert = new CustomAlert({
-                            message: `-로그인 실패-\n${error.message || '알 수 없는 오류가 발생했습니다.'}`,
+                            message: message.error,
                             okButtonText: '확인',
                         });
                         alert.render();
@@ -107,7 +107,7 @@ export default class Login extends Component {
 
         const authButton = new Button({
             style: 'gray',
-            size: 'm',
+            size: 'xxl',
             text: '42 Auth',
         },
             async () => {
@@ -124,7 +124,13 @@ export default class Login extends Component {
                         const data = await response.json();
                         window.location.href = data.redirect_url;  // 리디렉션 처리
                     } else {
-                        console.error('Login failed');
+                        const message = await response.json();
+                        const alert = new CustomAlert({
+                            message: message.error,
+                            okButtonText: '확인',
+                        });
+                        alert.render();
+                        await alert.show();
                     }
                 } catch (error) {
                     console.error('Server error:', error);
@@ -134,7 +140,7 @@ export default class Login extends Component {
 
         const signUpButton = new Button({
             style: 'gray',
-            size: 'm',
+            size: 'xxl',
             text: 'JOIN',
         },
             () => {

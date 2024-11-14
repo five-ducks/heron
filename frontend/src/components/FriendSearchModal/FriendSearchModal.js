@@ -10,8 +10,8 @@ export class FriendSearchModal extends Modal {
         this.searchContainer = this.el.querySelector('.search-container');
 
         this.searchInput = new Input('친구 이름 입력', 'text', { width: '330px', height: '65px', fontsize: '20px' }, '', '', 'friend-search-input');
-        this.searchButton = new Button({ style: 'gray', size: 's', text: '검색' }, () => this.performSearch());
-
+        // this.searchButton = new Button({ style: 'gray', size: 's', text: '검색' }, () => this.performSearch());
+        this.searchButton = new Button({ style: 'gray', size: 'lg', text: '검색' }, async () => await this.performSearch());
         this.searchContainer.appendChild(this.searchInput.el);
         this.searchContainer.appendChild(this.searchButton.el);
 

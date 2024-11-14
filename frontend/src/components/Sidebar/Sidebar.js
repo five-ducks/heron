@@ -17,11 +17,7 @@ export class Sidebar extends Component {
             }
         });
         // this.userInfo = props;
-
-        // 친구 목록을 불러오기 위해 fetchFriends 함수를 호출합니다.
         this.friendRender(this.userInfo);
-
-        // Store에 친구 목록이 업데이트될 때 마다 renderFriendList를 호출합니다.
         store.subscribe('userFriends', this.renderFriendList.bind(this));
     }
 
@@ -34,8 +30,9 @@ export class Sidebar extends Component {
         // 이미지 수정 필요 
         const addFriendButton = new Button(
             {
-                size: 'sidebar',
-                text: '친구추가 +'
+                style: 'sidebar',
+                size: 'md',
+                text: '친구 추가 +'
             },
             () => {
                 const friendSearchModal = new FriendSearchModal();
@@ -55,6 +52,11 @@ export class Sidebar extends Component {
                     },
                 });
                 const friendsInfo = await response.json();
+                if (response.ok) {
+                    console.log('친구 목록을 가져오는 데 성공했습니다:', friendsInfo);
+                } else {
+                    console.error('친구 목록을 가져오는 중 오류 발생:', friendsInfo.error);
+                }
 
                 // 가져온 친구 목록을 Store의 userFriends 상태에 저장합니다.
                 store.state.userFriends = friendsInfo;

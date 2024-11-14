@@ -22,7 +22,7 @@ export default class Home extends Component {
 		if (getSocketStatus()) {
 			button = new Button({
 				style: 'gray',
-				size: 'l',
+				size: 'xxl',
 				text: 'Start'
 			},
 				() => {
@@ -33,7 +33,7 @@ export default class Home extends Component {
 		else {
 			button = new Button({
 				style: 'gray',
-				size: 'l',
+				size: 'xxl',
 				text: 'Login'
 			},
 				() => {

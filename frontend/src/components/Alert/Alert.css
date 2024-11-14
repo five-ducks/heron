@@ -23,17 +23,3 @@
   font-size: x-large;
   white-space: pre-line;
 }
-
-.custom-alert-button {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: larger;
-  pointer-events: auto;
-}
-
-.custom-alert-button:hover {
-  background-color: hsl(var(--primary) / 0.9);
-}
