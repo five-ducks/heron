@@ -9,7 +9,8 @@ export class Input extends Component {
 		});
 
 		const {
-			label = '',
+			label = 'none',
+			labelPosition = 'top',
 			id = '',
 			defaultValue = '',
 			placeholder = '',
@@ -18,11 +19,20 @@ export class Input extends Component {
 			size = 'm',
 		} = props;
 
+		// label에 값이 있는 경우에만 label 엘리먼트 추가
 		const labelEl = document.createElement('label');
-		labelEl.textContent = label;
-		labelEl.setAttribute('for', id);
-		labelEl.classList.add('col-sm-3', 'col-form-label', 'fw-bold'); // fw-bold 클래스 추가
-		this.el.appendChild(labelEl);
+		if (label !== 'none') {
+			labelEl.textContent = label;
+			labelEl.setAttribute('for', id);
+			labelEl.classList.add('col-form-label', 'fw-bold'); // fw-bold 클래스 추가
+			if (labelPosition === 'left') {
+				labelEl.classList.add('col-sm-3');
+			}
+			if (labelPosition === 'top') {
+				labelEl.classList.add('col-sm-9');
+			}
+			this.el.appendChild(labelEl);
+		}
 
 		const inputEl = document.createElement('input');
 		inputEl.setAttribute('id', id);
@@ -36,21 +46,24 @@ export class Input extends Component {
 				inputEl.classList.add('input-background');
 				break;
 			default:
-				// 기본 스타일은 form-control로 충분함
+				// 기본은 bright
+				inputEl.classList.add('input-bright');
 		}
 
 		switch (size) {
 			case 's':
 				inputEl.classList.add('form-control-sm');
-				labelEl.classList.add('small'); // Bootstrap의 작은 텍스트 클래스
+				if (label !== 'none')
+					labelEl.classList.add('small'); // Bootstrap의 작은 텍스트 클래스
 				break;
 			case 'l':
 				inputEl.classList.add('form-control-lg');
-				labelEl.classList.add('fs-1'); // Bootstrap의 큰 텍스트 클래스 (h4 대신 fs-4 사용)
+				if (label !== 'none')
+					labelEl.classList.add('fs-1'); // Bootstrap의 큰 텍스트 클래스
 				break;
 			default:
-				// 중간 크기는 기본 form-control 클래스로 충분함
-				labelEl.classList.add('fs-6'); // 중간 크기 텍스트를 위한 Bootstrap 클래스
+				if (label !== 'none')
+					labelEl.classList.add('fs-6'); // 중간 크기 텍스트를 위한 Bootstrap 클래스
 		}
 
 		// 변경: 입력 필드를 감싸는 div 추가

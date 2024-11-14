@@ -33,6 +33,7 @@ export default class Login extends Component {
             variant: 'background',
             id: 'nickname',
             label: 'ID',
+            labelPosition: 'left',
 			size: 'l',
         });
         const inputPW = new Input({
@@ -41,6 +42,7 @@ export default class Login extends Component {
             type: 'password',
             id: 'password',
             label: 'PW',
+            labelPosition: 'left',
 			size: 'l',
         });
 
