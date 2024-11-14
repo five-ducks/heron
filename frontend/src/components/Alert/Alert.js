@@ -1,14 +1,12 @@
 import { Component } from '../../core/core.js'
+import { Button } from '../Button.js'
 
 export class CustomAlert extends Component {
   constructor(payload = {}) {
     super({
       tagName: 'div',
-      props: { 
+      props: {
         className: 'custom-alert-overlay',
-        role: 'dialog',
-        'aria-modal': 'true',
-        'aria-labelledby': 'alert-message'
       },
       ...payload
     })
@@ -19,7 +17,7 @@ export class CustomAlert extends Component {
 
   render() {
     this.el.innerHTML = ''
-    
+
     const alertBox = document.createElement('div')
     alertBox.className = 'custom-alert-box'
 
@@ -29,11 +27,13 @@ export class CustomAlert extends Component {
     messageText.textContent = this.message
     alertBox.appendChild(messageText)
 
-    const okButton = document.createElement('button')
-    okButton.className = 'custom-alert-button'
-    okButton.textContent = this.okButtonText
-    okButton.onclick = () => this.close()
-    alertBox.appendChild(okButton)
+    const okButton = new Button({
+      text: this.okButtonText,
+      style: 'black-alert',
+      size: 'md'
+    }, () => this.close())
+    okButton.el.classList.add('custom-alert-button')
+    alertBox.appendChild(okButton.el)
 
     this.el.appendChild(alertBox)
 

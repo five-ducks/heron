@@ -56,7 +56,7 @@ export class ProfileSummary extends Component {
 
 		const logoutBtn = new Button({
 			style: 'blue',
-			size: 's',
+			size: 'sm',
 			text: '로그아웃',
 		},
 			async () => {
@@ -94,7 +94,7 @@ export class ProfileSummary extends Component {
 		);
 		const withdrawalBtn = new Button({
 			style: 'blue',
-			size: 's',
+			size: 'sm',
 			text: '회원탈퇴',
 		},
 			async () => {
@@ -132,7 +132,7 @@ export class ProfileSummary extends Component {
 
 		const saveBtn = new Button({
 			style: 'blue',
-			size: 'm',
+			size: 'sm',
 			text: '저장하기',
 		},
 			async () => {

@@ -1,67 +1,60 @@
-.button {
-	padding: 30px;
-	width: fit-content;
-	background-size: 100% 100%;
-	background-color: transparent;
-}
+/* Bootstrap은 대부분의 버튼 스타일을 제공하므로 많은 커스텀 스타일을 제거했습니다. */
 
-.button-container {
-	display: inline-flex;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	align-items: center;
+.btn {
+	/* flexbox 스타일은 Bootstrap의 d-flex 클래스로 대체할 수 있습니다. */
 	gap: 10px;
+	font-family: var(--base-font);
 }
 
-.default {
-	/* height: 100px; */
-	background-color: #4a4a4a72;
-	/* 버튼 배경색 */
-	border: 5px solid #bfbfbf;
-	/* 버튼 테두리 */
-	border-radius: 10px;
-	/* 버튼 모서리 둥글게 */
-	color: white;
-	text-align: center;
-}
+/* .default 스타일은 제거했습니다. Bootstrap의 btn-secondary 클래스로 대체할 수 있습니다. */
 
 .gray {
 	background-image: url(../../public/images/button.png);
 	color: white;
 	border: none;
+	background-size: 100% 100%; /* 배경 이미지를 버튼 크기에 맞춤 */
 }
 
 .blue {
 	background-image: url(../../public/images/ui/profile-button.png);
 	color: white;
 	border: lightskyblue;
+	background-size: 100% 100%; /* 배경 이미지를 버튼 크기에 맞춤 */
+}
+
+.black-alert {
+	background-color: var(--absolute-color-black);
+	color: var(--text-color);
+	padding: 8px 16px;
+	border-top: 2px solid var(--alert-btn-border-color);
+	border-left: 2px solid var(--alert-btn-border-color);
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: larger;
+	pointer-events: auto;
 }
 
 .sidebar {
-	/* width: 100%; */
+	/* Bootstrap의 navbar 컴포넌트를 사용하면 이 스타일이 불필요할 수 있습니다. */
 	min-height: 6vh;
 	padding: 10px;
 	margin: 1px 10px;
 	font-size: var(--small-font-size);
 }
 
-.s {
-	aspect-ratio: 9/3;
-	font-size: var(--small-font-size);
+.btn-xl {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
 }
 
-.m {
-	aspect-ratio: 5.3/3;
-	font-size: var(--medium-font-size);
+/* 초대형 버튼 */
+.btn-xxl {
+    padding: 20px 40px;
+    font-size: 2rem;
+    line-height: 1.5;
+    border-radius: 0.4rem;
 }
 
-.l {
-	aspect-ratio: 5/1;
-	font-size: var(--large-font-size);
-}
-
-.xl {
-	aspect-ratio: 2.5/1;
-	font-size: var(--xlarge-font-size);
-}
+/* s, m, l 클래스는 제거했습니다. Bootstrap의 btn-sm, btn-md, btn-lg 클래스로 대체할 수 있습니다. */

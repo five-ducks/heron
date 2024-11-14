@@ -23,7 +23,7 @@ export default class Home extends Component {
 		if (sessionStorage.getItem('isLoggedIn') === 'true') {
 			button = new Button({
 				style: 'gray',
-				size: 'l',
+				size: 'xxl',
 				text: 'Start'
 			},
 				() => {
@@ -34,7 +34,7 @@ export default class Home extends Component {
 		else {
 			button = new Button({
 				style: 'gray',
-				size: 'l',
+				size: 'xxl',
 				text: 'Login'
 			},
 				() => {

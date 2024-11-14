@@ -1,11 +1,13 @@
 import { Component } from "../core/core.js";
 
 export class Button extends Component {
-	constructor({ style = 'default', size = 'm', text = 'Button' }, onClick = () => { }) {
+	constructor({ style = 'gray', size = 'md', text = 'Button' }, onClick = () => { }) {
 		super({
 			tagName: 'button',
 			props: {
-				className: `button ${style} ${size}` // 기본값으로 style과 size 적용
+				// Bootstrap 클래스로 변경
+				// btn-primary는 기본 스타일, btn-md는 중간 크기를 나타냅니다.
+				className: `${style} btn-${size} btn`
 			}
 		});
 		this.el.textContent = text;
@@ -14,12 +16,11 @@ export class Button extends Component {
 		this.el.addEventListener('click', onClick);
 	}
 
-	// 버튼의 텍스트를 변경하는 메서드
 	setText(text) {
 		this.el.textContent = text;
 	}
 
 	render() {
-		// 추가 렌더링 로직
+		// Bootstrap은 추가 렌더링 로직이 필요 없으므로 이 메서드는 비워둘 수 있습니다.
 	}
 }

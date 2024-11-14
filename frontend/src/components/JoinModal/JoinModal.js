@@ -38,7 +38,7 @@ export class JoinModal extends Modal {
         // 완료 버튼 추가
         const finishButton = new Button({
             style: 'gray',
-            size: 's',
+            size: 'xl',
             text: '완료',
         },
             async () => {
