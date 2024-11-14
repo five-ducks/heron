@@ -33,6 +33,7 @@ export default class Login extends Component {
             variant: 'background',
             id: 'nickname',
             label: 'ID',
+			size: 'l',
         });
         const inputPW = new Input({
             placeholder: 'Password',
@@ -40,6 +41,7 @@ export default class Login extends Component {
             type: 'password',
             id: 'password',
             label: 'PW',
+			size: 'l',
         });
 
         // Create buttons
