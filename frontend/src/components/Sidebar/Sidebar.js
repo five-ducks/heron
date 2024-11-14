@@ -16,18 +16,20 @@ export class Sidebar extends Component {
                 userInfo: props
             }
         });
-        // this.userInfo = props;
         this.friendRender(this.userInfo);
         store.subscribe('userFriends', this.renderFriendList.bind(this));
     }
 
     friendRender(userInfo) {
+        this.el.classList.add('container'); // Bootstrap container 클래스 추가
+        this.el.classList.add('col-auto'); // col-auto로 설정하여 내용물에 맞게 크기 조절
+
         this.el.innerHTML = /*html*/`
-            <div class="addfriend"></div>
-            <div class="friends"></div>
+            <div class="addfriend text-center mb-3"></div>
+            <div class="friends list-group"></div>
         `;
 
-        // 이미지 수정 필요 
+        // 친구 추가 버튼
         const addFriendButton = new Button(
             {
                 style: 'sidebar',
@@ -42,6 +44,7 @@ export class Sidebar extends Component {
         );
         this.el.querySelector('.addfriend').appendChild(addFriendButton.el);
 
+        // 친구 목록 가져오기
         const fetchFriends = async () => {
             const allUrl = `/api/users/self/friends/`;
             try {
@@ -70,7 +73,7 @@ export class Sidebar extends Component {
 
     renderFriendList() {
         const friendsContainer = this.el.querySelector('.friends');
-        friendsContainer.innerHTML = ''; // Clear existing friend list
+        friendsContainer.innerHTML = ''; // 기존 친구 목록을 지움
 
         store.state.userFriends.forEach(friendData => {
             const friend = new Profile(
@@ -86,7 +89,11 @@ export class Sidebar extends Component {
                     }
                 }
             );
-            friendsContainer.appendChild(friend.el);
+            // 각 친구 항목을 리스트 그룹 아이템으로 추가
+            const friendItem = document.createElement('div');
+            friendItem.classList.add('list-group-item'); // Bootstrap 리스트 그룹 아이템 클래스 추가
+            friendItem.appendChild(friend.el);
+            friendsContainer.appendChild(friendItem);
         });
     }
 
