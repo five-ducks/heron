@@ -12,9 +12,12 @@
     max-width: 100%;
 }
 
-@media (min-width: 576px) {
-    .input-background,
-    .input-bright {
-        min-width: 20rem; /* 데스크톱에서 최소 너비 유지 */
-    }
+.form-control-xl {
+    width: 35vh;
+    height: 5vh;
+    font-size: 2.5rem;
+}
+
+.fs-0 {
+    font-size: 5.5rem !important;
 }

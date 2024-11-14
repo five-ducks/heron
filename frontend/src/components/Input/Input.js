@@ -26,10 +26,10 @@ export class Input extends Component {
 			labelEl.setAttribute('for', id);
 			labelEl.classList.add('col-form-label', 'fw-bold'); // fw-bold 클래스 추가
 			if (labelPosition === 'left') {
-				labelEl.classList.add('col-sm-3');
+				labelEl.classList.add('col-sm-2');
 			}
 			if (labelPosition === 'top') {
-				labelEl.classList.add('col-sm-9');
+				labelEl.classList.add('col-sm-10');
 			}
 			this.el.appendChild(labelEl);
 		}
@@ -48,7 +48,7 @@ export class Input extends Component {
 			default:
 				// 기본은 bright
 				inputEl.classList.add('input-bright');
-		}
+		}``
 
 		switch (size) {
 			case 's':
@@ -61,6 +61,10 @@ export class Input extends Component {
 				if (label !== 'none')
 					labelEl.classList.add('fs-1'); // Bootstrap의 큰 텍스트 클래스
 				break;
+			case 'xl':
+				inputEl.classList.add('form-control-xl');
+				if (label !== 'none')
+					labelEl.classList.add('fs-0')
 			default:
 				if (label !== 'none')
 					labelEl.classList.add('fs-6'); // 중간 크기 텍스트를 위한 Bootstrap 클래스

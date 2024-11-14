@@ -1,20 +1,19 @@
 /* 추가적인 사용자 정의 스타일 */
 .login {
-    min-height: 100vh; /* 전체 높이를 차지하도록 설정 */
-    width: 100%;
-    max-width: 100%;
+    min-height: 66vh; /* 전체 높이를 차지하도록 설정 */
+    width: 100vh;
     display: flex;
     align-items: center;
 }
 
 .login-title {
-    font-size: calc(4rem + 9vw); /* 기본 폰트 크기를 설정하고 뷰포트 너비에 따라 조정 */
+    font-size: calc(4rem + 8vw); /* 기본 폰트 크기를 설정하고 뷰포트 너비에 따라 조정 */
     text-align: center;
 }
 
 .login-input-container {
-    width: 100%;
-    max-width: 40%;
+    width: 75%;
+    padding-left: 6.5rem;
     padding-bottom: 7rem;
 }
 

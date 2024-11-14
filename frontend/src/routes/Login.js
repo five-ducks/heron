@@ -81,19 +81,15 @@ export default class Login extends Component {
     constructor() {
         super({
             props: {
-                className: 'login container', // Bootstrap container 클래스 추가
+                className: 'login container row justify-content-center align-items-center', // Bootstrap container 클래스 추가
             }
         });
     }
     render() {
         this.el.innerHTML = /*html*/`
-        <div class="row justify-content-center">
             <h1 class="login-title">login</h1>
-            <div class="login-input-container">
-            </div>
-            <div class="button-row d-flex justify-content-center gap-3"mb-3>
-            </div>
-        </div>
+            <div class="login-input-container"></div>
+            <div class="button-row d-flex justify-content-center gap-3"></div>
         `;
 
         // Initialize input fields
@@ -103,7 +99,7 @@ export default class Login extends Component {
             id: 'nickname',
             label: 'ID',
             labelPosition: 'left',
-			size: 'l',
+			size: 'xl',
         });
         const inputPW = new Input({
             placeholder: 'Password',
@@ -112,7 +108,7 @@ export default class Login extends Component {
             id: 'password',
             label: 'PW',
             labelPosition: 'left',
-			size: 'l',
+			size: 'xl',
         });
 
         // Create buttons
