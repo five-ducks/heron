@@ -77,7 +77,6 @@ h1 {
 	font-size: var(--title-font-size);
 	line-height: var(--base-line-height);
 	text-align: center;
-	font-family: var(--title-font);
 }
 
 /* button.css로 이동하지 않아도 될까요? */

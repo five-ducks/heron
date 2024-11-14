@@ -7,7 +7,7 @@
 .input_label {
 	width: 60px;
 	/* Adjust the width as needed */
-	font-family: 'Pixeboy';
+	font-family: var(--title-font);
 	color: white;
 	margin-right: 60px;
 	/* Space between the label and input */
