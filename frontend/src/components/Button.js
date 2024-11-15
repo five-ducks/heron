@@ -7,7 +7,7 @@ export class Button extends Component {
 			props: {
 				// Bootstrap 클래스로 변경
 				// btn-primary는 기본 스타일, btn-md는 중간 크기를 나타냅니다.
-				className: `${style} btn-${size} btn`
+				className: `btn-${style} btn-${size} btn`
 			}
 		});
 		this.el.textContent = text;

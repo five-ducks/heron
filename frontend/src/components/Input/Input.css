@@ -21,3 +21,17 @@
 .fs-0 {
     font-size: 5.5rem !important;
 }
+
+/* 로그인 창 사이즈에 따른 미디어 정의 */
+@media screen and (max-width: 768px) {
+    .form-control-xl {
+        width: 40vh;
+        height: 5vh;
+        font-size: 2.5rem;
+    }
+
+    .fs-0 {
+        font-size: 5.5rem !important;
+    }
+    
+}

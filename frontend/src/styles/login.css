@@ -3,7 +3,6 @@
     min-height: 66vh; /* 전체 높이를 차지하도록 설정 */
     width: 100vh;
     display: flex;
-    align-items: center;
 }
 
 .login-title {
@@ -13,11 +12,12 @@
 
 .login-input-container {
     width: 75%;
-    padding-left: 6.5rem;
-    padding-bottom: 7rem;
+    padding-left: calc(2.5rem + 4vh);
+    padding-bottom: 4rem;
 }
 
 .button-row {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 2rem;
 }
