@@ -57,7 +57,7 @@ export class SelectPage extends Component {
 		// 	this.loading.remove();
 		// });
 		// 1:1 게임 버튼 event listener
-        const onetooneButton = this.el.querySelector('.one-to-one');
+        const onetooneButton = this.el.querySelector('.btn-one-to-one');
         onetooneButton.addEventListener('click', () => {
             window.location.hash = '/game/onetoone/';
         });

@@ -12,6 +12,7 @@
     color: white;
     font-size: 20px;
     display: flex;
+    justify-content: center;
 }
 
 .friends {
@@ -19,8 +20,10 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    gap: 0.4rem;
 }
 
 .list-group-item {
     background-color: #ffffff40;
+    border: none
 }

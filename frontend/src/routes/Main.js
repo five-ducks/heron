@@ -16,15 +16,13 @@ export default class Main extends Component {
     async render() {
         this.el.innerHTML = /*html*/`
             <header class="headerpos"></header>
-            <div class="container-fluid">
-                <div class="row contents d-flex flex-column flex-xxl-row">
+            <div class="container-fluid row contents d-flex flex-column flex-xxl-row">
                     <div class="col-12 col-xxl-9 game-section-container">
                         <!-- SelectPage가 여기에 추가됩니다 -->
                     </div>
                     <aside class="col-12 col-xxl-3 sidebar-container">
                         <!-- Sidebar가 여기에 추가됩니다 -->
                     </aside>
-                </div>
             </div>
         `
         await loadUserInfo();

@@ -68,7 +68,7 @@ body {
 }
 
 #root {
-	/* overflow: auto; */ /* 이거 넣으신분..? 일단은 주석처리 했습니당 */
+	overflow: auto;
 	transform: translateX(0);
 }
 
