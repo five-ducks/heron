@@ -9,17 +9,20 @@
 }
 
 .custom-alert-box {
+  display: flex;
   background-color: var(--absolute-color-black);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
   width: 288px;
   box-shadow: var(--alert-box-shadow);
+  flex-direction: column;
+  align-items: center;
 }
 
 .custom-alert-message {
   margin-top: 12px;
   margin-bottom: 16px;
-  font-size: x-large;
+  font-size: 1.4rem;
   white-space: pre-line;
 }

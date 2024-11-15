@@ -72,7 +72,10 @@ export class Input extends Component {
 
 		// 변경: 입력 필드를 감싸는 div 추가
 		const inputWrapper = document.createElement('div');
-		inputWrapper.classList.add('col-9');
+		if (labelPosition === 'top')
+			inputWrapper.classList.add('col-12');
+		else
+			inputWrapper.classList.add('col-9');
 		inputWrapper.appendChild(inputEl);
 		this.el.appendChild(inputWrapper);
 

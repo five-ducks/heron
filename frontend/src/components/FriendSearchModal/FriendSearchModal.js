@@ -15,6 +15,8 @@ export class FriendSearchModal extends Modal {
             size: 'l',
         });
         this.searchButton = new Button({ style: 'gray', size: 'lg', text: '검색' }, async () => await this.performSearch());
+        this.searchInput.el.classList.add('col-9');
+        this.searchButton.el.classList.add('col-3');
         this.searchContainer.appendChild(this.searchInput.el);
         this.searchContainer.appendChild(this.searchButton.el);
 
@@ -27,7 +29,7 @@ export class FriendSearchModal extends Modal {
 
     static getContent() {
         return /*html*/`
-            <div class="search-container"></div>
+            <div class="row search-container"></div>
             <div class="search-results"></div>
         `;
     }
