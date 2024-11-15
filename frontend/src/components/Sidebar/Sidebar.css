@@ -20,3 +20,7 @@
     justify-content: flex-start;
     flex-direction: column;
 }
+
+.list-group-item {
+    background-color: #ffffff40;
+}
