@@ -19,7 +19,7 @@
 }
 
 .character-profile .info-container span {
-    font-family: 'Pixeboy', sans-serif;
+    font-family: var(--title-font);
     color: var(--text-color);
     background: none;
     white-space: nowrap;

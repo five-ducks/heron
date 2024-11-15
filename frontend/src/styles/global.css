@@ -1,11 +1,13 @@
 /* 전역 스타일 정의 */
 
 @font-face {
+	/* 알파벳에 적용 */
 	font-family: 'Pixeboy';
 	src: url('../../public/fonts/Pixeboy.ttf');
 }
 
 @font-face {
+	/* 한글에 적용 */
 	font-family: 'DungGeunMo';
 	src: url('../../public/fonts/DungGeunMo.ttf');
 }
@@ -19,7 +21,8 @@ html {
 	--text-color: #fff;
 	--strong-color: yellow;
 	--absolute-color-black: #000;
-	--base-font: 'DungGeunMo', sans-serif;
+	/* edit bootstrap variables */
+	--bs-body-font-family: 'DungGeunMo', var(--bs-font-sans-serif);
 	--title-font: 'Pixeboy', sans-serif;
 
 	/* for button */
@@ -29,9 +32,7 @@ html {
 	--xlarge-font-size: 120px;
 
 	/* for text */
-	--base-font-size: 50px;
 	--big-font-size: 150px;
-	--title-font-size: 200px;
 
 	--base-line-height: 1.6;
 	--header-color: #011635;
@@ -52,14 +53,13 @@ header {
 	height: 15vh;
 	width: 100vw;
 	z-index: 100;
-	background-color: var(--header-color);
+	background-color: #00000050;
 }
 
 body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-family: var(--title-font);
 	color: var(--text-color);
 	background-image: var(--gate-page-background-img);
 	background-size: cover;
@@ -68,26 +68,23 @@ body {
 }
 
 #root {
-	/* overflow: auto; */ /* 이거 넣으신분..? 일단은 주석처리 했습니당 */
+	overflow: auto;
 	transform: translateX(0);
 }
 
 h1 {
-	font-size: var(--title-font-size);
+	font-size: calc(5rem + 3vw);
 	line-height: var(--base-line-height);
 	text-align: center;
-	font-family: var(--title-font);
 }
 
 /* button.css로 이동하지 않아도 될까요? */
 button {
 	cursor: pointer;
-	font-family: var(--base-font);
 }
 
 input {
 	outline: none;
 	padding: 5px;
 	color: var(--text-color);
-	font-family: 'DungGeunMo';
 }

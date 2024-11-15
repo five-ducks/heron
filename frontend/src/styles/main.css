@@ -1,54 +1,31 @@
 .main {
-	background-color: var(--header-color);
+	width: 100vw;
+	/* 전체 너비 */
+	height: 100vh;
+	/* 전체 높이 */
+	display: flex;
+	flex-direction: column;
+	/* 필요에 따라 추가 */
 }
 
 .contents {
-	display: flex;
-	flex-direction: row;
 	margin-top: 15vh;
-	height: 85vh;
-	width: 100vw;
-	justify-content: space-between;
+	height: auto;
+	/* 고정된 높이 제거 */
 }
 
+/* game-section과 sidebar는 Bootstrap의 col 클래스로 너비를 조정 */
 .contents .game-section {
-	width: 2004px;
 	display: flex;
 	flex-direction: column;
-    align-items: center;
+	align-items: center;
 	justify-content: center;
+	width: 100%;
+	/* 고정 너비 제거 */
 }
 
 .contents .sidebar {
-	width: 345px;
+	width: 100%;
+	/* 고정 너비 제거 */
 }
 
-/* 화면 너비가 1000px 이하로 줄어들 때 */
-@media (max-width: 1000px) {
-	.contents {
-		flex-direction: column;
-		align-items: center;
-		/* 스크롤 가능하도록 */
-		overflow-y: scroll;
-	}
-
-	.contents .my-profile-content {
-		padding: 0;
-	}
-	.contents .profile-summary {
-		margin: 0;
-		flex-direction: column;
-		width: 100%;
-	}
-
-	.contents .profile-summary .vertical-line {
-		width: 80%;
-		height: 1px;
-	}
-
-	.contents .sidebar {
-		width: 100% !important;
-		font-size: 1.7rem;
-		margin: 1px 8.5px;
-	}
-}

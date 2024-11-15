@@ -1,37 +1,10 @@
 .selectpage {
-    display: flex;
-    flex-direction: column;
-    gap: 120px;
-    min-width: max-content;
-    font-family: var(--base-font);
     padding: 20px;
 }
 
-.selectpage h1 {
-    font-family: var(--base-font);
-}
-
 .game-list {
-    display: flex;
-    justify-content: center;
     gap: 160px;
     margin-bottom: 150px;
-}
-
-.selectpage .one-to-one,
-.selectpage .tournament {
-    font-size: var(--medium-font-size);
-    color: var(--text-color);
-    min-width: 300px;
-    min-height: 300px;
-    background: none;
-    border: none;   
-}
-
-.selectpage .one-to-one {
-    background-image: url('../../../public/images/ui/1vs1border.png');
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .selectpage .one-to-one:hover,
@@ -39,8 +12,3 @@
     color: var(--strong-color);
 }
 
-.selectpage .tournament {
-    background-image: url('../../../public/images/ui/tnmtborder.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-}

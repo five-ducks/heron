@@ -87,7 +87,7 @@ export default class Login extends Component {
     }
     render() {
         this.el.innerHTML = /*html*/`
-            <h1 class="login-title">login</h1>
+            <h1 class="login-title" style="font-family: var(--title-font);">login</h1>
             <div class="login-input-container"></div>
             <div class="button-row d-flex justify-content-center gap-3"></div>
         `;

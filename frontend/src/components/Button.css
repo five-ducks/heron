@@ -3,6 +3,7 @@
 .btn {
 	display: flex;
 	gap: 10px;
+	color: var(--text-color);
 	font-family: var(--base-font);
 	justify-content: center;
 	align-items: center;
@@ -37,17 +38,34 @@
 	pointer-events: auto;
 }
 
+.btn-one-to-one {
+	background-image: url('../../public/images/ui/1vs1border.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	/* width: 20rem; */
+	/* height: 20rem; */
+}
+
+.btn-tournament {
+	background-image: url('../../public/images/ui/tnmtborder.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	/* width: 20rem; */
+	/* height: 20rem; */
+}
+
 .btn-sidebar {
+	/* Bootstrap의 navbar 컴포넌트를 사용하면 이 스타일이 불필요할 수 있습니다. */
 	min-height: 6vh;
 	padding: 10px;
 	margin: 1px 10px;
-	border: 1px solid var(--btn-border-color);
 	border-radius: 5px;
 	background-color: var(--sidebar-color);
 	font-size: var(--small-font-size);
 }
 
 .btn-xl {
+
     padding: 15px 30px;
     font-size: 1.5rem;
     line-height: 1.5;
