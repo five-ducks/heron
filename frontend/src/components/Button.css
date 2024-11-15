@@ -1,40 +1,44 @@
 /* Bootstrap은 대부분의 버튼 스타일을 제공하므로 많은 커스텀 스타일을 제거했습니다. */
 
 .btn {
-	/* flexbox 스타일은 Bootstrap의 d-flex 클래스로 대체할 수 있습니다. */
+	display: flex;
 	gap: 10px;
 	color: var(--text-color);
+	font-family: var(--base-font);
+	justify-content: center;
+	align-items: center;
+	text-align: center; /* 필요성 낮음 */
 }
 
 /* .default 스타일은 제거했습니다. Bootstrap의 btn-secondary 클래스로 대체할 수 있습니다. */
 
-.gray {
+.btn-gray {
 	background-image: url(../../public/images/button.png);
 	color: white;
 	border: none;
-	background-size: 100% 100%; /* 배경 이미지를 버튼 크기에 맞춤 */
+	background-size: 100% 100%;
 }
 
-.blue {
+.btn-blue {
 	background-image: url(../../public/images/ui/profile-button.png);
 	color: white;
 	border: lightskyblue;
-	background-size: 100% 100%; /* 배경 이미지를 버튼 크기에 맞춤 */
+	background-size: 100% 100%;
 }
 
-.black-alert {
+.btn-black-alert {
 	background-color: var(--absolute-color-black);
 	color: var(--text-color);
 	padding: 8px 16px;
-	border-top: 2px solid var(--alert-btn-border-color);
-	border-left: 2px solid var(--alert-btn-border-color);
+	border-top: 2px solid var(--btn-border-color);
+	border-left: 2px solid var(--btn-border-color);
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: larger;
 	pointer-events: auto;
 }
 
-.one-to-one {
+.btn-one-to-one {
 	background-image: url('../../public/images/ui/1vs1border.png');
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -42,7 +46,7 @@
 	/* height: 20rem; */
 }
 
-.tournament {
+.btn-tournament {
 	background-image: url('../../public/images/ui/tnmtborder.png');
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -50,11 +54,14 @@
 	/* height: 20rem; */
 }
 
-.sidebar {
+.btn-sidebar {
 	/* Bootstrap의 navbar 컴포넌트를 사용하면 이 스타일이 불필요할 수 있습니다. */
 	min-height: 6vh;
 	padding: 10px;
 	margin: 1px 10px;
+	border: 1px solid var(--btn-border-color);
+	border-radius: 5px;
+	background-color: var(--sidebar-color);
 	font-size: var(--small-font-size);
 }
 
@@ -68,10 +75,18 @@
 
 /* 초대형 버튼 */
 .btn-xxl {
+	width: 21vh;
     padding: 20px 40px;
-    font-size: 2rem;
+    font-size: 3rem;
     line-height: 1.5;
     border-radius: 0.4rem;
+}
+
+@media screen and (max-width: 768px) {
+	.btn-xxl {
+		width: 16vh;
+		font-size: 1.5rem;
+	}
 }
 
 /* s, m, l 클래스는 제거했습니다. Bootstrap의 btn-sm, btn-md, btn-lg 클래스로 대체할 수 있습니다. */

@@ -5,27 +5,92 @@ import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
 import { CustomAlert } from "../components/Alert/Alert.js";
 
+// New function for login API request
+async function loginUser(username, password) {
+    try {
+        const response = await fetch('/api/users/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            const alert = new CustomAlert({
+                message: '로그인 성공!',
+                okButtonText: '확인',
+            });
+            alert.render();
+            await alert.show();
+            window.location.href = '#/main';
+        } else {
+            const message = await response.json();
+            const alert = new CustomAlert({
+                message: message.error,
+                okButtonText: '확인',
+            });
+            alert.render();
+            await alert.show();
+        }
+    } catch (error) {
+        const alert = new CustomAlert({
+            message: `Server error: ${error.message}`,
+            okButtonText: '확인',
+        });
+        alert.render();
+        await alert.show();
+    }
+}
+
+// New function for 42 authentication API request
+async function authenticate42() {
+    try {
+        const response = await fetch('/api/oauth/login/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': getCookie('csrftoken'),
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            window.location.href = data.redirect_url;
+        } else {
+            const message = await response.json();
+            const alert = new CustomAlert({
+                message: message.error,
+                okButtonText: '확인',
+            });
+            alert.render();
+            await alert.show();
+        }
+    } catch (error) {
+        const alert = new CustomAlert({
+            message: `Server error: ${error.message}`,
+            okButtonText: '확인',
+        });
+        alert.render();
+        await alert.show();
+    }
+}
+
 export default class Login extends Component {
     constructor() {
         super({
             props: {
-                className: 'login',
+                className: 'login container row justify-content-center align-items-center', // Bootstrap container 클래스 추가
             }
         });
     }
     render() {
         this.el.innerHTML = /*html*/`
-        <h1 style="font-family: var(--title-font);">Login</h1>
-        <div class="login-input-container">
-        </div>
-        <div class="button-row"></div>
+            <h1 class="login-title" style="font-family: var(--title-font);">login</h1>
+            <div class="login-input-container"></div>
+            <div class="button-row d-flex justify-content-center gap-3"></div>
         `;
-
-        // 쿠키를 저장하는 함수
-        function setCookie(name, value, days) {
-            const expires = new Date(Date.now() + days * 864e5).toUTCString();
-            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${window.location.hostname}; Secure; SameSite=Lax`;
-        }
 
         // Initialize input fields
         const inputID = new Input({
@@ -33,6 +98,8 @@ export default class Login extends Component {
             variant: 'background',
             id: 'nickname',
             label: 'ID',
+            labelPosition: 'left',
+			size: 'xl',
         });
         const inputPW = new Input({
             placeholder: 'Password',
@@ -40,6 +107,8 @@ export default class Login extends Component {
             type: 'password',
             id: 'password',
             label: 'PW',
+            labelPosition: 'left',
+			size: 'xl',
         });
 
         // Create buttons
@@ -71,46 +140,7 @@ export default class Login extends Component {
                     await alert.show();
                     return;
                 }
-                try {
-                    // Send login request
-                    const response = await fetch('/api/users/login/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // back에게 request 내용 중 token도 보내줘야함(?)
-                            'X-CSRF-Token': getCookie('csrftoken'),
-                        },
-                        body: JSON.stringify({ username, password }),
-                    });
-                    if (response.ok) {
-                        const data = response;
-                        setCookie('ppstate', data.status, 365);
-                        sessionStorage.setItem('isLoggedIn', 'true');
-                        setCookie('player', username, 365);
-                        const alert = new CustomAlert({
-                            message: '로그인 성공!',
-                            okButtonText: '확인',
-                        });
-                        alert.render();
-                        await alert.show();
-                        window.location.href = '#/main'; // 로그인 성공 시 메인 페이지로 이동
-                    } else {
-                        const message = await response.json();
-                        const alert = new CustomAlert({
-                            message: message.error,
-                            okButtonText: '확인',
-                        });
-                        alert.render();
-                        await alert.show();
-                    }
-                } catch (error) {
-                    const alert = new CustomAlert({
-                        message: `Server error: ${error.message}`,
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
-                }
+                await loginUser(username, password);
             }
         );
 
@@ -120,30 +150,7 @@ export default class Login extends Component {
             text: '42 Auth',
         },
             async () => {
-                try {
-                    const response = await fetch('/api/oauth/login/', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-Token': getCookie('csrftoken'),
-                        }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        window.location.href = data.redirect_url;  // 리디렉션 처리
-                    } else {
-                        const message = await response.json();
-                        const alert = new CustomAlert({
-                            message: message.error,
-                            okButtonText: '확인',
-                        });
-                        alert.render();
-                        await alert.show();
-                    }
-                } catch (error) {
-                    console.error('Server error:', error);
-                }
+                await authenticate42();
             }
         );
 

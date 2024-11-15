@@ -1,6 +1,6 @@
 import { Component } from "../../core/core.js";
 import { OneGameRecord } from "./OneGameRecord.js";
-import store, { loadGameRecords } from "../../store/game.js"; 
+import store, { loaduserGameRecords } from "../../store/game.js"; 
 
 // 전적 영역
 export class GameRecords extends Component {
@@ -13,11 +13,12 @@ export class GameRecords extends Component {
 	}
 
 	async render() {
-		await loadGameRecords();
+
+		await loaduserGameRecords();
 
 		this.el.innerHTML = /*html*/``;
 
-		const gameRecords = store.state.gameRecords;
+		const gameRecords = store.state.userGameRecords;
 		if (gameRecords) {
 			gameRecords.forEach(gameRecord => {
 				const oneGameRecord = new OneGameRecord();

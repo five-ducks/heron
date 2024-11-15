@@ -6,9 +6,13 @@ class StatusConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
         
-        await self.change_user_status(User.STATUS_MAP['온라인'])
-        await self.accept()
-
+        if self.user.is_authenticated:
+            await self.change_user_status(User.STATUS_MAP['온라인'])
+            await self.accept()
+        else:
+            await self.close()
+        # websocket 연결을 시도했을때 로그인된 상태라면 연결을 수락 / 그렇지 않으면 연결을 끊음
+        
     async def disconnect(self, close_code):
         self.user = self.scope['user']
 

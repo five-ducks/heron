@@ -43,7 +43,7 @@ html {
 	/* for Avatar */
 	--avatar-border-color: #007bff;
 	--alert-box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-	--alert-btn-border-color: #a9a9a9;
+	--btn-border-color: #a9a9a9;
 }
 
 header {
@@ -68,7 +68,7 @@ body {
 }
 
 #root {
-	overflow: auto;
+	/* overflow: auto; */ /* 이거 넣으신분..? 일단은 주석처리 했습니당 */
 	transform: translateX(0);
 }
 

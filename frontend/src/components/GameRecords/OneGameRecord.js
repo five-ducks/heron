@@ -1,6 +1,6 @@
-import { Component, getCookie } from "../../core/core.js";
-import store from "../../store/game.js";
+import { Component } from "../../core/core.js";
 import { Outcome } from "./Outcome.js";
+import store from "../../store/game.js";
 
 // 하나의 게임 결과
 export class OneGameRecord extends Component {
@@ -12,7 +12,7 @@ export class OneGameRecord extends Component {
 		});
 	}
 	render(gameRecord) {
-		const myName = getCookie('player');
+		const myName = store.state.userInfo.username;
 		if (gameRecord) {
 			const user1_name = gameRecord.user1_name;
 			const user2_name = gameRecord.user2_name;
@@ -20,8 +20,8 @@ export class OneGameRecord extends Component {
 			const user2_profile_img = gameRecord.user2_profile_img;
 			const match_result = gameRecord.match_result;
 			const match_time = new Date(gameRecord.match_end_time);
-			const user1IsWin = ( match_result === 'user1_win');
-			const user2IsWin = ( match_result === 'user2_win');
+			const user1IsWin = (match_result === 'user1_win');
+			const user2IsWin = (match_result === 'user2_win');
 			let isWin; // 내가 이겼는지 졌는지
 			if (user1_name === myName) {
 				isWin = user1IsWin;

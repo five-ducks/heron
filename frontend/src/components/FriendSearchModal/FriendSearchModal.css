@@ -8,6 +8,7 @@
   /* Search container styles */
   .search-container {
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
@@ -29,6 +30,7 @@
   
   .search-results {
     display: flex;
+    width: 100%;
     flex-direction: column;
     gap: 1rem;
   }

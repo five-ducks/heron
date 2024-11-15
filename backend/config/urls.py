@@ -11,7 +11,7 @@ from django.contrib import admin
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'friends', FriendViewSet, basename='friend')
-router.register(r'matchs', MatchViewSet, basename='match')
+router.register(r'matches', MatchViewSet, basename='match')
 router.register(r'oauth', OAuthViewSet, basename='oauth')
 
 urlpatterns = [

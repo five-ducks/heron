@@ -8,10 +8,15 @@ export class FriendSearchModal extends Modal {
         super('친구 검색', FriendSearchModal.getContent(), () => this.onModalClose());
         this.searchResults = this.el.querySelector('.search-results');
         this.searchContainer = this.el.querySelector('.search-container');
-
-        this.searchInput = new Input('친구 이름 입력', 'text', { width: '330px', height: '65px', fontsize: '20px' }, '', '', 'friend-search-input');
-        // this.searchButton = new Button({ style: 'gray', size: 's', text: '검색' }, () => this.performSearch());
+        
+        this.searchInput = new Input({
+            placeholder: '친구 이름 입력',
+            type: 'text',
+            size: 'l',
+        });
         this.searchButton = new Button({ style: 'gray', size: 'lg', text: '검색' }, async () => await this.performSearch());
+        this.searchInput.el.classList.add('col-9');
+        this.searchButton.el.classList.add('col-3');
         this.searchContainer.appendChild(this.searchInput.el);
         this.searchContainer.appendChild(this.searchButton.el);
 
@@ -24,7 +29,7 @@ export class FriendSearchModal extends Modal {
 
     static getContent() {
         return /*html*/`
-            <div class="search-container"></div>
+            <div class="row search-container"></div>
             <div class="search-results"></div>
         `;
     }

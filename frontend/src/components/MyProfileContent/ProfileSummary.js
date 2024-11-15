@@ -4,6 +4,7 @@ import { Button } from "../Button.js";
 import { Input } from "../Input/Input.js";
 import { CustomAlert } from "../Alert/Alert.js";
 import { closeWebSocketConnection } from "../../status/status.js";
+import store from "../../store/game.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -16,13 +17,12 @@ export class ProfileSummary extends Component {
 	}
 
 	profileContentsRender(props) {
-		const username = getCookie('player');
+		const username = store.state.userInfo.username;
 		this.el.innerHTML = /*html*/`
 			<div class="profile-summary-img-level">
 				<div class="profile-summary-img"></div>
 			</div>
 			<div class="profile-summary-name">
-				<div>${username}</div>
 			</div>
 			<div class="vertical-line"></div>
 			<div class="profile-summary-win">
@@ -46,9 +46,10 @@ export class ProfileSummary extends Component {
 		const profileName = this.el.querySelector('.profile-summary-name');
 
 		profileName.appendChild(new Input({
-			variant: 'defalut',
+			label: `${username}의 기분`,
+			variant: 'background',
 			defaultValue: props.status_msg,
-			size: 'm',
+			size: 'l',
 		}).el);
 
 		// 승부 요약
@@ -69,9 +70,7 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					sessionStorage.setItem('isLoggedIn', 'false');
+					closeWebSocketConnection();
 					const alert = new CustomAlert({
 						message: '로그아웃 되었습니다.',
 						okButtonText: '확인',
@@ -79,10 +78,8 @@ export class ProfileSummary extends Component {
 					alert.render();
 					await alert.show();
 					location.href = '/#/';
-					closeWebSocketConnection();
 				}
-				else
-				{
+				else {
 					const alert = new CustomAlert({
 						message: '로그아웃에 실패했습니다.',
 						okButtonText: '확인',
@@ -119,8 +116,7 @@ export class ProfileSummary extends Component {
 					await alert.show();
 					location.href = '/#/';
 				}
-				else
-				{
+				else {
 					const alert = new CustomAlert({
 						message: '회원탈퇴에 실패했습니다.',
 						okButtonText: '확인',
@@ -193,8 +189,7 @@ export class ProfileSummary extends Component {
 					await alert.show();
 					location.reload();
 				}
-				else
-				{
+				else {
 					const alert = new CustomAlert({
 						message: '저장에 실패했습니다.',
 						okButtonText: '확인',

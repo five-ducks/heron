@@ -23,6 +23,7 @@
 
 .profile-summary .profile-summary-name {
 	font-size: 40px;
+	max-width: 300px;
 }
 
 .profile-summary .profile-summary-name img {

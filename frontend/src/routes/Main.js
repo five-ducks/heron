@@ -3,7 +3,6 @@ import { Header } from "../components/Header/Header.js";
 import { SelectPage } from "../components/SelectPage/SelectPage.js";
 import { Sidebar } from "../components/Sidebar/Sidebar.js";
 import gameStore, { loadUserInfo } from "../store/game.js";
-import { startWebSocketConnection } from "../status/status.js";
 
 export default class Main extends Component {
     constructor() {
@@ -29,9 +28,6 @@ export default class Main extends Component {
             </div>
         `
         await loadUserInfo();
-        startWebSocketConnection();
-
-        // Header 컴포넌트 추가
         const header = new Header(gameStore.state.userInfo);
         this.el.querySelector('.headerpos').appendChild(header.el);
 
