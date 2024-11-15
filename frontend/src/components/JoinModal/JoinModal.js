@@ -8,16 +8,6 @@ export class JoinModal extends Modal {
     constructor(onClose = () => { }) {
         const content = /*html*/`
                 <div class="input_join">
-                    <p class="joinInputLabel">닉네임</p>
-                    <div id="nameInput"></div>
-                </div>
-                <div class="input_join">
-                    <p class="joinInputLabel">비밀번호</p>
-                    <div id="pwInput"></div>
-                </div>
-                <div class="input_join">
-                    <p class="joinInputLabel">비밀번호 확인</p>
-                    <div id="curpwInput"></div>
                 </div>
                 <div class="charactor-row">
                 </div>
@@ -25,20 +15,36 @@ export class JoinModal extends Modal {
         super('회원 가입', content, onClose);
         this.addCharactors();
 
-        // 인풋 필드 생성
-        const nameInput = new Input('7자 미만으로 입력해주세요', 'text', { width: '333px', height: '30px', fontsize: '20px' });
-        const pwInput = new Input('비밀번호는 6자 이상이여야 합니다.', 'password', { width: '333px', height: '30px', fontsize: '20px' });
-        const curpwInput = new Input('한 번 더 입력해주세요', 'password', { width: '333px', height: '30px', fontsize: '20px' });
+        const nameInput = new Input({
+            placeholder: '7자 미만으로 입력해주세요',
+            variant: 'background',
+            label: '닉네임',
+            type: 'text',
+            size: 'm',
+        });
+        const pwInput = new Input({
+            placeholder: '비밀번호는 6자 이상이여야 합니다.',
+            variant: 'background',
+            label: '비밀번호',
+            type: 'password',
+            size: 'm',
+        });
+        const curpwInput = new Input({
+            placeholder: '한 번 더 입력해주세요',
+            variant: 'background',
+            label: '비밀번호 확인',
+            type: 'password',
+            size: 'm',
+        });
 
-        // 인풋 필드 추가
-        this.el.querySelector('#nameInput').appendChild(nameInput.el);
-        this.el.querySelector('#pwInput').appendChild(pwInput.el);
-        this.el.querySelector('#curpwInput').appendChild(curpwInput.el);
+        this.el.querySelector('.input_join').appendChild(nameInput.el);
+        this.el.querySelector('.input_join').appendChild(pwInput.el);
+        this.el.querySelector('.input_join').appendChild(curpwInput.el);
 
         // 완료 버튼 추가
         const finishButton = new Button({
             style: 'gray',
-            size: 's',
+            size: 'xl',
             text: '완료',
         },
             async () => {

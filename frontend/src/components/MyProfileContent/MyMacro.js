@@ -17,6 +17,7 @@ export class MyMacro extends Component {
 			size: 'l',
 			defaultValue: macroText[0],
             label: 'f1',
+			labelPosition: 'left',
         });
 		const f2 = new Input({
             variant: 'background',
@@ -24,6 +25,7 @@ export class MyMacro extends Component {
 			size: 'l',
 			defaultValue: macroText[1],
             label: 'f2',
+			labelPosition: 'left',
         });
 
 		const f3 = new Input({
@@ -32,6 +34,7 @@ export class MyMacro extends Component {
 			size: 'l',
 			defaultValue: macroText[2],
             label: 'f3',
+			labelPosition: 'left',
         });
 
 		const f4 = new Input({
@@ -40,6 +43,7 @@ export class MyMacro extends Component {
 			size: 'l',
 			defaultValue: macroText[3],
             label: 'f4',
+			labelPosition: 'left',
         });
 
 		const f5 = new Input({
@@ -48,6 +52,7 @@ export class MyMacro extends Component {
 			size: 'l',
 			defaultValue: macroText[4],
             label: 'f5',
+			labelPosition: 'left',
         });
 		this.el.appendChild(f1.el);
 		this.el.appendChild(f2.el);

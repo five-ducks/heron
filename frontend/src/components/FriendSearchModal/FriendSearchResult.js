@@ -33,7 +33,7 @@ export class FriendSearchResult extends Component {
 
         this.addButton = new Button({
             style: 'gray',
-            size: 's',
+            size: 'lg',
             text: bt
         }, () => this.addFriend());
         this.addButton.el.classList.add('add-friend-btn');

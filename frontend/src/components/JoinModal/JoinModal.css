@@ -53,6 +53,12 @@
 
 
 .finish-button {
+    margin-left: auto;
     right: 28px;
     margin-top: 12px;
+}
+
+.input_join {
+    margin-left: 6px;
+    margin-bottom: 6px;
 }

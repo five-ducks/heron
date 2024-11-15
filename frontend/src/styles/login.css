@@ -1,32 +1,23 @@
+/* 추가적인 사용자 정의 스타일 */
 .login {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	overflow: auto;
-	white-space: nowrap;
+    min-height: 66vh; /* 전체 높이를 차지하도록 설정 */
+    width: 100vh;
+    display: flex;
 }
 
-.login .login-input-container {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
+.login-title {
+    font-size: calc(4rem + 8vw); /* 기본 폰트 크기를 설정하고 뷰포트 너비에 따라 조정 */
+    text-align: center;
 }
 
-.login .login-input-container .input-field {
-	display: flex;
-	gap: 45px;
-	justify-content: center;
-	align-items: center;
+.login-input-container {
+    width: 75%;
+    padding-left: calc(2.5rem + 4vh);
+    padding-bottom: 4rem;
 }
 
-.login .login-input-container .input-field label {
-	font-size: var(--base-font-size);
-}
-
-.login .button-row {
-	display: flex;
-	justify-content: center;
-	gap: 50px;
-	margin: 10vh 0;
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
 }
