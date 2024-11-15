@@ -86,8 +86,9 @@ export class Sidebar extends Component {
                         const infoFriendModal = new InfoFriendModal(friendData);
                         this.el.appendChild(infoFriendModal.el);
                         infoFriendModal.open();
-                    }
-                }
+                    },
+                    status: friendData.status,
+                },
             );
             // 각 친구 항목을 리스트 그룹 아이템으로 추가
             const friendItem = document.createElement('div');

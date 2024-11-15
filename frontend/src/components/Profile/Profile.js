@@ -3,7 +3,7 @@ import { Avatar } from "../Avatar/Avatar.js";
 
 export class Profile extends Component {
     constructor(image = 0, name = "unknown", size = 'm', options = {}) {
-        const { status_msg, onSelect = () => {}, style } = options;
+        const { status_msg, onSelect = () => {}, style, status } = options;
         
         super({
             tagName: 'button',
@@ -13,7 +13,7 @@ export class Profile extends Component {
         });
 
         // Avatar 생성
-        const img = new Avatar(image, size);
+        const img = new Avatar(image, size, status);
         
         if (style === "inner") {
             this.el.appendChild(img.el);
