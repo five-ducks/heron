@@ -26,10 +26,10 @@ export class Input extends Component {
 			labelEl.setAttribute('for', id);
 			labelEl.classList.add('col-form-label', 'fw-bold'); // fw-bold 클래스 추가
 			if (labelPosition === 'left') {
-				labelEl.classList.add('col-sm-2');
+				labelEl.classList.add('col-sm-3');
 			}
 			if (labelPosition === 'top') {
-				labelEl.classList.add('col-sm-10');
+				labelEl.classList.add('col-sm-9');
 			}
 			this.el.appendChild(labelEl);
 		}
