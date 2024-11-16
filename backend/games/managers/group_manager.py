@@ -28,7 +28,7 @@ class GroupManager:
                     return group_id
 
         # 새 그룹 생성
-        new_group_id = len(self._groups) + 1
+        new_group_id = len(self._groups) + 1 # uuid 이용해서 가져오기
         self._groups[new_group_id] = {
             'type': group_type,
             'clients': [],
@@ -37,7 +37,7 @@ class GroupManager:
 
         # 그룹 타입에 따른 매니저 생성
         if group_type == GroupType.ONETOONE:
-            self._game_managers[new_group_id] = GameManager()
+            self._game_managers[new_group_id] = GameManager(match_type='onetoone')
         else:
             self._tournament_managers[new_group_id] = TournamentManager()
 

@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js";
 import { handleServerMessage } from './messageHandler.js';
 import { renderGame, draw, setPlayerNicknames, updateStatus } from './render.js';
-import { handlePageLeave } from './errorHandler.js'; 
+import { handlePageLeave, handlePageReload } from './errorHandler.js'; 
 import { getWebsocketUrl } from "./getWebsocket.js";
 import { handleKeyPress } from './keyHandler.js';
 import { initializeModal, initializeResultModal } from "./modal.js"
@@ -13,12 +13,17 @@ export class PingPongGame extends Component {
         this.canvas = null;
         this.ctx = null;
 		this.gameState = null;
+		this.gameType = null;
         this.isGameStarted = false;
         this.playerSide = null;
 		this.modalVisible = false;
+		this.userInfo = null;
 
-        // 페이지 이동 이벤트리스너
-        window.addEventListener('popstate', () => handlePageLeave(this.socket));
+        // 뒤로가기 이벤트리스너
+        window.addEventListener('popstate', () => handlePageLeave(this));
+
+		// 새로고침 이벤트리스너
+		// window.addEventListener('beforeunload', () => handlePageReload(this));
 
 		// key 입력 이벤트리스너
 		window.addEventListener('keydown', (e) => handleKeyPress(e, this));
@@ -27,7 +32,7 @@ export class PingPongGame extends Component {
     }
 
     initializeWebSocket() {
-        this.socket = new WebSocket(getWebsocketUrl());
+        this.socket = new WebSocket(getWebsocketUrl(this));
 
 		// socket 연결 성공
         this.socket.onopen = () => {
@@ -51,10 +56,9 @@ export class PingPongGame extends Component {
         this.socket.onerror = (error) => {
             updateStatus(this, 'Error: ' + error.message);
         };
-
     }
 		
-	startGame(data) {
+	startOnetoonetGame(data) {
 		this.gameState = data.state;
 		this.playerSide = data.side;
 		this.playerNumber = data.player;
@@ -97,7 +101,7 @@ export class PingPongGame extends Component {
 		if (this.socket && this.socket.readyState === WebSocket.OPEN) {
 			this.socket.close();
         }
-	
+
 		// 이벤트리스너 제거
 		window.removeEventListener('popstate', handlePageLeave);
 		window.removeEventListener('keydown', handleKeyPress);

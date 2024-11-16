@@ -5,7 +5,7 @@ from channels.layers import get_channel_layer
 from ..elements import GameState
 
 class GameManager:
-    def __init__(self):
+    def __init__(self, match_type='onetoone'):
         self.game_state: GameState = None
         self.player_infos: Dict[str, Dict] = {}
         self.game_loop_task: Optional[asyncio.Task] = None
@@ -13,6 +13,7 @@ class GameManager:
         self.ended_flag: bool = False
         self.channel_layer = get_channel_layer()
         self.group_name: Optional[str] = None
+        self.match_type = match_type  # 게임 타입 저장
 
     def initialize_game(self) -> None:
         self.game_state = GameState()
@@ -185,8 +186,8 @@ class GameManager:
         except Exception as e:
             print(f"Error in cleanup: {e}")
 
+	# 매치 결과 저장
     async def save_match_result(self) -> None:
-        """게임 결과 데이터베이스 저장"""
         try:
             from ..models import Match
             from users.models import User
@@ -209,7 +210,7 @@ class GameManager:
                                 match_end_time=timezone.now(),
                                 username1_grade=self.game_state.score.player1,
                                 username2_grade=self.game_state.score.player2,
-                                match_type='onetoone'
+                                match_type=self.match_type
                             )
                 except Exception as e:
                     print(f"Error in save_to_db: {e}")
