@@ -11,4 +11,5 @@ export default createRouter([
 	{ path: '#/main', component: Main },
 	{ path: '#/myprofile', component: MyProfile },
 	{ path: '#/game/onetoone/', component: PingPongGame },
+	{ path: '#/game/tournament/', component: PingPongGame },
 ])

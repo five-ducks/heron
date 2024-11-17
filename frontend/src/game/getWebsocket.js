@@ -1,5 +1,5 @@
 // Websocket 요청 Url 생성
-export function getWebsocketUrl() {
+export function getWebsocketUrl(game) {
     const { protocol, hostname, hash } = location;
 
 	// protocol 설정
@@ -7,6 +7,7 @@ export function getWebsocketUrl() {
 
 	// 게임 타입 설정
 	const gameType = hash === '#/game/onetoone/' ? 'onetoone' : 'tournament';
+	game.gameType = gameType;
 
     const wsUrl = `${wsProtocol}://${hostname}/ws/${gameType}/`;
 
