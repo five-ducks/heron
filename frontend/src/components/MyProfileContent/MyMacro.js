@@ -5,7 +5,7 @@ export class MyMacro extends Component {
 	constructor(props) {
 		super({
 			props: {
-				className: 'my-macro',
+				className: 'my-macro row',
 			}
 		});
 		this.macroTextRender(props);
@@ -54,6 +54,13 @@ export class MyMacro extends Component {
             label: 'f5',
 			labelPosition: 'left',
         });
+
+		f1.el.classList.add('col-12');
+		f2.el.classList.add('col-12');
+		f3.el.classList.add('col-12');
+		f4.el.classList.add('col-12');
+		f5.el.classList.add('col-12');
+		
 		this.el.appendChild(f1.el);
 		this.el.appendChild(f2.el);
 		this.el.appendChild(f3.el);

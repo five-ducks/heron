@@ -24,8 +24,16 @@ export class MyProfileContent extends Component {
 
 		const macroAndRecords = document.createElement('div');
 		macroAndRecords.className = 'macro-and-records';
-		macroAndRecords.appendChild(new MyMacro(store.state.userInfo.macrotext).el);
-		macroAndRecords.appendChild(new GameRecords().el);
+		macroAndRecords.classList.add('row');
+		
+		const myMacro = new MyMacro(store.state.userInfo.macrotext).el;
+		const gameRecords = new GameRecords().el;
+
+		macroAndRecords.appendChild(myMacro);
+		macroAndRecords.appendChild(gameRecords);
+
+		myMacro.classList.add('col-6');
+		gameRecords.classList.add('col-6');
 
 		this.el.appendChild(macroAndRecords);
 	}

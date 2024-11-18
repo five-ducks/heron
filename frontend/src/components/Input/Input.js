@@ -70,14 +70,11 @@ export class Input extends Component {
 					labelEl.classList.add('fs-6'); // 중간 크기 텍스트를 위한 Bootstrap 클래스
 		}
 
-		// 변경: 입력 필드를 감싸는 div 추가
-		const inputWrapper = document.createElement('div');
 		if (labelPosition === 'top')
-			inputWrapper.classList.add('col-12');
+			inputEl.classList.add('col-12');
 		else
-			inputWrapper.classList.add('col-9');
-		inputWrapper.appendChild(inputEl);
-		this.el.appendChild(inputWrapper);
+			inputEl.classList.add('col-8');
+		this.el.appendChild(inputEl);
 
 		this.render();
 	}
