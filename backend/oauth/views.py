@@ -2,9 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample
 from django.http import JsonResponse
-from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from rest_framework_simplejwt.tokens import AccessToken
 import requests
 
 from users.models import User
@@ -58,10 +58,16 @@ def login_redirect(request):
                     raise PermissionError(str(detail[0]))
 
             user = serializer.validated_data.get('user')
-            login(request, user)
-            serializer.save()
+            access_token = str(AccessToken.for_user(user))
 
-            return HttpResponseRedirect("https://localhost/#/main")
+            response = HttpResponseRedirect("https://localhost/#/main")
+            response.set_cookie(
+                'access_token',                # 쿠키 이름
+                access_token,                  # 토큰 값
+                httponly=True,                 # HttpOnly 설정 (JavaScript에서 접근 불가)
+                secure=True,                   # HTTPS에서만 전송
+            )
+            return response
         except ValueError as e:
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
