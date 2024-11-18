@@ -1,7 +1,6 @@
 from django.utils import timezone
-
 from django.db import models
-from users.models import User
+
 
 class Match(models.Model):
 
@@ -16,18 +15,14 @@ class Match(models.Model):
         ('onetoone', '1대1경기'),
     ]
 
-    match_username1 = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
+    match_username1 = models.CharField(
+        max_length=150,
         null=True,
-        related_name='matches_as_user1',
         help_text="Reference to the first user participating in the match."
     )
-    match_username2 = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
+    match_username2 = models.CharField(
+        max_length=150,
         null=True,
-        related_name='matches_as_user2',
         help_text="Reference to the second user participating in the match."
     )
     match_result = models.CharField(

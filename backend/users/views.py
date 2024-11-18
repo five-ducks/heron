@@ -2,13 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample, OpenApiParameter
-from django.contrib.auth import login, logout
 from rest_framework_simplejwt.tokens import AccessToken
 
-from django.db.models import Q
-from .models import User
 from friends.models import Friend
-from games.models import Match
 
 from .serializers import (
     JoinSerializer,
@@ -22,23 +18,11 @@ from .serializers import (
     RetrieveUserSerializer
 )
 
-from django.views.decorators.csrf import csrf_exempt
-
 class UserViewSet(viewsets.ViewSet):
 
     """
     A ViewSet for managing users.
     """
-
-    def get_user_from_token(request):
-        try:
-            token = request.COOKIES.get('access_token')
-            decoded_token = AccessToken(token)
-            username = decoded_token['username']
-            user = User.objects.filter(username=username).first()
-            return user
-        except:
-            return
 
 ##### 인증관련 #####
     @extend_schema(
@@ -223,7 +207,6 @@ class UserViewSet(viewsets.ViewSet):
         tags=["User"]
     )
     @action(detail=False, methods=['post'])
-    @csrf_exempt
     def join(self, request):
         try:
             serializer = JoinSerializer(data=request.data)
@@ -502,7 +485,7 @@ class UserViewSet(viewsets.ViewSet):
             if user.is_anonymous:
                 raise PermissionError("로그인 상태가 아닙니다")
             
-            if request.method == 'GET':    
+            if request.method == 'GET':
                 friends = Friend.objects.filter(username=user)
                 if not friends.exists():
                     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -510,7 +493,6 @@ class UserViewSet(viewsets.ViewSet):
                 friends_data = []
                 for friend in friends:
                     friend_user = friend.friendname
-                    matches = Match.objects.filter((Q(match_username1=friend_user) | Q(match_username2=friend_user)) & ~Q(match_result='pending_result'))
                     friends_data.append(
                         {
                             "username": friend_user.username,
@@ -519,22 +501,7 @@ class UserViewSet(viewsets.ViewSet):
                             "exp": friend_user.exp,
                             "win_cnt": friend_user.win_cnt,
                             "lose_cnt": friend_user.lose_cnt,
-                            "profile_img": friend_user.profile_img,
-                            "matches": [
-                                {
-                                    'user1_name': match.match_username1.username,
-                                    'user2_name': match.match_username2.username,
-                                    'user1_profile_img': match.match_username1.profile_img,
-                                    'user2_profile_img': match.match_username2.profile_img,
-                                    'match_result': match.match_result,
-                                    'match_start_time': match.match_start_time,
-                                    'match_end_time': match.match_end_time,
-                                    'user1_grade': match.username1_grade,
-                                    'user2_grade': match.username2_grade,
-                                    'match_type': match.match_type
-                                } 
-                                for match in matches.order_by('-match_end_time')[:5]
-                            ]
+                            "profile_img": friend_user.profile_img
                         }
                     )
 
@@ -687,8 +654,8 @@ class UserViewSet(viewsets.ViewSet):
             user = request.user
             if user.is_anonymous:
                 raise PermissionError("로그인 상태가 아닙니다")
+            
             if request.method == 'GET':
-                matches = Match.objects.filter((Q(match_username1=user) | Q(match_username2=user)) & ~Q(match_result='pending_result'))
                 user_data = {
                     'username': user.username,
                     'exp': user.exp,
@@ -702,21 +669,6 @@ class UserViewSet(viewsets.ViewSet):
                         user.macrotext3,
                         user.macrotext4,
                         user.macrotext5
-                    ],
-                    'matches': [
-                        {
-                            'user1_name': match.match_username1.username,
-                            'user2_name': match.match_username2.username,
-                            'user1_profile_img': match.match_username1.profile_img,
-                            'user2_profile_img': match.match_username2.profile_img,
-                            'match_result': match.match_result,
-                            'match_start_time': match.match_start_time,
-                            'match_end_time': match.match_end_time,
-                            'user1_grade': match.username1_grade,
-                            'user2_grade': match.username2_grade,
-                            'match_type': match.match_type
-                        } 
-                        for match in matches.order_by('-match_end_time')[:5]
                     ]
                 }
 
@@ -733,7 +685,9 @@ class UserViewSet(viewsets.ViewSet):
                 return Response(status.HTTP_200_OK)
             elif request.method == 'DELETE':
                 user.delete()
-                return Response(status=status.HTTP_200_OK)
+                response = Response(status=status.HTTP_200_OK)
+                response.delete_cookie('access_token')
+                return response
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
