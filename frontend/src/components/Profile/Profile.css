@@ -8,6 +8,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
+    justify-content: center;
 }
 
 .character-profile .info-container {

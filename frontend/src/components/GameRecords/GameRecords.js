@@ -7,7 +7,7 @@ export class GameRecords extends Component {
 	constructor() {
 		super({
 			props: {
-				className: 'game-records',
+				className: 'game-records row',
 			}
 		});
 	}
@@ -23,6 +23,7 @@ export class GameRecords extends Component {
 			gameRecords.forEach(gameRecord => {
 				const oneGameRecord = new OneGameRecord();
 				oneGameRecord.render(gameRecord);
+				oneGameRecord.el.classList.add('col-12');
 				this.el.appendChild(oneGameRecord.el);
 			});
 		}

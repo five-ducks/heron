@@ -73,7 +73,7 @@ export class Input extends Component {
 		if (labelPosition === 'top')
 			inputEl.classList.add('col-12');
 		else
-			inputEl.classList.add('col-8');
+			inputEl.classList.add('col-9');
 		this.el.appendChild(inputEl);
 
 		this.render();

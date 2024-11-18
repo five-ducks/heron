@@ -55,11 +55,11 @@ export class MyMacro extends Component {
 			labelPosition: 'left',
         });
 
-		f1.el.classList.add('col-12');
-		f2.el.classList.add('col-12');
-		f3.el.classList.add('col-12');
-		f4.el.classList.add('col-12');
-		f5.el.classList.add('col-12');
+		f1.el.classList.add('input-macro', 'col-12');
+		f2.el.classList.add('input-macro', 'col-12');
+		f3.el.classList.add('input-macro', 'col-12');
+		f4.el.classList.add('input-macro', 'col-12');
+		f5.el.classList.add('input-macro', 'col-12');
 		
 		this.el.appendChild(f1.el);
 		this.el.appendChild(f2.el);

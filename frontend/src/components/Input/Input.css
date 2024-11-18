@@ -2,12 +2,8 @@
     background-image: url("../../../public/images/ui/macro-input.png");
     background-size: cover;
     background-repeat: no-repeat;
-    width: 75%;
-    max-width: 100%;
-}
-
-.col-12 {
     width: 100%;
+    max-width: 100%;
 }
 
 .input-bright {

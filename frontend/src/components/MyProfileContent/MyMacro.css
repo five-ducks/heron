@@ -10,3 +10,11 @@
 .macro-input .macro-key-name {
 	font-size: 23px;
 }
+
+.input-macro > .col-9 {
+	width: 75%;
+}
+
+.my-macro{
+	min-width: 40rem;
+}
