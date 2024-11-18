@@ -5,6 +5,7 @@ import { Button } from "../Button.js";
 import { Profile } from "../Profile/Profile.js";
 import { getCookie } from "../../core/core.js";
 import store, { loadFriendGameRecords } from "../../store/game.js"; // Store 불러오기
+import { getCookie } from "../../core/core.js";
 
 export class Sidebar extends Component {
     constructor(props) {
