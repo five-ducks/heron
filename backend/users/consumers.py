@@ -17,7 +17,11 @@ class StatusConsumer(AsyncWebsocketConsumer):
         self.user = self.scope['user']
 
         if self.user.is_authenticated:
-            await self.change_user_status(User.STATUS_MAP['오프라인'])
+            try:
+                await sync_to_async(self.user.refresh_from_db)()
+                await self.change_user_status(User.STATUS_MAP['오프라인'])
+            except self.user.DoesNotExist:
+                pass
 
     async def change_user_status(self, status):
         self.user.status = status              # 데이터베이스에 접근하여 상태 업데이트

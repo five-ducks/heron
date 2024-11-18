@@ -13,7 +13,7 @@ export const startWebSocketConnection = () => {
 
         statusSocket.onclose = () => {
             console.log("WebSocket connection closed.");
-            resolve(true); // WebSocket 연결이 열렸을 때 resolve 호출
+            resolve(true); // WebSocket 연결이 끊어졌을 때 resolve 호출
         };
 
         statusSocket.onerror = () => {

@@ -2,8 +2,6 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
 from friends.models import Friend
-from games.models import Match
-
 
 
 class LoginSerializer(serializers.Serializer):
@@ -277,32 +275,19 @@ class DeleteFriendshipSerializer(serializers.Serializer):
         old_friendship.delete()
         return old_friendship
 
-class MatchResponseSerializer(serializers.ModelSerializer):
-    user1_name = serializers.ReadOnlyField(source='match_username1.username')
-    user2_name = serializers.ReadOnlyField(source='match_username2.username')
-    user1_profile_img = serializers.ReadOnlyField(source='match_username1.profile_img')
-    user2_profile_img = serializers.ReadOnlyField(source='match_username2.profile_img')
-
-    class Meta:
-        model = Match
-        fields = ['user1_name', 'user2_name', 'user1_profile_img', 'user2_profile_img', 'match_result', 'match_start_time', 'match_end_time', 'username1_grade', 'username2_grade', 'match_type']
-
 class MacroTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['macrotext1', 'macrotext2', 'macrotext3', 'macrotext4', 'macrotext5']
 
 class RetrieveFriendSerializer(serializers.ModelSerializer):
-    matches = MatchResponseSerializer(many=True, read_only=True)
-
     class Meta:
         model = User
-        fields = ['username', 'status_msg', 'status', 'exp', 'win_cnt', 'lose_cnt', 'profile_img', 'matches']
+        fields = ['username', 'status_msg', 'status', 'exp', 'win_cnt', 'lose_cnt', 'profile_img']
 
 class RetrieveUserSerializer(serializers.ModelSerializer):
-    matches = MatchResponseSerializer(many=True, read_only=True)
     macrotext = MacroTextSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'exp', 'profile_img', 'win_cnt', 'lose_cnt', 'status_msg', 'macrotext', 'matches']
+        fields = ['username', 'exp', 'profile_img', 'win_cnt', 'lose_cnt', 'status_msg', 'macrotext']

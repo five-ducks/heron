@@ -2,10 +2,13 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample, OpenApiParameter
-from friends.models import Friend
 
 from django.db.models import Q
 from games.models import Match
+
+from .seiralizers import (
+    RetrieveMatchDataSerializer
+)
 
 class MatchViewSet(viewsets.ViewSet):
     
@@ -30,6 +33,7 @@ class MatchViewSet(viewsets.ViewSet):
                     default is count=5",
         responses={
             200: OpenApiResponse(
+                response=RetrieveMatchDataSerializer,
                 description="Successfully retrieve match history"
             ),
             403: OpenApiResponse(
@@ -70,15 +74,19 @@ class MatchViewSet(viewsets.ViewSet):
     )
     def retrieve(self, request, username=None):
         try:
-            user = request.user
-            matches = Match.objects.filter((Q(match_username1=user) | Q(match_username2=user)) & ~Q(match_result='pending_result'))
+            matches = Match.objects.filter(
+                (Q(match_username1=username) | Q(match_username2=username)) & ~Q(match_result='pending_result') & 
+                (Q(match_username1__isnull=False) & Q(match_username2__isnull=False))
+            )
+
+            if matches is None:
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            
             matches_data = {
                 "matches": [
                     {
-                        'user1_name': match.match_username1.username,
-                        'user2_name': match.match_username2.username,
-                        'user1_profile_img': match.match_username1.profile_img,
-                        'user2_profile_img': match.match_username2.profile_img,
+                        'user1_name': match.match_username1,
+                        'user2_name': match.match_username2,
                         'match_result': match.match_result,
                         'match_start_time': match.match_start_time,
                         'match_end_time': match.match_end_time,
@@ -105,6 +113,7 @@ class MatchViewSet(viewsets.ViewSet):
         description="Find match history based on username",
         responses={
             200: OpenApiResponse(
+                response=RetrieveMatchDataSerializer,
                 description="Successfully retrieve match history"
             ),
             403: OpenApiResponse(
@@ -146,30 +155,25 @@ class MatchViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], url_path='search')
     def search(self, request):
         try:
-            user = request.user
-            friends = Friend.objects.filter(username=user)
-            if not friends.exists():
+            friends_name = []
+            for friend in request.data.get('friendList'):
+                friends_name.append(friend['username'])
+
+            if friends_name is []:
                 return Response(status=status.HTTP_204_NO_CONTENT)
             
-            friends_data = []
-            for friend in friends:
-                friend_user = friend.friendname
-                matches = Match.objects.filter((Q(match_username1=friend_user) | Q(match_username2=friend_user)) & ~Q(match_result='pending_result'))
-                friends_data.append(
+            friends_match_data = []
+            for friend_name in friends_name:
+                matches = Match.objects.filter(
+                    (Q(match_username1=friend_name) | Q(match_username2=friend_name)) & ~Q(match_result='pending_result') & 
+                    (Q(match_username1__isnull=False) & Q(match_username2__isnull=False))
+                )
+                friends_match_data.append(
                     {
-                        "username": friend_user.username,
-                        "status_msg": friend_user.status_msg,
-                        "status": friend_user.status,
-                        "exp": friend_user.exp,
-                        "win_cnt": friend_user.win_cnt,
-                        "lose_cnt": friend_user.lose_cnt,
-                        "profile_img": friend_user.profile_img,
                         "matches": [
                             {
-                                'user1_name': match.match_username1.username,
-                                'user2_name': match.match_username2.username,
-                                'user1_profile_img': match.match_username1.profile_img,
-                                'user2_profile_img': match.match_username2.profile_img,
+                                'user1_name': match.match_username1,
+                                'user2_name': match.match_username2,
                                 'match_result': match.match_result,
                                 'match_start_time': match.match_start_time,
                                 'match_end_time': match.match_end_time,
@@ -181,7 +185,7 @@ class MatchViewSet(viewsets.ViewSet):
                         ]
                     }
                 )
-            return Response(friends_data, status=status.HTTP_200_OK)
+            return Response(friends_match_data, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
