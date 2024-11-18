@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample, OpenApiParameter
 from django.contrib.auth import login, logout
+from rest_framework_simplejwt.tokens import AccessToken
 
 from django.db.models import Q
 from .models import User
@@ -28,6 +29,16 @@ class UserViewSet(viewsets.ViewSet):
     """
     A ViewSet for managing users.
     """
+
+    def get_user_from_token(request):
+        try:
+            token = request.COOKIES.get('access_token')
+            decoded_token = AccessToken(token)
+            username = decoded_token['username']
+            user = User.objects.filter(username=username).first()
+            return user
+        except:
+            return
 
 ##### 인증관련 #####
     @extend_schema(
@@ -58,7 +69,7 @@ class UserViewSet(viewsets.ViewSet):
                     OpenApiExample
                     (
                         name="Session mismatch error",
-                        value={ "error": "세션 정보가 일치하지 않습니다" },
+                        value={ "error": "토큰 정보가 일치하지 않습니다" },
                         media_type='application/json'
                     )
                 ]
@@ -92,6 +103,7 @@ class UserViewSet(viewsets.ViewSet):
     def login(self, request):
         try:
             serializer = LoginSerializer(data=request.data, context={'request': request})
+
             if not serializer.is_valid():
                 error_code = serializer.errors.get('error_code')
                 detail = serializer.errors.get('detail')
@@ -99,11 +111,21 @@ class UserViewSet(viewsets.ViewSet):
                     raise ValueError(str(detail[0]))
                 elif int(error_code[0]) == 409:
                     raise PermissionError(str(detail[0]))
-
+            # serializer에서 valid check에 문제가 있는 경우 처리
+                
             user = serializer.validated_data.get('user')
-            login(request, user)
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
+            access_token = str(AccessToken.for_user(user))
+            # serializer를 통과한 후 user 객체로 access_token 생성
+
+            response = Response(status=status.HTTP_200_OK)
+            response.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,  # JavaScript로 접근 불가
+                secure=True,    # HTTPS에서만 전송 (개발 중에는 False로 설정 가능)
+            )
+            # response의 cookie에 accesstoken을 담아서 전달
+            return response
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:
@@ -148,10 +170,9 @@ class UserViewSet(viewsets.ViewSet):
             if request.user.is_anonymous:
                 raise ValueError("이미 로그아웃 되었습니다")
             
-            request.user.status = User.STATUS_MAP['오프라인']
-            request.user.save()
-            logout(request)
-            return Response(status=status.HTTP_200_OK)
+            response = Response(status=status.HTTP_200_OK)
+            response.delete_cookie('access_token')
+            return response
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -666,7 +687,6 @@ class UserViewSet(viewsets.ViewSet):
             user = request.user
             if user.is_anonymous:
                 raise PermissionError("로그인 상태가 아닙니다")
-            
             if request.method == 'GET':
                 matches = Match.objects.filter((Q(match_username1=user) | Q(match_username2=user)) & ~Q(match_result='pending_result'))
                 user_data = {
