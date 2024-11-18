@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 import os
 
@@ -32,19 +33,13 @@ ALLOWED_HOSTS = ["*"]
 # 없으면 csrf 에러 발생
 CSRF_TRUSTED_ORIGINS = ['https://localhost']
 
-
-# 브라우저가 종료되면 세션이 함깨 삭제됨 (탭이 삭제되는 경우는 관계없음)
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-# 세션 유지시간을 5분으로 설정
-SESSION_COOKIE_AGE = 300
-# 요청이 들어오면 세션의 마지막 활동시간이 초기화
-SESSION_SAVE_EVERY_REQUEST = True
-
 INSTALLED_APPS = [
-    'oauth.apps.OauthConfig',
+    'rest_framework',
+    'rest_framework_simplejwt',
 	'daphne',
 	'websocket',
     'users.apps.UsersConfig',
+    'oauth.apps.OauthConfig',
     'games.apps.GamesConfig',
     'friends.apps.FriendsConfig',
     'django.contrib.admin',
@@ -56,12 +51,17 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
+
+    'USER_ID_FIELD': 'username',
+    'USER_ID_CLAIM': 'username',
+}
+
 REST_FRAMEWORK = {
-    # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -73,7 +73,6 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API for managing users, matches, and friendships in a gaming platform.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
 }
 
 MIDDLEWARE = [
@@ -84,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.CookieToAuthorizationMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -144,7 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 # 비밀번호 유효성 검사기를 정의할 수 있습니다.
 # 현재 사용하지 않기 때문에 주석처리 되어있습니다.
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
 # Internationalization

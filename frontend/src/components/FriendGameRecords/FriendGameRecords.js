@@ -1,6 +1,6 @@
 import { Component } from "../../core/core.js";
 import { FriendOneGameRecord } from "./FriendOneGameRecord.js";
-import store, { loadGameRecords } from "../../store/game.js"; 
+// import store, { loadGameRecords } from "../../store/game.js"; // 교체 예정
 
 // 전적 영역
 export class FriendGameRecords extends Component {
