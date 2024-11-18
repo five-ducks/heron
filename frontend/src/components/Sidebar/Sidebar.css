@@ -27,3 +27,7 @@
     background-color: #ffffff40;
     border: none
 }
+
+.delete-button {
+    z-index: 999;
+}

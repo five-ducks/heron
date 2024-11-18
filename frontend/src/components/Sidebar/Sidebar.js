@@ -4,6 +4,7 @@ import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
 import { Button } from "../Button.js";
 import { Profile } from "../Profile/Profile.js";
 import store from "../../store/game.js"; // Store 불러오기
+import { getCookie } from "../../core/core.js";
 
 export class Sidebar extends Component {
     constructor(props) {
@@ -95,6 +96,35 @@ export class Sidebar extends Component {
             friendItem.classList.add('list-group-item'); // Bootstrap 리스트 그룹 아이템 클래스 추가
             friendItem.appendChild(friend.el);
             friendsContainer.appendChild(friendItem);
+            const deleteButton = new Button(
+                {
+                    style: 'gray',
+                    size: 'sm',
+                    text: 'X'
+                },
+                async () => {
+                    const deleteUrl = `/api/users/self/friends/?friendname=${friendData.username}`;
+                    try {
+                        const response = await fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken'),
+                            },
+                        });
+                        if (response.ok) {
+                            console.log('친구 삭제에 성공했습니다');
+                            friendItem.remove();
+                        } else {
+                            console.error('친구 삭제 중 오류 발생:', response.error);
+                        }
+                    } catch (error) {
+                        console.error('친구 삭제 중 오류 발생:', error);
+                    }
+                }
+            );
+            deleteButton.el.classList.add('delete-button');
+            friend.el.appendChild(deleteButton.el);
         });
     }
 
