@@ -6,6 +6,8 @@
   overflow: hidden;
   border-radius: 50%;
   background-color: white;
+  padding: 0;
+  margin: 0;
 }
 
 .Avatar-img {
@@ -13,7 +15,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 0.125rem solid;
+  border: calc(0.1rem + 0.15vh) solid;
   pointer-events: none;
   box-sizing: border-box;
 }
