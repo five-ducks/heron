@@ -106,6 +106,7 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
+					closeWebSocketConnection();
 					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					const alert = new CustomAlert({

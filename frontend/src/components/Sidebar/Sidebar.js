@@ -3,8 +3,8 @@ import { InfoFriendModal } from "../InfoFriendModal/InfoFriendModal.js";
 import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
 import { Button } from "../Button.js";
 import { Profile } from "../Profile/Profile.js";
-import store from "../../store/game.js"; // Store 불러오기
 import { getCookie } from "../../core/core.js";
+import store, { loadFriendGameRecords } from "../../store/game.js"; // Store 불러오기
 
 export class Sidebar extends Component {
     constructor(props) {
@@ -64,6 +64,7 @@ export class Sidebar extends Component {
 
                 // 가져온 친구 목록을 Store의 userFriends 상태에 저장합니다.
                 store.state.userFriends = friendsInfo;
+                loadFriendGameRecords();
 
             } catch (error) {
                 console.error('친구 목록을 가져오는 중 오류 발생:', error);
