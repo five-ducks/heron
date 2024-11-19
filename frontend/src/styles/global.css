@@ -42,7 +42,7 @@ html {
 
 	/* for Avatar */
 	--avatar-alive-border-color: #48d23e;
-	--avatar-dead-border-color: #414b48;
+	--avatar-dead-border-color: #000;
 	--alert-box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 	--btn-border-color: #a9a9a9;
 }
