@@ -162,15 +162,13 @@ class MatchViewSet(viewsets.ViewSet):
             if friends_name is []:
                 return Response(status=status.HTTP_204_NO_CONTENT)
             
-            friends_match_data = []
+            friends_match_data = { "matches": {} }
             for friend_name in friends_name:
                 matches = Match.objects.filter(
                     (Q(match_username1=friend_name) | Q(match_username2=friend_name)) & ~Q(match_result='pending_result') & 
                     (Q(match_username1__isnull=False) & Q(match_username2__isnull=False))
                 )
-                friends_match_data.append(
-                    {
-                        "matches": [
+                friends_match_data["matches"][friend_name] = [
                             {
                                 'user1_name': match.match_username1,
                                 'user2_name': match.match_username2,
@@ -183,8 +181,6 @@ class MatchViewSet(viewsets.ViewSet):
                             } 
                             for match in matches.order_by('-match_end_time')[:5]
                         ]
-                    }
-                )
             return Response(friends_match_data, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
