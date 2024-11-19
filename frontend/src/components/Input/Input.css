@@ -1,7 +1,9 @@
 .input-background {
     background-image: url("../../../public/images/ui/macro-input.png");
-    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
+    background-position: center;
+    /* 배경 중앙으로 */
     width: 100%;
     max-width: 100%;
 }
