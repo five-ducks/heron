@@ -1,4 +1,3 @@
-import { GameRecords } from "../components/GameRecords/GameRecords.js";
 import { Store } from "../core/core.js";
 
 const store = new Store({
@@ -16,7 +15,7 @@ export const loadFriendGameRecords = async () => {
 	try {
 		// 갖고 있는 친구 목록으로 친구들의 게임 기록을 불러옵니다.
 		const friendList = store.state.userFriends;
-		const response = await fetch(`/api/matches/friend/`, {
+		const response = await fetch(`/api/matches/search/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

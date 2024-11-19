@@ -62,10 +62,10 @@ export class SelectPage extends Component {
             window.location.hash = '/game/onetoone/';
         });
 
-		// 1:1 게임 버튼 event listener
-        const tournamentButton = this.el.querySelector('.tournament');
-    	tournamentButton.addEventListener('click', () => {
-            window.location.hash = '/game/tournament/';
-        });
+		// // 1:1 게임 버튼 event listener
+        // const tournamentButton = this.el.querySelector('.tournament');
+    	// tournamentButton.addEventListener('click', () => {
+        //     window.location.hash = '/game/tournament/';
+        // });
 	}
 }
