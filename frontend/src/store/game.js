@@ -42,7 +42,6 @@ export const loadFriendGameRecords = async () => {
 // 사용자의 게임 기록을 불러오는 함수
 export const loaduserGameRecords = async () => {
 	try {
-		// 갖고 있는 유저의 이름으로 게임 기록을 불러옵니다.
 		const response = await fetch(`/api/matches/${store.state.userInfo.username}/`);
 		if (response.status === 200)
 		{

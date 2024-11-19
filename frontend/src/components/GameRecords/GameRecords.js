@@ -1,6 +1,6 @@
 import { Component } from "../../core/core.js";
 import { OneGameRecord } from "./OneGameRecord.js";
-import store, { loaduserGameRecords } from "../../store/game.js"; 
+import store, { loaduserGameRecords } from "../../store/game.js"
 
 // 전적 영역
 export class GameRecords extends Component {
@@ -13,7 +13,6 @@ export class GameRecords extends Component {
 	}
 
 	async render() {
-
 		await loaduserGameRecords();
 
 		this.el.innerHTML = /*html*/``;
