@@ -16,5 +16,5 @@
 }
 
 .my-macro {
-    min-width: 24rem;
+    min-width: calc(12rem + 24vh);
 }

@@ -74,7 +74,7 @@ body {
 }
 
 h1 {
-	font-size: calc(5rem + 3vw);
+	font-size: calc(4rem + 3vw);
 	line-height: var(--base-line-height);
 	text-align: center;
 }

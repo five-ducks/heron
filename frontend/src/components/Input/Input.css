@@ -15,8 +15,7 @@
 }
 
 .form-control-xl {
-    width: 35vh;
-    height: 5vh;
+    height: 7vh;
     font-size: 2.5rem;
 }
 
@@ -33,7 +32,7 @@
     }
 
     .fs-0 {
-        font-size: 5.5rem !important;
+        font-size: 2.5rem !important;
     }
     
 }

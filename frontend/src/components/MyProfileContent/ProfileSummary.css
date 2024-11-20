@@ -1,12 +1,10 @@
 .profile-summary {
-    margin-left: 30px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    
-    /* 추가된 속성들 */
     justify-content: flex-start;
-    gap: 20px; /* 요소들 사이의 간격 */
+    gap: 20px;
+    margin: 0 20px;
 }
 
 .profile-summary > * {
