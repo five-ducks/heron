@@ -30,7 +30,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
                 # 유저 정보 저장
                 self.user_info = data['user_info']
 
-                await self.handle_user_info(self.user_info)
+                await self.handle_user_info()
             await self.handle_receive_message(data)
         except Exception as e:
             print(f"Error in receive: {e}")
@@ -38,7 +38,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
     async def handle_receive_message(self, data: dict):
         raise NotImplementedError
     
-    async def handle_user_info(self, user_info):
+    async def handle_user_info(self):
         raise NotImplementedError
 
     async def disconnect(self, close_code):
@@ -50,7 +50,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
                 else:
                     self.type == GroupType.TOURNAMENT
                     await self.tournament_manager.handle_player_disconnect(self.channel_name)
-			
+
 			# 종료 처리
             self.group_manager.group_cleanup(self.group_id, self.channel_name)
 

@@ -58,19 +58,19 @@ class GroupManager:
 
     def get_group_info(self, group_id: str) -> dict:
         return self._groups.get(group_id, {})
-    
+
 	# 종료
     async def group_cleanup(self, group_id: str, channel_name: str) -> None:
         group_info = self.get_group_info(group_id)
         group_name = f"game_{group_id}"
-        
+
 		# 채널 그룹에서 해당 유저 제거
         await self.channel_layer.group_discard(group_name, channel_name)
         
 		# 그룹의 clients 목록에서 유저 제거
         if 'clients' in group_info:
             group_info['clients'].discard(channel_name)
-            
+
 		# 그룹에 더 이상 클라이언트가 없으면 그룹 목록에서 삭제
         if not group_info['clients']:
             game_manager = self._game_managers.pop(group_id, None)
