@@ -24,7 +24,9 @@
     justify-content: center;
 }
 
-.macro-and-records > * {
+.game-records > .col-12,
+.my-macro > .col-12 {
+	flex: 1 0 auto;
 }
 
 .my-profile-content {

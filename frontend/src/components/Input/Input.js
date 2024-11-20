@@ -39,7 +39,7 @@ export class Input extends Component {
 		inputEl.value = defaultValue;
 		inputEl.setAttribute('placeholder', placeholder);
 		inputEl.setAttribute('type', type);
-		inputEl.classList.add('form-control');
+		// inputEl.classList.add('form-control'); // 오류나면 복구
 
 		switch (variant) {
 			case 'background':
@@ -65,9 +65,6 @@ export class Input extends Component {
 				inputEl.classList.add('form-control-xl');
 				if (label !== 'none')
 					labelEl.classList.add('fs-0')
-			default:
-				if (label !== 'none')
-					labelEl.classList.add('fs-6'); // 중간 크기 텍스트를 위한 Bootstrap 클래스
 		}
 
 		if (labelPosition === 'top')

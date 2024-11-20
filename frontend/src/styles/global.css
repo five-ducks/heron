@@ -89,3 +89,8 @@ input {
 	padding: 5px;
 	color: var(--text-color);
 }
+
+.router-view {
+    display: flex;
+    justify-content: center;
+}
