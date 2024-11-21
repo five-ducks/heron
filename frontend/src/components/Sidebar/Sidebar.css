@@ -1,9 +1,10 @@
 .friendwindow {
-    display: flex; /* Flexbox를 사용하여 자식 요소 배치 */
-    justify-content: flex-end; /* 자식 요소를 오른쪽으로 정렬 */
-    flex-wrap: wrap; /* 자식 요소가 넘칠 경우 다음 줄로 넘어감 */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 20px;
 }
-
 .addfriend {
     width: 100%;
     /* height: 40px; */
@@ -11,8 +12,8 @@
     border: none;
     color: white;
     font-size: 20px;
-	font-family: 'DungGeunMo';
     display: flex;
+    justify-content: center;
 }
 
 .friends {
@@ -20,4 +21,14 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    gap: 0.4rem;
+}
+
+.list-group-item {
+    background-color: #ffffff40;
+    border: none
+}
+
+.delete-button {
+    z-index: 999;
 }

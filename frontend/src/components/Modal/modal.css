@@ -1,61 +1,59 @@
-.modal-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.5);
-	backdrop-filter: blur(5px);
-	z-index: 998;
+/* 모달 오버레이에 대한 스타일 - Bootstrap의 기본 스타일을 오버라이드 */
+.modal-dialog {
+    width: 90%;
+    max-width: 27rem;
+    margin: 1.75rem auto;
 }
 
+/* 모달 컨텐츠에 대한 스타일 */
 .modal-content {
-	position: fixed;
-	width: 443px;
-	height: 600px;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 1000;
-	box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
-	background-image: url('../../../public/images/abyss_bg.png');
-	background-size: cover;
-	background-repeat: no-repeat;
+    min-height: 600px; /* 최소 높이 설정 */
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+    background-image: url('../../../public/images/abyss_bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+	padding : 0;
 }
 
-.modal-content .modal-title {
-	font-family: 'DungGeunMo', sans-serif;
-	font-size: clamp(18px, 5vw, 40px);
-	text-align: center;
-	margin: 12px 0;
-	text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
-	margin: 12px 0;
-	color: #0F819C;
-	margin-bottom: 20px;
+.modal-header {
+    border-bottom: none;
+    justify-content: center;
+    align-items: flex-end;
+	box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+	padding : 5px;
 }
 
-.modal-content .modal-body {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: fit-content;
-	margin: 0 20px;
+/* 모달 제목에 대한 스타일 */
+.modal-title {
+    font-family: 'DungGeunMo', sans-serif;
+    font-size: clamp(18px, 5vw, 40px);
+    text-align: center;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+    color: #0F819C;
+	margin: 0;
 }
 
-
-.modal-content .close-button {
-	position: absolute;
-	width: 15px;
-	height: 15px;
-	background-color: red;
-	border: none;
-	top: 5px;
-	right: 5px;
-	font-size: 24px;
-	border-radius: 10px;
+/* 모달 본문에 대한 스타일 */
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: fit-content;
 }
 
-.modal-content .close-button:hover {
-	cursor: pointer;
+/* 닫기 버튼에 대한 스타일 - Bootstrap의 기본 스타일을 오버라이드 */
+.btn-close {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    top: 5px;
+    right: 5px;
+    opacity: 1;
+}
+
+.btn-close:hover {
+    cursor: pointer;
+    opacity: 0.8;
 }

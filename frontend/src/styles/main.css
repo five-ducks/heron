@@ -1,54 +1,21 @@
 .main {
-	background-color: var(--header-color);
-}
-
-.contents {
-	display: flex;
-	flex-direction: row;
-	margin-top: 15vh;
-	height: 85vh;
 	width: 100vw;
-	justify-content: space-between;
-}
-
-.contents .game-section {
-	width: 2004px;
+	/* 전체 너비 */
+	height: 100vh;
+	/* 전체 높이 */
 	display: flex;
 	flex-direction: column;
-    align-items: center;
-	justify-content: center;
+	/* 필요에 따라 추가 */
 }
 
-.contents .sidebar {
-	width: 345px;
+.head-line {
+    flex: 0 0 auto;
+    /* 헤더의 높이를 조절하려면 이 값을 변경하세요 */
+    /* height: 60px; */
 }
 
-/* 화면 너비가 1000px 이하로 줄어들 때 */
-@media (max-width: 1000px) {
-	.contents {
-		flex-direction: column;
-		align-items: center;
-		/* 스크롤 가능하도록 */
-		overflow-y: scroll;
-	}
-
-	.contents .my-profile-content {
-		padding: 0;
-	}
-	.contents .profile-summary {
-		margin: 0;
-		flex-direction: column;
-		width: 100%;
-	}
-
-	.contents .profile-summary .vertical-line {
-		width: 80%;
-		height: 1px;
-	}
-
-	.contents .sidebar {
-		width: 100% !important;
-		font-size: 1.7rem;
-		margin: 1px 8.5px;
-	}
+.body-line {
+    flex: 1 0 auto;
+    overflow-y: auto;
+	/* 스크롤이 필요한 경우 */
 }

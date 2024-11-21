@@ -24,7 +24,6 @@
 	position: absolute;
 	top: 350px;
 	color: white;
-	font-family: var(--base-font);
 }
 
 .loading-screen .living-point {
@@ -34,7 +33,6 @@
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.5);
 	color: white;
-	font-family: var(--base-font);
 	size: 16px;
 }
 

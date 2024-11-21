@@ -1,10 +1,10 @@
 .friend-info {
     display: flex;
+    width: 100%;
     justify-content: space-between;
     /* 이름, 레벨, 승률이 나란히 배치되도록 설정 */
     margin-bottom: 20px;
     font-size: 16px;
-    font-family: var(--base-font);
     text-wrap: nowrap;
     gap: 20px;
 }

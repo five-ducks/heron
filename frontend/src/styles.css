@@ -7,7 +7,7 @@
 .input_label {
 	width: 60px;
 	/* Adjust the width as needed */
-	font-family: 'Pixeboy';
+	font-family: var(--title-font);
 	color: white;
 	margin-right: 60px;
 	/* Space between the label and input */
@@ -18,67 +18,3 @@
 	max-width: 440px;
 	max-height: 80px;
 }
-
-/* .login {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-} */
-
-/* .inputLogin {
-	width: 100%;
-	max-width: 800px;
-	margin: 0 auto;
-} */
-
-/* .input-group {
-	margin-bottom: 20px;
-} */
-
-/* mainpage 영역 스타일 */
-/* .main {
-	background-image: url('../public/images/abyss_bg.png');
-	background-size: cover;
-	height: 100vh;
-	width: 100%;
-	font-family: 'Pixeboy';
-	color: white;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-} */
-
-/* header 영역 스타일 */
-/* .headerpos {
-	top: 0;
-	left: 0;
-	height: 120px;
-	width: 100%;
-} */
-
-/* body 영역 스타일 */
-/* .body {
-	flex-grow: 1;
-	display: flex;
-	background-color: transparent;
-} */
-
-/* mainpage 영역 스타일 */
-/* .selectpagepos {
-	flex: 7;
-	overflow-y: auto; 
-	background-color: transparent;
-} */
-
-/* sidebar 영역 스타일 */
-/* .sidebar {
-	flex: 1;
-	background-image: url('../public/images/abyss_bg.png');
-	background-size: cover;
-	width: 300px;
-	padding: 10px;
-	overflow-y: auto;
-	background-color: transparent;
-	border-left: 1px solid #dee2e6;
-} */

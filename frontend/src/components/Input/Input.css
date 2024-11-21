@@ -1,45 +1,35 @@
-.input-field {
-	gap: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.input-default {
-	border: 1px solid #ccc;
-	background-color: transparent;
-	background-color: var(--absolute-color-black);
-}
-
 .input-background {
-	background-image: url("../../../public/images/ui/macro-input.png");
-	background-size: cover;
-	background-repeat: no-repeat;
+    background-image: url("../../../public/images/ui/macro-input.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.input-small {
-	width: 150px;
-	font-size: 16px;
+.input-bright {
+    color: #000;
+    width: 100%;
+    max-width: 100%;
 }
 
-.input-medium {
-	width: 200px;
-	font-size: 24px;
+.form-control-xl {
+    height: 7vh;
+    font-size: 2.5rem;
 }
 
-.input-large {
-	width: 200px;
-	font-size: 32px;
+.fs-0 {
+    font-size: 5.5rem;
 }
 
-.label-small {
-	font-size: 16px;
-}
+/* 로그인 창 사이즈에 따른 미디어 정의 */
+@media screen and (max-width: 768px) {
+    .form-control-xl {
+        width: 40vh;
+        height: 5vh;
+        font-size: 2.5rem;
+    }
 
-.label-medium {
-	font-size: 24px;
-}
-
-.label-large {
-	font-size: 32px;
+    .fs-0 {
+        font-size: 2.5rem;
+    }
+    
 }

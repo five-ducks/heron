@@ -1,5 +1,7 @@
 .game-records {
-	display: flex;
+    display: flex;
     gap: 10px;
     flex-direction: column;
+    min-width: calc(12rem + 24vh);
+    align-content: center;
 }

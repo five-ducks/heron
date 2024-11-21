@@ -8,6 +8,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
+    justify-content: center;
 }
 
 .character-profile .info-container {
@@ -19,7 +20,7 @@
 }
 
 .character-profile .info-container span {
-    font-family: 'Pixeboy', sans-serif;
+    font-family: var(--title-font);
     color: var(--text-color);
     background: none;
     white-space: nowrap;

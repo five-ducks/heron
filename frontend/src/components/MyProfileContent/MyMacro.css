@@ -1,6 +1,5 @@
 .macro-input {
 	margin-bottom: 10px;
-	font-family: 'DungGeunMo';
 	color: white;
 }
 
@@ -10,4 +9,12 @@
 
 .macro-input .macro-key-name {
 	font-size: 23px;
+}
+
+.input-macro > .col-9 {
+	width: 75%;
+}
+
+.my-macro {
+    min-width: calc(12rem + 24vh);
 }
