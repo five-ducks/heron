@@ -1,23 +1,23 @@
 import { Modal } from "../Modal/index.js";
 import { FriendGameRecords } from "../FriendGameRecords/FriendGameRecords.js";
-
+import { loadFriendGameRecords } from "../../store/game.js";
 export class InfoFriendModal extends Modal {
-    constructor(props, onClose) {
+    constructor(props) {
         const name = props.username;
         const level = InfoFriendModal.calculateLevel(props.exp);
         const winrate = InfoFriendModal.calculateWinrate(props.win_cnt, props.lose_cnt);
-        super('친구 정보', InfoFriendModal.getContent(name, level, winrate), onClose);
+        super('친구 정보', InfoFriendModal.getContent(name, level, winrate));
         
         this.userinfo = props;
         this.el.classList.add("info_friend-modal");
-
-        this.renderAdditionalContent();
+        this.renderAdditionalContent(name);
     }
 
-    renderAdditionalContent() {
+    async renderAdditionalContent(name) {
         const matchRecordList = this.el.querySelector(".info-record");
+		await loadFriendGameRecords();
         const gameRecords = new FriendGameRecords();
-        gameRecords.render(this.userinfo.matches, this.userinfo.username, this.userinfo.profile_img);
+        gameRecords.recoredsRender(name);
         matchRecordList.appendChild(gameRecords.el);
     }
 

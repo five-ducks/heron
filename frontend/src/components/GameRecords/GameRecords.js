@@ -14,7 +14,6 @@ export class GameRecords extends Component {
 
 	async render() {
 		await loaduserGameRecords();
-
 		this.el.innerHTML = /*html*/``;
 
 		const gameRecords = store.state.userGameRecords;
