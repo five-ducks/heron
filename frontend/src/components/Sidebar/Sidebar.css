@@ -3,8 +3,8 @@
     justify-content: center;
     flex-wrap: wrap;
     align-content: flex-start;
+    padding: 20px;
 }
-
 .addfriend {
     width: 100%;
     /* height: 40px; */
