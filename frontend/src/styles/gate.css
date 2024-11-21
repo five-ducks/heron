@@ -8,15 +8,13 @@
 }
 
 .gate .logo {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-image: var(--gate-logo-img);
-	background-size: contain;
-	background-repeat: no-repeat;
-
-	/* 이미지 비율을 유지하면서 크기를 조정 */
-	width: 680px;
-	height: auto;
-	aspect-ratio: 670 / 380;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: var(--gate-logo-img);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: calc(12rem + 24vw);
+    height: auto;
+    aspect-ratio: 670 / 380;
 }

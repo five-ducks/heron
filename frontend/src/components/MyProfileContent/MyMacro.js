@@ -5,7 +5,7 @@ export class MyMacro extends Component {
 	constructor(props) {
 		super({
 			props: {
-				className: 'my-macro',
+				className: 'my-macro row',
 			}
 		});
 		this.macroTextRender(props);
@@ -14,7 +14,7 @@ export class MyMacro extends Component {
 		const f1 = new Input({
             variant: 'background',
             id: 'f1',
-			size: 'l',
+			size: 'xl',
 			defaultValue: macroText[0],
             label: 'f1',
 			labelPosition: 'left',
@@ -22,7 +22,7 @@ export class MyMacro extends Component {
 		const f2 = new Input({
             variant: 'background',
             id: 'f2',
-			size: 'l',
+			size: 'xl',
 			defaultValue: macroText[1],
             label: 'f2',
 			labelPosition: 'left',
@@ -31,7 +31,7 @@ export class MyMacro extends Component {
 		const f3 = new Input({
             variant: 'background',
             id: 'f3',
-			size: 'l',
+			size: 'xl',
 			defaultValue: macroText[2],
             label: 'f3',
 			labelPosition: 'left',
@@ -40,7 +40,7 @@ export class MyMacro extends Component {
 		const f4 = new Input({
             variant: 'background',
             id: 'f4',
-			size: 'l',
+			size: 'xl',
 			defaultValue: macroText[3],
             label: 'f4',
 			labelPosition: 'left',
@@ -49,11 +49,18 @@ export class MyMacro extends Component {
 		const f5 = new Input({
             variant: 'background',
             id: 'f5',
-			size: 'l',
+			size: 'xl',
 			defaultValue: macroText[4],
             label: 'f5',
 			labelPosition: 'left',
         });
+
+		f1.el.classList.add('input-macro', 'col-12');
+		f2.el.classList.add('input-macro', 'col-12');
+		f3.el.classList.add('input-macro', 'col-12');
+		f4.el.classList.add('input-macro', 'col-12');
+		f5.el.classList.add('input-macro', 'col-12');
+		
 		this.el.appendChild(f1.el);
 		this.el.appendChild(f2.el);
 		this.el.appendChild(f3.el);

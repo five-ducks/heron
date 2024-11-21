@@ -1,19 +1,18 @@
 import { Component } from "../../core/core.js";
 import { OneGameRecord } from "./OneGameRecord.js";
-import store, { loaduserGameRecords } from "../../store/game.js"; 
+import store, { loaduserGameRecords } from "../../store/game.js"
 
 // 전적 영역
 export class GameRecords extends Component {
 	constructor() {
 		super({
 			props: {
-				className: 'game-records',
+				className: 'game-records row',
 			}
 		});
 	}
 
 	async render() {
-
 		await loaduserGameRecords();
 
 		this.el.innerHTML = /*html*/``;
@@ -23,6 +22,7 @@ export class GameRecords extends Component {
 			gameRecords.forEach(gameRecord => {
 				const oneGameRecord = new OneGameRecord();
 				oneGameRecord.render(gameRecord);
+				oneGameRecord.el.classList.add('col-12');
 				this.el.appendChild(oneGameRecord.el);
 			});
 		}

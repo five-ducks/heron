@@ -5,12 +5,13 @@ import { Input } from "../Input/Input.js";
 import { CustomAlert } from "../Alert/Alert.js";
 import { closeWebSocketConnection } from "../../status/status.js";
 import store from "../../store/game.js";
+import { Avatar } from "../Avatar/Avatar.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
 		super({
 			props: {
-				className: 'profile-summary',
+				className: 'profile-summary row',
 			}
 		});
 		this.profileContentsRender(props);
@@ -19,42 +20,44 @@ export class ProfileSummary extends Component {
 	profileContentsRender(props) {
 		const username = store.state.userInfo.username;
 		this.el.innerHTML = /*html*/`
-			<div class="profile-summary-img-level">
-				<div class="profile-summary-img"></div>
-			</div>
-			<div class="profile-summary-name">
-			</div>
-			<div class="vertical-line"></div>
-			<div class="profile-summary-win">
-				<p>승부 요약</p>
-				<span>${props.win_cnt}승 ${props.lose_cnt}패</span>
-			</div>
-			<div class="vertical-line"></div>
-			<div class="button-container"></div>
+			<div class="profile-summary-user-state col-6 row"></div>
+			<div class="profile-summary-logandbtn col-6 row"></div>
 		`;
 
-		//프로필 이미지
-		const profileImg = this.el.querySelector('.profile-summary-img');
-		const img = document.createElement('img');
-		img.src = selectProfileImg(props.profile_img);
-		profileImg.appendChild(img);
-
+		const profileStateArea = this.el.querySelector('.profile-summary-user-state');
+		const profilebtnArea = this.el.querySelector('.profile-summary-logandbtn');
+		const profileImg = new Avatar(
+			props.profile_img,
+			'm',
+			props.status
+		);
+	
 		//유저 이름 & 프로필 레벨
-		const profileImgLevel = this.el.querySelector('.profile-summary-img-level');
-		profileImgLevel.appendChild(new ProfileLevel(props.exp).el);
+		const profileNameLevel = document.createElement('div');
+		profileNameLevel.classList.add('col-2');
+		profileNameLevel.appendChild(profileImg.el);
+		profileNameLevel.appendChild(new ProfileLevel(props.level).el);
+		profileStateArea.appendChild(profileNameLevel);
 
-		const profileName = this.el.querySelector('.profile-summary-name');
-
-		profileName.appendChild(new Input({
+		const profileStateInput = new Input({
 			label: `${username}의 기분`,
 			variant: 'background',
 			defaultValue: props.status_msg,
 			size: 'l',
-		}).el);
+		});
+		profileStateInput.el.classList.add('col-10', 'profile-state-input');
+		profileStateArea.appendChild(profileStateInput.el);
 
 		// 승부 요약
-		const profileWin = this.el.querySelector('.profile-summary-win');
-
+		const profileWin = document.createElement('div');
+		profileWin.innerHTML = /*html*/`
+			<p>승부 요약</p>
+			<span>${props.win_cnt}승 ${props.lose_cnt}패</span>
+		`;
+		profileWin.classList.add('col-3', 'profile-win');
+		profilebtnArea.appendChild(profileWin);
+		
+1
 		const logoutBtn = new Button({
 			style: 'blue',
 			size: 'sm',
@@ -106,6 +109,7 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
+					closeWebSocketConnection();
 					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 					const alert = new CustomAlert({
@@ -144,7 +148,7 @@ export class ProfileSummary extends Component {
 				};
 
 				// 현재 입력된 값을 request_body에 추가
-				add_field('.profile-summary-name input', 'status_msg');
+				add_field('.profile-summary-user-state input', 'status_msg');
 				const parentBlock = this.el.closest('.my-profile-content');
 				const macroBlock = parentBlock.querySelector('.my-macro');
 				for (let i = 1; i <= 5; i++) {
@@ -198,8 +202,11 @@ export class ProfileSummary extends Component {
 					await alert.show();
 				}
 			});
-		this.el.querySelector('.button-container').appendChild(logoutBtn.el);
-		this.el.querySelector('.button-container').appendChild(withdrawalBtn.el);
-		this.el.appendChild(saveBtn.el);
+			logoutBtn.el.classList.add('col-3', 'profile-logoutBtn');
+			withdrawalBtn.el.classList.add('col-3', 'profile-withdrawalBtn');
+			saveBtn.el.classList.add('col-3', 'profile-saveBtn');
+			this.el.querySelector('.profile-summary-logandbtn').appendChild(logoutBtn.el);
+			this.el.querySelector('.profile-summary-logandbtn').appendChild(withdrawalBtn.el);
+			this.el.querySelector('.profile-summary-logandbtn').appendChild(saveBtn.el);
 	}
 }

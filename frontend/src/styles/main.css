@@ -8,24 +8,14 @@
 	/* 필요에 따라 추가 */
 }
 
-.contents {
-	margin-top: 15vh;
-	height: auto;
-	/* 고정된 높이 제거 */
+.head-line {
+    flex: 0 0 auto;
+    /* 헤더의 높이를 조절하려면 이 값을 변경하세요 */
+    /* height: 60px; */
 }
 
-/* game-section과 sidebar는 Bootstrap의 col 클래스로 너비를 조정 */
-.contents .game-section {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	/* 고정 너비 제거 */
+.body-line {
+    flex: 1 0 auto;
+    overflow-y: auto;
+	/* 스크롤이 필요한 경우 */
 }
-
-.contents .sidebar {
-	width: 100%;
-	/* 고정 너비 제거 */
-}
-

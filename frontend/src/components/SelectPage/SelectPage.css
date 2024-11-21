@@ -1,14 +1,17 @@
 .selectpage {
+    display: flex;
     padding: 20px;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .game-list {
-    gap: 160px;
-    margin-bottom: 150px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .selectpage .one-to-one:hover,
 .selectpage .tournament:hover {
     color: var(--strong-color);
 }
-

@@ -1,72 +1,43 @@
 .profile-summary {
-	margin-left: 30px;
     display: flex;
-	flex-wrap: wrap;
     align-items: center;
-	gap: 50px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    margin: 0 20px;
 }
 
-.profile-summary .profile-summary-img {
-	width: 100px;
-	height: 100px;
-	background-color: #dee2e6;
-	border: 3px solid green;
-	border-radius: 50%;
-	overflow: hidden;
+.profile-summary > * {
+    flex: 1 1 300px; /* flex-grow, flex-shrink, flex-basis */
 }
 
-.profile-summary .profile-summary-img img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.profile-summary .profile-summary-name {
-	font-size: 40px;
-	max-width: 300px;
-}
-
-.profile-summary .profile-summary-name img {
-	width: 30px;
-	height: 40px;
-}
-
-.profile-summary .profile-summary-name input {
-	color: white;
-}
-
-.profile-summary .profile-summary-win {
-	justify-content: center;
-}
-
-.profile-summary .profile-summary-win p {
-	font-size: 30px;
-	margin-bottom: 8px;
-}
-
-.profile-summary .button-container {
-	gap: 10px;
-}
-
-.profile-summary .button-container button {
-	padding: 10px 20px;
-}
-
-.level {
-	font-size: var(--small-font-size);
+.profile-summary-user-state {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-	margin-bottom: 25px;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-width: 45vh;
 }
 
-.level img {
-	width: 35px;
+.profile-summary-logandbtn {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-width: 40vh;
 }
 
-.vertical-line {
-    width: 3px;
-    height: 120px;
-    background-color: #dee2e6; 
+.profile-state-input {
+    min-width: 290px;
+}
+
+.profile-win {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	min-width: 67.8px;
+	font-size: clamp(18.8px, calc(0.5rem + 0.5vw), 24px);
+}
+
+.profile-logoutBtn, .profile-withdrawalBtn, .profile-saveBtn {
+	height: 6vh;
+	min-width: 47.25px;
 }

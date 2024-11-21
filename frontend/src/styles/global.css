@@ -41,7 +41,8 @@ html {
 	--modal-bg-color: #011635;
 
 	/* for Avatar */
-	--avatar-border-color: #007bff;
+	--avatar-alive-border-color: #48d23e;
+	--avatar-dead-border-color: #000;
 	--alert-box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 	--btn-border-color: #a9a9a9;
 }
@@ -73,7 +74,7 @@ body {
 }
 
 h1 {
-	font-size: calc(5rem + 3vw);
+	font-size: calc(4rem + 3vw);
 	line-height: var(--base-line-height);
 	text-align: center;
 }
@@ -87,4 +88,9 @@ input {
 	outline: none;
 	padding: 5px;
 	color: var(--text-color);
+}
+
+.router-view {
+    display: flex;
+    justify-content: center;
 }

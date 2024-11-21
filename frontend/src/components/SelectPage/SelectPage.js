@@ -22,44 +22,47 @@ export class SelectPage extends Component {
 		this.el.classList.add('container');
 		this.el.innerHTML = /*html*/`
 			<h1>게임 선택</h1>
-			<div class="game-list row justify-content-center">
+			<div class="game-list row">
 				<!-- 각 버튼이 들어갈 자리 -->
 			</div>
 		`;
 
 		// 일대일 버튼 생성 및 추가
-		this.oneToOneButton = new Button({
+		const oneToOneButton = new Button({
 			text: '일대일',
 			style: 'one-to-one',
 			size: 'lg',
 		});
+		const gameList = this.el.querySelector('.game-list');
 
-		const oneToOneCol = document.createElement('div');
-		oneToOneCol.classList.add('col-auto');
-		oneToOneCol.appendChild(this.oneToOneButton.el);
-		this.el.querySelector('.game-list').appendChild(oneToOneCol);
+		gameList.appendChild(oneToOneButton.el);
 
 		// 토너먼트 버튼 생성 및 추가
-		this.tournamentButton = new Button({
+		const tournamentButton = new Button({
 			text: '토너먼트',
 			style: 'tournament',
 			size: 'lg'
 		});
+		gameList.appendChild(tournamentButton.el);
 
-		const tournamentCol = document.createElement('div');
-		tournamentCol.classList.add('col-auto');
-		tournamentCol.appendChild(this.tournamentButton.el);
-		this.el.querySelector('.game-list').appendChild(tournamentCol);
-
+		// 밍키리가 생성한 로딩, 교체 요망
 		// this.el.querySelector('.one-to-one').addEventListener('click', async () => {
 		// 	this.loading.show();
 		// 	await this.fakeLoadingProcess();
 		// 	this.loading.remove();
 		// });
+
 		// 1:1 게임 버튼 event listener
         const onetooneButton = this.el.querySelector('.btn-one-to-one');
         onetooneButton.addEventListener('click', () => {
             window.location.hash = '/game/onetoone/';
         });
+
+		// 미구현 및 에러 방지를 위해 주석 처리
+		// 토너먼트 게임 버튼 event listener
+        // const tournamentButton = this.el.querySelector('.tournament');
+    	// tournamentButton.addEventListener('click', () => {
+        //     window.location.hash = '/game/tournament/';
+        // });
 	}
 }

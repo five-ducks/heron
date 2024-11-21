@@ -15,26 +15,21 @@ export default class Main extends Component {
 
     async render() {
         this.el.innerHTML = /*html*/`
-            <header class="headerpos"></header>
-            <div class="container-fluid row contents d-flex flex-column flex-xxl-row">
-                    <div class="col-12 col-xxl-9 game-section-container">
-                        <!-- SelectPage가 여기에 추가됩니다 -->
-                    </div>
-                    <aside class="col-12 col-xxl-3 sidebar-container">
-                        <!-- Sidebar가 여기에 추가됩니다 -->
-                    </aside>
-            </div>
-        `
+            <div class="head-line row flex-column flex-xxl-row"></div>
+            <div class="body-line row"></div>
+        `;
         await loadUserInfo();
         const header = new Header(gameStore.state.userInfo);
-        this.el.querySelector('.headerpos').appendChild(header.el);
+        this.el.querySelector('.head-line').appendChild(header.el);
 
         // SelectPage 컴포넌트 추가
         const selectpage = new SelectPage();
-        this.el.querySelector('.game-section-container').appendChild(selectpage.el);
+        selectpage.el.classList.add('col-xxl-9');
+        this.el.querySelector('.body-line').appendChild(selectpage.el);
 
         // Sidebar 컴포넌트 추가
         const sidebar = new Sidebar(gameStore.state.userInfo);
-        this.el.querySelector('.sidebar-container').appendChild(sidebar.el);
+        sidebar.el.classList.add('col-xxl-3');
+        this.el.querySelector('.body-line').appendChild(sidebar.el);
     }
 }

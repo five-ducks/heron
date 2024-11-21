@@ -2,14 +2,11 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
 from friends.models import Friend
-from games.models import Match
-from django.contrib.sessions.models import Session
 
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150, required=True)
     password = serializers.CharField(max_length=128, required=True)
-    force_login = serializers.BooleanField(default=False)
     
     def to_internal_value(self, data):
         for fieldname in ['username', 'password']:
@@ -51,36 +48,21 @@ class LoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError(
                     {
                         "error_code": 400,
-                        "detail": "세션 정보가 일치하지 않습니다"
+                        "detail": "토큰 정보가 일치하지 않습니다"
                     }
                 )
         ## 이미 로그인된 상태에서 다른 유저로 로그인 시도하는 경우
 
         if user.status == User.STATUS_MAP['온라인']:
-            if data['force_login'] == True:
-                sessions = Session.objects.all()
-                current_session_key = request.session.session_key
-
-                for session in sessions:
-                    session_data = session.get_decoded()
-                    if session_data.get('_auth_user_id') == str(user.id):
-                        if session.session_key != current_session_key:
-                            session.delete()  # 사용자의 기존 세션을 삭제
-            else:
-                raise serializers.ValidationError(
-                    {
-                        "error_code": 409,
-                        "detail": "다른 기기에서 이미 로그인되어 있습니다"
-                    }
-                )
+            raise serializers.ValidationError(
+                {
+                    "error_code": 409,
+                    "detail": "다른 기기에서 이미 로그인되어 있습니다"
+                }
+            )
         ## 중복 로그인을 시도하는 경우
         
         return {'user': user}
-    def save(self):
-        user = self.validated_data['user']
-        user.status = User.STATUS_MAP['온라인']
-        user.save()
-        return user
 
 class JoinSerializer(serializers.ModelSerializer):
     class Meta:
@@ -293,32 +275,19 @@ class DeleteFriendshipSerializer(serializers.Serializer):
         old_friendship.delete()
         return old_friendship
 
-class MatchResponseSerializer(serializers.ModelSerializer):
-    user1_name = serializers.ReadOnlyField(source='match_username1.username')
-    user2_name = serializers.ReadOnlyField(source='match_username2.username')
-    user1_profile_img = serializers.ReadOnlyField(source='match_username1.profile_img')
-    user2_profile_img = serializers.ReadOnlyField(source='match_username2.profile_img')
-
-    class Meta:
-        model = Match
-        fields = ['user1_name', 'user2_name', 'user1_profile_img', 'user2_profile_img', 'match_result', 'match_start_time', 'match_end_time', 'username1_grade', 'username2_grade', 'match_type']
-
 class MacroTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['macrotext1', 'macrotext2', 'macrotext3', 'macrotext4', 'macrotext5']
 
 class RetrieveFriendSerializer(serializers.ModelSerializer):
-    matches = MatchResponseSerializer(many=True, read_only=True)
-
     class Meta:
         model = User
-        fields = ['username', 'status_msg', 'status', 'exp', 'win_cnt', 'lose_cnt', 'profile_img', 'matches']
+        fields = ['username', 'status_msg', 'status', 'exp', 'win_cnt', 'lose_cnt', 'profile_img']
 
 class RetrieveUserSerializer(serializers.ModelSerializer):
-    matches = MatchResponseSerializer(many=True, read_only=True)
     macrotext = MacroTextSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'exp', 'profile_img', 'win_cnt', 'lose_cnt', 'status_msg', 'macrotext', 'matches']
+        fields = ['username', 'exp', 'profile_img', 'win_cnt', 'lose_cnt', 'status_msg', 'macrotext']

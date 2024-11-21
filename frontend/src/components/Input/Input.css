@@ -1,9 +1,8 @@
 .input-background {
     background-image: url("../../../public/images/ui/macro-input.png");
-    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
-    width: 100%;
-    max-width: 100%;
+    background-position: center;
 }
 
 .input-bright {
@@ -13,13 +12,12 @@
 }
 
 .form-control-xl {
-    width: 35vh;
-    height: 5vh;
+    height: 7vh;
     font-size: 2.5rem;
 }
 
 .fs-0 {
-    font-size: 5.5rem !important;
+    font-size: 5.5rem;
 }
 
 /* 로그인 창 사이즈에 따른 미디어 정의 */
@@ -31,7 +29,7 @@
     }
 
     .fs-0 {
-        font-size: 5.5rem !important;
+        font-size: 2.5rem;
     }
     
 }

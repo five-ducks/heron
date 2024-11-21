@@ -1,4 +1,3 @@
-import { GameRecords } from "../components/GameRecords/GameRecords.js";
 import { Store } from "../core/core.js";
 
 const store = new Store({
@@ -16,20 +15,18 @@ export const loadFriendGameRecords = async () => {
 	try {
 		// 갖고 있는 친구 목록으로 친구들의 게임 기록을 불러옵니다.
 		const friendList = store.state.userFriends;
-		const response = await fetch(`/api/matches/friend/`, {
-			method: 'GET',
+		const response = await fetch(`/api/matches/search/`, {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ friendList }),
 		});
-		if (response.status === 200)
-		{
+		if (response.status === 200) {
 			const user = await response.json();
 			store.state.userFriendGameRecords = user.matches
 		}
-		else if (response.status === 403)
-		{
+		else if (response.status === 403) {
 			console.error('Forbidden:', response.error);
 		}
 		else
@@ -42,15 +39,12 @@ export const loadFriendGameRecords = async () => {
 // 사용자의 게임 기록을 불러오는 함수
 export const loaduserGameRecords = async () => {
 	try {
-		// 갖고 있는 유저의 이름으로 게임 기록을 불러옵니다.
 		const response = await fetch(`/api/matches/${store.state.userInfo.username}/`);
-		if (response.status === 200)
-		{
+		if (response.status === 200) {
 			const user = await response.json();
 			store.state.userGameRecords = user.matches
 		}
-		else if (response.status === 403)
-		{
+		else if (response.status === 403) {
 			console.error('Forbidden:', response.error);
 		}
 		else
@@ -78,6 +72,7 @@ export const loadUserFriends = async () => {
 
 		// 가져온 친구 목록을 Store의 userFriends 상태에 저장합니다.
 		store.state.userFriends = friendsInfo;
+		loadFriendGameRecords();
 
 	} catch (error) {
 		console.error('친구 목록을 가져오는 중 오류 발생:', error);
@@ -88,13 +83,11 @@ export const loadUserFriends = async () => {
 export const loadGameRecords = async () => {
 	try {
 		const response = await fetch('/api/users/self/');
-		if (response.status === 200)
-		{
+		if (response.status === 200) {
 			const user = await response.json();
 			store.state.gameRecords = user.matches
 		}
-		else if (response.status === 403)
-		{
+		else if (response.status === 403) {
 			console.error('Forbidden:', response.error);
 		}
 		else

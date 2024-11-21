@@ -40,18 +40,18 @@
 
 .btn-one-to-one {
 	background-image: url('../../public/images/ui/1vs1border.png');
-	background-size: cover;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
-	/* width: 20rem; */
-	/* height: 20rem; */
+	width: calc(15rem + 5vw);
+	height: calc(15rem + 5vw);
 }
 
 .btn-tournament {
 	background-image: url('../../public/images/ui/tnmtborder.png');
-	background-size: cover;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
-	/* width: 20rem; */
-	/* height: 20rem; */
+	width: calc(15rem + 5vw);
+	height: calc(15rem + 5vw);
 }
 
 .btn-sidebar {
