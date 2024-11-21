@@ -24,10 +24,10 @@
     justify-content: center;
 }
 
-.game-records > .col-12,
-.my-macro > .col-12 {
-	flex: 1 0 auto;
+.game-records > .col-12, .my-macro > .col-12 {
+    flex: 0 0 auto;
 }
+/* flex: 1 0 auto */
 
 .my-profile-content {
 	padding-left: 20px;
