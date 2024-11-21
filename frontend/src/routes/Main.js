@@ -28,7 +28,7 @@ export default class Main extends Component {
         this.el.querySelector('.body-line').appendChild(selectpage.el);
 
         // Sidebar 컴포넌트 추가
-        const sidebar = new Sidebar(gameStore.state.userInfo);
+        const sidebar = new Sidebar();
         sidebar.el.classList.add('col-xxl-3');
         this.el.querySelector('.body-line').appendChild(sidebar.el);
     }

@@ -7,21 +7,18 @@ import { getCookie } from "../../core/core.js";
 import store from "../../store/game.js";
 
 export class Sidebar extends Component {
-    constructor(props) {
+    constructor() {
         super({
             tagName: 'div',
             props: {
                 className: 'friendwindow'
             },
-            state: {
-                userInfo: props
-            }
         });
-        this.friendRender(this.userInfo);
+        this.friendRender();
         store.subscribe('userFriends', this.renderFriendList.bind(this));
     }
 
-    friendRender(userInfo) {
+    friendRender() {
         this.el.classList.add('container'); // Bootstrap container 클래스 추가
         this.el.classList.add('col-auto'); // col-auto로 설정하여 내용물에 맞게 크기 조절
 

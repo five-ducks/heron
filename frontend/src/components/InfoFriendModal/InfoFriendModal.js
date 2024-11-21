@@ -13,9 +13,9 @@ export class InfoFriendModal extends Modal {
         this.renderAdditionalContent(name);
     }
 
-    renderAdditionalContent(name) {
+    async renderAdditionalContent(name) {
         const matchRecordList = this.el.querySelector(".info-record");
-		loadFriendGameRecords();
+		await loadFriendGameRecords();
         const gameRecords = new FriendGameRecords();
         gameRecords.recoredsRender(name);
         matchRecordList.appendChild(gameRecords.el);
