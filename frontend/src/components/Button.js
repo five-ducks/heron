@@ -13,7 +13,10 @@ export class Button extends Component {
 		this.el.textContent = text;
 
 		this.render();
-		this.el.addEventListener('click', onClick);
+		this.el.addEventListener('click', (event) => {
+			event.stopPropagation();
+			onClick(event);
+		});
 	}
 
 	setText(text) {
