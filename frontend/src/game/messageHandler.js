@@ -1,4 +1,4 @@
-import { showDisconnectModal, showResultModal } from "./modal.js"
+import { showDisconnectModal, showResultModal, showSemifinalResultModal } from "./modal.js"
 
 export function handleServerMessage(game, data) {
     switch(data.type) {
@@ -15,7 +15,18 @@ export function handleServerMessage(game, data) {
             showDisconnectModal(game, data.message);
             break;
         case 'gameEnd':
-            showResultModal(game, data.winner === game.playerNumber);
+			if (data.winner === game.playerNumber) {
+				showResultModal(game, 'WIN');
+			}
+			else {
+				showResultModal(game, 'LOSE');
+			}
+            break;
+		case 'semifinalResult':
+			handleSemifinalResult(game, data);
+            break;
+        case 'finalResult':
+            handleFinalResult(game, data);
             break;
         default:
             console.log('Unknown message type:', data.type);
@@ -26,14 +37,12 @@ async function handleConnection(game) {
     try {
         // 유저 정보 가져오기
         game.userInfo = await getUserInfo();
-		console.log(game.userInfo);
 
         // 웹소켓으로 유저 정보 전송
         game.socket.send(JSON.stringify({
             type: 'user_info',
             user_info: game.userInfo,
         }));
-
     } catch (error) {
         console.error('Error fetching user info:', error);
     }
@@ -43,7 +52,7 @@ async function getUserInfo() {
     try {
         const response = await fetch('/api/users/self/', {
             method: 'GET',
-            credentials: 'include',  // 쿠키 포함
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -57,5 +66,21 @@ async function getUserInfo() {
     } catch (error) {
         console.error('Error:', error);
         throw error;
+    }
+}
+
+function handleSemifinalResult(game, data) {
+    if (data.result === 'win') {
+		showSemifinalResultModal(game, data.result);
+	} else {
+		showSemifinalResultModal(game, data.result);
+	}
+}
+
+function handleFinalResult(game, data) {
+    if (data.result === 'win') {
+        showResultModal(game, 'Champion!');
+    } else {
+        showResultModal(game, 'Runner-up');
     }
 }

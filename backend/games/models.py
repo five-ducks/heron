@@ -1,7 +1,6 @@
 from django.utils import timezone
 from django.db import models
 
-
 class Match(models.Model):
 
     RESULT_CHOICES = [

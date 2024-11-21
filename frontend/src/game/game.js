@@ -57,7 +57,7 @@ export class PingPongGame extends Component {
             updateStatus(this, 'Error: ' + error.message);
         };
     }
-		
+
 	startOnetoonetGame(data) {
 		this.gameState = data.state;
 		this.playerSide = data.side;

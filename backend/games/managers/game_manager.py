@@ -14,6 +14,8 @@ class GameManager:
         self.channel_layer = get_channel_layer()
         self.group_name: Optional[str] = None
         self.match_type = match_type  # 게임 타입 저장
+        self.match_result = None # 매치 결과 저장
+        self.disconnect_handled = False  # 비정상 종료 처리 플래그 추가
 
     def initialize_game(self) -> None:
         self.game_state = GameState()
@@ -37,7 +39,7 @@ class GameManager:
             player_info = {
                 'number': 1 if is_first_player else 2,
                 'side': 'left' if is_first_player else 'right',
-                'nickname': username
+                'username': username
             }
             self.player_infos[channel_name] = player_info
 
@@ -71,7 +73,7 @@ class GameManager:
         except Exception as e:
             print(f"Error in handle_move: {e}")
 
-	# 플레이어 비정상 종료 처리
+    # 플레이어 비정상 종료 처리
     async def handle_player_disconnect(self, channel_name: str) -> None:
         try:
             if channel_name in self.player_infos:
@@ -80,6 +82,13 @@ class GameManager:
                 if self.game_loop_task:
                     self.game_loop_task.cancel()
                     self.game_loop_task = None
+
+                # 몰수패 결과 준비 및 저장 (남은 플레이어가 승리)
+                if self.disconnect_handled == False:
+                    remaining_player = [player for player in self.player_infos.values() if player['number'] != self.player_infos[channel_name]['number']][0]
+                    await self.prepare_match_result(remaining_player['number'], is_forfeit=True)
+                    await self.save_match_result()
+                    self.disconnect_handled = True
 
                 # 다른 플레이어에게 알림
                 for other_channel in self.player_infos:
@@ -109,8 +118,8 @@ class GameManager:
                         'state': self.game_state.to_dict(),
                         'side': player_info['side'],
                         'player': player_info['number'],
-                        'player1Nickname': list(self.player_infos.values())[0]['nickname'],
-                        'player2Nickname': list(self.player_infos.values())[1]['nickname']
+                        'player1Nickname': list(self.player_infos.values())[0]['username'],
+                        'player2Nickname': list(self.player_infos.values())[1]['username']
                     }
                 )
 
@@ -158,18 +167,30 @@ class GameManager:
 
             self.ended_flag = True
             winner = self.game_state.get_winner()
-
-            # 게임 종료 메시지 전송
-            await self.channel_layer.group_send(
-                self.group_name,
-                {
-                    'type': 'game_end',
-                    'winner': winner
-                }
-            )
-
-            # 매치 결과 저장
+            
+			# 정상 게임 종료 결과 저장
+            await self.prepare_match_result(winner)
             await self.save_match_result()
+
+            if self.match_type == 'onetoone':
+                # 게임 종료 메시지 전송
+                await self.channel_layer.group_send(
+                    self.group_name,
+                    {
+                        'type': 'game_end',
+                        'winner': winner
+                    }
+                )
+            else:
+                # 게임 종료 메시지 전송
+                await self.channel_layer.group_send(
+                    self.group_name,
+                    {
+                        'type': 'game_end',
+                        'winner': winner,
+                        'match_group': self.group_name
+                    }
+                )
         except Exception as e:
             print(f"Error in end_game: {e}")
 
@@ -187,7 +208,33 @@ class GameManager:
             print(f"Error in cleanup: {e}")
 
 	# 매치 결과 저장
+    async def prepare_match_result(self, winner: int, is_forfeit: bool = False) -> None:
+        # 몰수 게임인 경우 
+        if is_forfeit:
+           self.match_result = {
+               'winner': winner,
+               'player1_score': 3 if winner == 1 else 0,
+               'player2_score': 3 if winner == 2 else 0,
+               'start_time': self.game_start_time,
+               'end_time': timezone.now(),
+               'match_type': self.match_type
+            }
+        # 정상 게임인 경우
+        else:
+            self.match_result = {
+               'winner': winner,
+               'player1_score': self.game_state.score.player1,
+               'player2_score': self.game_state.score.player2,
+               'start_time': self.game_start_time,
+               'end_time': timezone.now(),
+               'match_type': self.match_type
+            }
+
+	# db에 match 저장
     async def save_match_result(self) -> None:
+        if not self.match_result:
+            return
+
         try:
             from ..models import Match
             from users.models import User
@@ -196,25 +243,24 @@ class GameManager:
             @database_sync_to_async
             def save_to_db():
                 try:
-                    players = list(self.player_infos.values())
-                    if len(players) == 2:
-                        user1 = User.objects.filter(username=players[0]['nickname']).first()
-                        user2 = User.objects.filter(username=players[1]['nickname']).first()
+                    username1 = list(self.player_infos.values())[0]['username']
+                    username2 = list(self.player_infos.values())[1]['username']
 
-                        if user1 and user2:
-                            Match.objects.create(
-                                match_username1=user1,
-                                match_username2=user2,
-                                match_result='user1_win' if self.game_state.get_winner() == 1 else 'user2_win',
-                                match_start_time=self.game_start_time,
-                                match_end_time=timezone.now(),
-                                username1_grade=self.game_state.score.player1,
-                                username2_grade=self.game_state.score.player2,
-                                match_type=self.match_type
-                            )
+                    Match.objects.create(
+                        match_username1=username1,
+                        match_username2=username2,
+                        match_result='user1_win' if self.match_result['winner'] == 1 else 'user2_win',
+                        match_start_time=self.match_result['start_time'],
+                        match_end_time=self.match_result['end_time'],
+                        username1_grade=self.match_result['player1_score'],
+                        username2_grade=self.match_result['player2_score'],
+                        match_type=self.match_result['match_type']
+                    )
                 except Exception as e:
                     print(f"Error in save_to_db: {e}")
 
             await save_to_db()
         except Exception as e:
             print(f"Error in save_match_result: {e}")
+            
+	
