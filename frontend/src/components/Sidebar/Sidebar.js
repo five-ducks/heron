@@ -4,7 +4,7 @@ import { FriendSearchModal } from "../FriendSearchModal/FriendSearchModal.js";
 import { Button } from "../Button.js";
 import { Profile } from "../Profile/Profile.js";
 import { getCookie } from "../../core/core.js";
-import store, { loadFriendGameRecords } from "../../store/game.js"; // Store 불러오기
+import store from "../../store/game.js";
 
 export class Sidebar extends Component {
     constructor(props) {
@@ -57,14 +57,13 @@ export class Sidebar extends Component {
                 });
                 const friendsInfo = await response.json();
                 if (response.ok) {
-                    console.log('친구 목록을 가져오는 데 성공했습니다:', friendsInfo);
+                    store.state.userFriends = friendsInfo;
                 } else {
                     console.error('친구 목록을 가져오는 중 오류 발생:', friendsInfo.error);
+                    store.state.userFriends = [];
                 }
 
                 // 가져온 친구 목록을 Store의 userFriends 상태에 저장합니다.
-                store.state.userFriends = friendsInfo;
-                loadFriendGameRecords();
 
             } catch (error) {
                 console.error('친구 목록을 가져오는 중 오류 발생:', error);
