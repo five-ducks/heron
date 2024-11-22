@@ -52,7 +52,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
                     await self.tournament_manager.handle_player_disconnect(self.channel_name)
 
 			# 종료 처리
-            self.group_manager.group_cleanup(self.group_id, self.channel_name)
+            await self.group_manager.group_cleanup(self.group_id, self.channel_name)
 
         except Exception as e:
             print(f"Error in disconnect: {e}")
