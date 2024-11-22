@@ -1,5 +1,6 @@
-.game-records {
+.friend-game-records {
 	display: flex;
     gap: 10px;
     flex-direction: column;
+    align-content: center;
 }

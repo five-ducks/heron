@@ -6,7 +6,7 @@ export class FriendGameRecords extends Component {
 	constructor() {
 		super({
 			props: {
-				className: 'game-records',
+				className: 'friend-game-records',
 			}
 		});
 	}
