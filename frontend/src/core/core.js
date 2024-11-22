@@ -109,3 +109,30 @@ export function selectProfileImg(profileImgIndex) {
 	return profileImg[profileImgIndex]
 }
 
+export function idValidationCheck(id) {
+	const idPattern = /^[a-z0-9]{3,12}$/
+	if (!idPattern.test(id)) {
+		throw new Error('아이디는 3~12자의 영문 소문자와 숫자로만 입력해주세요.')
+	}
+}
+
+export function passwordValidationCheck(password) {
+	const passwordPattern = /^[a-zA-Z0-9]{4,8}$/
+	if (!passwordPattern.test(password)) {
+		throw new Error('비밀번호는 4~8자의 영문 대소문자와 숫자로만 입력해주세요.')
+	}
+}
+
+export function stateValidationCheck(state) {
+	const statePattern = /^[가-힣]{1,10}$/
+	if (!statePattern.test(state)) {
+		throw new Error('기분은 한글 1~10자로만 입력해주세요.')
+	}
+}
+
+export function macroValidationCheck(macro) {
+	const macroPattern = /^[가-힣]{1,10}$/
+	if (!macroPattern.test(macro)) {
+		throw new Error('매크로는 1~3자리의 숫자로만 입력해주세요.')
+	}
+}

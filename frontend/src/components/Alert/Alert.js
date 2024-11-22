@@ -63,3 +63,13 @@ export class CustomAlert extends Component {
     })
   }
 }
+
+// alert를 바로 사용할 수 있는 함수
+export async function quickAlert(message, okButtonText = '확인') {
+  const alert = new CustomAlert({
+    message,
+    okButtonText
+  })
+  alert.render()
+  return alert.show()
+}

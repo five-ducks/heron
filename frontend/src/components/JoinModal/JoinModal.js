@@ -2,7 +2,8 @@ import { Modal } from "../Modal/index.js";
 import { SelectCharactor } from "../SelectCharactor/SelectCharactor.js";
 import { Button } from "../Button.js";
 import { Input } from "../../components/Input/Input.js";
-import { CustomAlert } from "../Alert/Alert.js";
+import { quickAlert } from "../Alert/Alert.js";
+import { idValidationCheck, passwordValidationCheck } from "../../core/core.js";
 
 export class JoinModal extends Modal {
     constructor(onClose = () => { }) {
@@ -16,14 +17,14 @@ export class JoinModal extends Modal {
         this.addCharactors();
 
         const nameInput = new Input({
-            placeholder: '7자 미만으로 입력해주세요',
+            placeholder: '아이디를 입력해주세요',
             variant: 'background',
             label: '닉네임',
             type: 'text',
             size: 'm',
         });
         const pwInput = new Input({
-            placeholder: '비밀번호는 6자 이상이여야 합니다.',
+            placeholder: '비밀번호를 입력해주세요',
             variant: 'background',
             label: '비밀번호',
             type: 'password',
@@ -47,51 +48,28 @@ export class JoinModal extends Modal {
             size: 'xl',
             text: '완료',
         },
-            async () => {
-                // Validate inputs
+        async () => {
+            try {
                 const username = nameInput.getValue();
                 const password = pwInput.getValue();
                 const confirmPassword = curpwInput.getValue();
-
-            // Basic validation checks
-            if (!username || username.length >= 7) {
-                const alert = new CustomAlert({
-                    message: '닉네임을 7자 미만으로 입력해주세요.',
-                    okButtonText: '확인',
-                });
-                alert.render();
-                await alert.show();
-                return;
-            }
-            if (!password || password.length < 6) {
-                const alert = new CustomAlert({
-                    message: '비밀번호는 6자 이상이여야 합니다.',
-                    okButtonText: '확인',
-                });
-                alert.render();
-                await alert.show();
-                return;
-            }
-            if (password !== confirmPassword) {
-                const alert = new CustomAlert({
-                    message: '비밀번호가 일치하지 않습니다.',
-                    okButtonText: '확인',
-                });
-                alert.render();
-                await alert.show();
-                return;
-            }
-
-            // 요청 데이터 생성
-            const requestData = {
-                username,
-                password,
-                profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
-            };
-            nameInput.setValue('');
-            pwInput.setValue('');
-            curpwInput.setValue('');
-            try {
+                idValidationCheck(username);
+                passwordValidationCheck(password);
+                passwordValidationCheck(confirmPassword);
+                if (password !== confirmPassword) {
+                    throw new Error('비밀번호가 일치하지 않습니다.');
+                }
+    
+                // 요청 데이터 생성
+                const requestData = {
+                    username,
+                    password,
+                    profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
+                };
+                nameInput.setValue('');
+                pwInput.setValue('');
+                curpwInput.setValue('');
+    
                 // 요청 전송
                 const response = await fetch('/api/users/join/', {
                     method: 'POST',
@@ -102,37 +80,17 @@ export class JoinModal extends Modal {
                 });
                 // 응답 처리
                 if (response.status === 201) {
-                    const alert = new CustomAlert({
-                        message: '회원가입이 완료되었습니다!',
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
+                    await quickAlert('회원가입이 완료되었습니다!');
                     this.close();  // 모달 닫기
                 } else if (response.status === 400) {
                     const responseData = await response.json();
                     const error = responseData.error;  // 오류 메시지 가져오기
-                    const alert = new CustomAlert({
-                        message: `에러: ${response.status}, ${error}`,
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
+                    await quickAlert(`에러: ${response.status}, ${error}`);
                 } else {
-                    const alert = new CustomAlert({
-                        message: '알 수 없는 오류가 발생했습니다.',
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
+                    await quickAlert(`에러: ${response.status}, 알 수 없는 오류가 발생했습니다.`);
                 }
             } catch (error) {
-                const alert = new CustomAlert({
-                    message: `서버 오류: ${error.message}`,
-                    okButtonText: '확인',
-                });
-                alert.render();
-                await alert.show();
+                await quickAlert(error);
             }
         });
 

@@ -3,7 +3,7 @@ import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
 import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
-import { CustomAlert } from "../components/Alert/Alert.js";
+import { CustomAlert, quickAlert } from "../components/Alert/Alert.js";
 
 // New function for login API request
 async function loginUser(username, password) {
@@ -18,29 +18,13 @@ async function loginUser(username, password) {
         });
 
         if (response.ok) {
-            const alert = new CustomAlert({
-                message: '로그인 성공!',
-                okButtonText: '확인',
-            });
-            alert.render();
-            await alert.show();
+            await quickAlert('로그인 성공!', '확인');
             window.location.href = '#/main';
-        } else {
-            const message = await response.json();
-            const alert = new CustomAlert({
-                message: message.error,
-                okButtonText: '확인',
-            });
-            alert.render();
-            await alert.show();
+        } else if (response.status === 400) {
+            await quickAlert('아이디 혹은 비밀번호가 일치하지 않습니다.', '확인');
         }
     } catch (error) {
-        const alert = new CustomAlert({
-            message: `Server error: ${error.message}`,
-            okButtonText: '확인',
-        });
-        alert.render();
-        await alert.show();
+        await quickAlert(`에러: ${error.message}`, '확인');
     }
 }
 
@@ -119,28 +103,19 @@ export default class Login extends Component {
         },
             async () => {
                 // Retrieve input values
-                const username = inputID.getValue(); // getValue() 사용
-                const password = inputPW.getValue(); // getValue() 사용
-                // Basic validation
-                if (!username) {
+                try {
+                    const username = inputID.getValue(); // getValue() 사용
+                    const password = inputPW.getValue(); // getValue() 사용
+                    await loginUser(username, password);
+                }
+                catch (error) {
                     const alert = new CustomAlert({
-                        message: '아아디를 입력해주세요.',
+                        message: `Error: ${error.message}`,
                         okButtonText: '확인',
                     });
                     alert.render();
                     await alert.show();
-                    return;
                 }
-                if (!password) {
-                    const alert = new CustomAlert({
-                        message: '비밀번호를 입력해주세요.',
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
-                    return;
-                }
-                await loginUser(username, password);
             }
         );
 
