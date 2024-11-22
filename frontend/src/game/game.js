@@ -1,7 +1,7 @@
 import { Component } from "../core/core.js";
 import { handleServerMessage } from './messageHandler.js';
 import { renderGame, draw, setPlayerNicknames, updateStatus } from './render.js';
-import { handlePageLeave, handlePageReload } from './errorHandler.js'; 
+import { handlePageLeave } from './errorHandler.js'; 
 import { getWebsocketUrl } from "./getWebsocket.js";
 import { handleKeyPress } from './keyHandler.js';
 import { initializeModal, initializeResultModal } from "./modal.js"
@@ -19,11 +19,22 @@ export class PingPongGame extends Component {
 		this.modalVisible = false;
 		this.userInfo = null;
 
+		// 새로고침 체크 수행
+        if (sessionStorage.getItem('isRefreshing') === 'true') {
+            sessionStorage.removeItem('isRefreshing');
+            this.redirectToMain();
+            return;
+        }
+
+		// 페이지 이동 이벤트리스너
+        window.addEventListener('beforeunload', () => {
+			// 새로고침 감지를 위한 플래그 설정
+            sessionStorage.setItem('isRefreshing', 'true');
+            handlePageLeave(this);
+        });
+
         // 뒤로가기 이벤트리스너
         window.addEventListener('popstate', () => handlePageLeave(this));
-
-		// 새로고침 이벤트리스너
-		// window.addEventListener('beforeunload', () => handlePageReload(this));
 
 		// key 입력 이벤트리스너
 		window.addEventListener('keydown', (e) => handleKeyPress(e, this));
@@ -130,6 +141,6 @@ export class PingPongGame extends Component {
 
 	// 메인 화면으로 이동
 	redirectToMain() {
-		window.location.href = '#/main';  // 메인 화면의 URL로 변경
+		window.location.replace('#/main');  // 메인 화면의 URL로 변경
     }
 }

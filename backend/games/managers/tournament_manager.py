@@ -12,7 +12,7 @@ class TournamentState(Enum):
     FINISH = "finish"				# 토너먼트 종료
 
 class TournamentManager:
-    def __init__(self):
+    def __init__(self, group_manager):
         self.state = TournamentState.WAITING
         self.players: List[Dict] = []  # [{channel_name, username, ready}, ...]
         self.matches = {
@@ -22,8 +22,9 @@ class TournamentManager:
         self.semifinal_winners = []
         self.semifinal_losers = set()
         self.champion = None
+        self.group_manager = group_manager
         self.game_managers = {}  # match_id: GameManager
-        self.channel_layer = get_channel_layer()
+        self.channel_layer = group_manager.channel_layer
         self.group_name: Optional[str] = None
 
 	# 플레이어 연결 처리
@@ -86,7 +87,7 @@ class TournamentManager:
                 await self.channel_layer.group_add(match_group, player1['channel_name'])
                 await self.channel_layer.group_add(match_group, player2['channel_name'])
 
-                game_manager = GameManager(match_type='tournament')
+                game_manager = GameManager(self.group_manager, match_type='tournament')
                 self.game_managers[match_id] = game_manager
 
 				# 게임 매니저에 플레이어 연결
@@ -121,7 +122,7 @@ class TournamentManager:
                 await self.channel_layer.group_discard(final_waiting_group, player['channel_name'])
                 await self.channel_layer.group_add(match_group, player['channel_name'])
 
-            game_manager = GameManager(match_type='tournament')
+            game_manager = GameManager(self.group_manager, match_type='tournament')
             self.game_managers[match_id] = game_manager
 
             await game_manager.handle_player_connect(
