@@ -1,37 +1,178 @@
+##### MSA 적용 전 docker-compose #####
+## MSA로 마이그레이션이 완료되면 해당 부분 제거 필요합니다.
+# services:
+#   backend:
+#     container_name: backend
+#     build: backend/
+#     ports:
+#       - 8000:8000
+#     volumes:
+#       - ./backend:/app
+#     networks:
+#       - pingpong_net
+#     env_file:
+#       - .env
+#     restart: always
+#     depends_on:
+#       db:
+#         condition: service_healthy
+
+#   db:
+#     container_name: postgres
+#     image: postgres
+#     expose:
+#       - 5432
+#     volumes:
+#       - db_data:/var/lib/postgresql/data
+#     networks:
+#       - pingpong_net
+#     env_file:
+#       - .env
+#     restart: always
+#     healthcheck:
+#       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}" ]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 3
+
+#   nginx:
+#     container_name: nginx
+#     build: nginx/
+#     ports:
+#       - 80:80
+#       - 443:443
+#     volumes:
+#       - ./frontend:/usr/share/nginx/html:ro
+#     networks:
+#       - pingpong_net
+#     restart: always
+#     depends_on:
+#       - backend
+
+# networks:
+#   pingpong_net:
+#     name: pingpong_net
+#     driver: bridge
+
+# volumes:
+#   db_data:
+#     name: db_data
+#     driver: local
+
+##### MSA 적용 후 docker-compose #####
 services:
-  backend:
-    container_name: backend
-    build: backend/
+  server-user:
+    container_name: server-user
+    build: backend_MSA/users/
     ports:
-      - 8000:8000
+      - 8001:8001
     volumes:
-      - ./backend:/app
+      - ./backend_MSA/users/srcs:/app
     networks:
       - pingpong_net
     env_file:
-      - .env
+      - backend_MSA/tools/.env
+      - databases/users/tools/.env
     restart: always
     depends_on:
-      db:
+      db-user:
         condition: service_healthy
+  # backend에서 user테이블 관련 CRUD 및 status 관리를 하는 container
 
-  db:
-    container_name: postgres
+  server-auth:
+    container_name: server-auth
+    build: backend_MSA/auth/
+    ports:
+      - 8002:8002
+    volumes:
+      - ./backend_MSA/auth/srcs:/app
+    networks:
+      - pingpong_net
+    env_file:
+      - ./backend_MSA/tools/.env
+      - ./databases/auth/tools/.env
+    restart: always
+    depends_on:
+      db-auth:
+        condition: service_healthy
+  # backend에서 login / logout / join / oauth 관련한 인증 처리 container
+
+  server-game:
+    container_name: server-game
+    build: backend_MSA/games/
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend_MSA/games/srcs:/app
+    networks:
+      - pingpong_net
+    env_file:
+      - ./backend_MSA/tools/.env
+      - ./databases/games/tools/.env
+    restart: always
+    depends_on:
+      db-game:
+        condition: service_healthy
+  # backend에서 game 관련한 처리를 하는 container
+  ##### backend server container들 정의 ######
+
+  db-user:
+    container_name: db-user
     image: postgres
     expose:
       - 5432
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - volume-user:/var/lib/postgresql/data
     networks:
       - pingpong_net
     env_file:
-      - .env
+      - ./databases/users/tools/.env
     restart: always
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}" ]
       interval: 10s
       timeout: 5s
       retries: 3
+  # server-user cotainer와 연결되며 user / friend table을 가지고 있는 db
+
+  db-auth:
+    container_name: db-auth
+    image: postgres
+    expose:
+      - 5432
+    volumes:
+      - volume-auth:/var/lib/postgresql/data
+    networks:
+      - pingpong_net
+    env_file:
+      - ./databases/auth/tools/.env
+    restart: always
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  # server-auth cotainer와 연결되며 auth_user table을 가지고 있는 db
+
+  db-game:
+    container_name: db-game
+    image: postgres
+    expose:
+      - 5432
+    volumes:
+      - volume-game:/var/lib/postgresql/data
+    networks:
+      - pingpong_net
+    env_file:
+      - ./databases/games/tools/.env
+    restart: always
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  # server-game cotainer와 연결되며 match table을 가지고 있는 db
+  ##### backend에서 db container들 정의 #####
 
   nginx:
     container_name: nginx
@@ -45,7 +186,9 @@ services:
       - pingpong_net
     restart: always
     depends_on:
-      - backend
+      - server-auth
+      - server-user
+      - server-game
 
 networks:
   pingpong_net:
@@ -53,6 +196,14 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:
-    name: db_data
+  volume-game:
+    name: volume-game
+    driver: local
+
+  volume-auth:
+    name: volume-auth
+    driver: local
+
+  volume-user:
+    name: volume-user
     driver: local

@@ -20,7 +20,7 @@ function login2FA() {
 async function loginUser(username, password) {
     try {
         window.localStorage.setItem('username', username);
-        const response = await fetch('/api/users/login/', {
+        const response = await fetch('/api/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ async function loginUser(username, password) {
 // New function for 42 authentication API request
 async function authenticate42() {
     try {
-        const response = await fetch('/api/oauth/login/', {
+        const response = await fetch('/api/auth/oauth/login/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -2,12 +2,12 @@
 export function getWebsocketUrl(game) {
     const { protocol, hostname, hash } = location;
 
-	// protocol 설정
+    // protocol 설정
     const wsProtocol = protocol === 'https:' ? 'wss' : 'ws';
 
-	// 게임 타입 설정
-	const gameType = hash === '#/game/onetoone/' ? 'onetoone' : 'tournament';
-	game.gameType = gameType;
+    // 게임 타입 설정
+    const gameType = hash === '#/game/onetoone/' ? 'game/onetoone' : 'game/tournament';
+    game.gameType = gameType;
 
     const wsUrl = `${wsProtocol}://${hostname}/ws/${gameType}/`;
 
