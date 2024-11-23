@@ -19,8 +19,19 @@ export default class TwoFactorAuth extends Component {
 
     async request2FA() {
         try {
-            const resUri = localStorage.getItem('username');
-            const response = await fetch(`/api/auth/2fa/generate/?username=${resUri}`, {
+            const hash = window.location.hash;
+
+            // ? 뒤의 쿼리 문자열 부분을 추출합니다.
+            const queryString = hash.split('?')[1];
+
+            // URLSearchParams를 사용하여 쿼리 문자열을 파싱합니다.
+            const urlParams = new URLSearchParams(queryString);
+
+            // 'username' 파라미터의 값을 추출합니다.
+            const username = urlParams.get('username');
+
+            console.log(username); // '111'
+            const response = await fetch(`/api/auth/2fa/generate/?username=${username}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -88,8 +99,19 @@ export default class TwoFactorAuth extends Component {
 
     async verify2FA(code) {
         try {
-            const resUri = localStorage.getItem('username');
-            const response = await fetch(`/api/auth/2fa/verify/?username=${resUri}`, {
+            const hash = window.location.hash;
+
+            // ? 뒤의 쿼리 문자열 부분을 추출합니다.
+            const queryString = hash.split('?')[1];
+
+            // URLSearchParams를 사용하여 쿼리 문자열을 파싱합니다.
+            const urlParams = new URLSearchParams(queryString);
+
+            // 'username' 파라미터의 값을 추출합니다.
+            const username = urlParams.get('username');
+
+            console.log(username);
+            const response = await fetch(`/api/auth/2fa/verify/?username=${username}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

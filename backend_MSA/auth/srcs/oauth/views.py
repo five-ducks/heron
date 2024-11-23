@@ -41,19 +41,9 @@ def login_redirect(request):
                 elif int(error_code[0]) == 409:
                     raise PermissionError(str(detail[0]))
 
-            # 유효성 검사에 통과하여 AccessToken 발급
-            user = serializer.validated_data.get('user')
-            access_token = str(AccessToken.for_user(user))
-
+            print("ok")
             # response에 AccessToken을 쿠키로 설정
-            response = HttpResponseRedirect("https://localhost/#/main")
-            response.set_cookie(
-                'access_token',
-                access_token,
-                httponly=True,
-                secure=True,
-            )
-            return response
+            return HttpResponseRedirect(f"https://localhost/#/login/2fa?username={username}")
         # Auth 테이블에 유저가 없는 경우 회원가입
         else:
             new_user_data = {"username": username, "password": "42oauth", "profile_img": 1}
