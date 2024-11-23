@@ -4,22 +4,22 @@ import { JoinModal } from "../components/JoinModal/JoinModal.js";
 import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
 import { quickAlert } from "../components/Alert/Alert.js";
+import { CustomAlert } from "../components/Alert/Alert.js";
 
 // New function for 2FA login
-function login2FA() {
+function login2FA(username) {
     const alert = new CustomAlert({
         message: '로그인 성공!\n2FA 인증이 필요합니다.',
         okButtonText: '확인',
     });
     alert.render();
     alert.show();
-    location.href = '#/login/2fa';
+    location.href = '#/login/2fa?username=' + username;
 }
 
 // New function for login API request
 async function loginUser(username, password) {
     try {
-        window.localStorage.setItem('username', username);
         const response = await fetch('/api/auth/login/', {
             method: 'POST',
             headers: {
@@ -30,7 +30,7 @@ async function loginUser(username, password) {
         });
 
         if (response.ok) {
-            login2FA();
+            login2FA(username);
         } else {
             const message = await response.json();
             const alert = new CustomAlert({
@@ -57,8 +57,8 @@ async function authenticate42() {
         });
 
         if (response.ok) {
-            login2FA();
-            location.href = '#/login/2fa';
+            const data = await response.json();
+            window.location.href = data.redirect_url;
 
         } else {
             const message = await response.json();
@@ -134,7 +134,6 @@ export default class Login extends Component {
         },
             async () => {
                 await authenticate42();
-                location.href = '#/login/2fa';
             }
         );
 

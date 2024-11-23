@@ -43,7 +43,7 @@ async function routeRender(routes) {
 	}
 
 	// 세션 스토리지에 로그인 정보가 없는데 /#/ 또는 /#/login이 아닌 경우 /#/ 페이지로 이동
-	if (!getSocketStatus() && location.hash !== '#/' && location.hash !== '#/login' && location.hash !== '#/login/2fa') {
+	if (!getSocketStatus() && location.hash !== '#/' && location.hash !== '#/login' && location.hash.split('?')[0] !== '#/login/2fa') {
 		location.href = '/#/'
 	}
 
@@ -119,14 +119,14 @@ export function passwordValidationCheck(password) {
 
 function checkLength(state, key) {
 	if (state.length > 10) {
-	  throw new Error(`${key}는(은) 10자 이내로 입력해주세요.`);
+		throw new Error(`${key}는(은) 10자 이내로 입력해주세요.`);
 	}
 }
-  
-  function checkSpecialCharacters(state, key) {
+
+function checkSpecialCharacters(state, key) {
 	const allowedPattern = /^[a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣\s-_.,?!]*$/;
 	if (!allowedPattern.test(state)) {
-	  throw new Error(`${key}에 허용되지 않은 특수문자가 포함되어 있습니다.`);
+		throw new Error(`${key}에 허용되지 않은 특수문자가 포함되어 있습니다.`);
 	}
 }
 

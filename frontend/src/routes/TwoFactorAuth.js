@@ -19,8 +19,19 @@ export default class TwoFactorAuth extends Component {
 
     async request2FA() {
         try {
-            const resUri = localStorage.getItem('username');
-            const response = await fetch(`/api/auth/2fa/generate/?username=${resUri}`, {
+            const hash = window.location.hash;
+
+            // ? 뒤의 쿼리 문자열 부분을 추출합니다.
+            const queryString = hash.split('?')[1];
+
+            // URLSearchParams를 사용하여 쿼리 문자열을 파싱합니다.
+            const urlParams = new URLSearchParams(queryString);
+
+            // 'username' 파라미터의 값을 추출합니다.
+            const username = urlParams.get('username');
+
+            console.log(username); // '111'
+            const response = await fetch(`/api/auth/2fa/generate/?username=${username}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,10 +46,10 @@ export default class TwoFactorAuth extends Component {
 
             // 응답 데이터 파싱
             const data = await response.json();
-            this.state.qrData = data.qr_code_base64; // QR 코드 데이터를 상태에 저장
+            this.state.qrData = data.qr_code; // QR 코드 데이터를 상태에 저장
 
             // QR 코드 생성 및 DOM에 추가
-            const qrCanvas = await this.generateQRCode(data.qr_code_base64);
+            const qrCanvas = await this.generateQRCode(data.qr_code);
             const qrContainer = this.el.querySelector('.qr-image-container');
             if (qrContainer) {
                 qrContainer.innerHTML = '';
@@ -88,8 +99,19 @@ export default class TwoFactorAuth extends Component {
 
     async verify2FA(code) {
         try {
-            const resUri = localStorage.getItem('username');
-            const response = await fetch(`/api/auth/2fa/verify/?username=${resUri}`, {
+            const hash = window.location.hash;
+
+            // ? 뒤의 쿼리 문자열 부분을 추출합니다.
+            const queryString = hash.split('?')[1];
+
+            // URLSearchParams를 사용하여 쿼리 문자열을 파싱합니다.
+            const urlParams = new URLSearchParams(queryString);
+
+            // 'username' 파라미터의 값을 추출합니다.
+            const username = urlParams.get('username');
+
+            console.log(username);
+            const response = await fetch(`/api/auth/2fa/verify/?username=${username}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
