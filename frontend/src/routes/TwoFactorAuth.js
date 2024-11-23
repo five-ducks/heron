@@ -2,7 +2,6 @@ import { Component, getCookie } from "../core/core.js";
 import { Input } from "../components/Input/Input.js";
 import { Button } from "../components/Button.js";
 import { CustomAlert } from "../components/Alert/Alert.js";
-// import QRCode from 'qrcode';
 
 export default class TwoFactorAuth extends Component {
     constructor() {
@@ -18,28 +17,10 @@ export default class TwoFactorAuth extends Component {
         };
     }
 
-    async generateQRCode(data) {
-        try {
-            const qrCanvas = document.createElement('canvas');
-            await QRCode.toCanvas(qrCanvas, data, {
-                width: 200,
-                margin: 2,
-                color: {
-                    dark: '#000000',
-                    light: '#ffffff'
-                }
-            });
-            return qrCanvas;
-        } catch (error) {
-            console.error('QR Code generation error:', error);
-            throw new Error('QR 코드 생성 실패');
-        }
-    }
-
     async request2FA() {
         try {
             const resUri = localStorage.getItem('username');
-            const response = await fetch(`/api/auth/2fa/generate?username=${resUri}`, {
+            const response = await fetch(`/api/auth/2fa/generate/?username=${resUri}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,8 +31,10 @@ export default class TwoFactorAuth extends Component {
             });
 
             if (!response.ok) {
-                throw new Error('2FA 요청 실패');
+                const errorData = await response.json();
+                throw new Error(errorData.message || '2FA 요청 실패');
             }
+
 
             // const data = await response.json();
             // 백엔드에서 받은 데이터로 QR 코드 생성
@@ -59,7 +42,7 @@ export default class TwoFactorAuth extends Component {
 
             this.state.isRequestSent = true;
             // this.state.qrData = data.qrData;
-            this.render();
+            // this.render();
 
             // QR 코드 캔버스를 DOM에 추가
             // const qrContainer = this.el.querySelector('.qr-image-container');
@@ -70,6 +53,26 @@ export default class TwoFactorAuth extends Component {
 
             // await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
             console.log(response);
+            await console.log(response.json());
+            console.log(response.json().Object);
+
+            const bytes = new Uint8Array(response.json().data);
+            const qrBlob = new Blob([bytes], { type: 'image/png' });
+            const qrUrl = URL.createObjectURL(qrBlob);
+            const qrCanvas = document.createElement('canvas');
+            const qrImage = new Image();
+            qrImage.src = qrUrl;
+
+            await new Promise((resolve, reject) => {
+                qrImage.onload = () => {
+                    qrCanvas.width = qrImage.width;
+                    qrCanvas.height = qrImage.height;
+                    qrCanvas.getContext('2d').drawImage(qrImage, 0, 0);
+                    resolve();
+                };
+                qrImage.onerror = reject;
+            });
+
         } catch (error) {
             console.error('2FA Request Error:', error);
             await this.showAlert(`오류: ${error.message}`);
@@ -169,6 +172,8 @@ export default class TwoFactorAuth extends Component {
             inputContainer.append(codeInput.el);
             buttonRow.append(verifyButton.el, resendButton.el);
         }
+
+
 
         // 이미 QR 데이터가 있다면 QR 코드 다시 생성
         if (this.state.qrData) {
