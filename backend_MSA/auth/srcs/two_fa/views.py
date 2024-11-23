@@ -65,7 +65,7 @@ class TwoFAViewSet(viewsets.ViewSet):
         tags=["User"]
     )
     @action(detail=False, methods=['get'])
-    def generate(request):
+    def generate(self, request):
         try:
             username = request.query_params.get('username')
             user = Auth.objects.filter(username=username, is_active=True).first()

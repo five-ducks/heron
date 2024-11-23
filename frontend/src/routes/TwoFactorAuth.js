@@ -25,9 +25,7 @@ export default class TwoFactorAuth extends Component {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-Token': getCookie('csrftoken'),
-                    'username': localStorage.getItem('username'),
-                }
-
+                },
             });
 
             if (!response.ok) {
@@ -35,34 +33,42 @@ export default class TwoFactorAuth extends Component {
                 throw new Error(errorData.message || '2FA 요청 실패');
             }
 
+            // 응답 데이터 파싱
+            const data = await response.json();
+            this.state.qrData = data.qr_code_base64; // QR 코드 데이터를 상태에 저장
 
-            // const data = await response.json();
-            // 백엔드에서 받은 데이터로 QR 코드 생성
-            // const qrCanvas = await this.generateQRCode(data.qrData);
+            // QR 코드 생성 및 DOM에 추가
+            const qrCanvas = await this.generateQRCode(data.qr_code_base64);
+            const qrContainer = this.el.querySelector('.qr-image-container');
+            if (qrContainer) {
+                qrContainer.innerHTML = '';
+                qrContainer.appendChild(qrCanvas);
+            }
 
+            await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
             this.state.isRequestSent = true;
-            // this.state.qrData = data.qrData;
-            // this.render();
+            this.render();
+        
+        } catch (error) {
+            console.error('2FA Request Error:', error);
+            await this.showAlert(`오류: ${error.message}`);
+        }
+    }
 
-            // QR 코드 캔버스를 DOM에 추가
-            // const qrContainer = this.el.querySelector('.qr-image-container');
-            // if (qrContainer) {
-            //     qrContainer.innerHTML = '';
-            //     qrContainer.appendChild(qrCanvas);
-            // }
-
-            // await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
-            console.log(response);
-            await console.log(response.json());
-            console.log(response.json().Object);
-
-            const bytes = new Uint8Array(response.json().data);
+    async generateQRCode(base64Data) {
+        try {
+            // Base64 데이터를 Blob으로 변환
+            const binary = atob(base64Data);
+            const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
             const qrBlob = new Blob([bytes], { type: 'image/png' });
+
+            // Blob URL 생성
             const qrUrl = URL.createObjectURL(qrBlob);
             const qrCanvas = document.createElement('canvas');
             const qrImage = new Image();
             qrImage.src = qrUrl;
 
+            // Canvas에 QR 코드 이미지를 그림
             await new Promise((resolve, reject) => {
                 qrImage.onload = () => {
                     qrCanvas.width = qrImage.width;
@@ -70,12 +76,13 @@ export default class TwoFactorAuth extends Component {
                     qrCanvas.getContext('2d').drawImage(qrImage, 0, 0);
                     resolve();
                 };
-                qrImage.onerror = reject;
+                qrImage.onerror = () => reject(new Error('QR 이미지 로드 실패'));
             });
 
+            return qrCanvas;
         } catch (error) {
-            console.error('2FA Request Error:', error);
-            await this.showAlert(`오류: ${error.message}`);
+            console.error('QR Code generation error:', error);
+            throw new Error('QR 코드 생성 실패');
         }
     }
 
@@ -87,7 +94,7 @@ export default class TwoFactorAuth extends Component {
                     'Content-Type': 'application/json',
                     'X-CSRF-Token': getCookie('csrftoken'),
                 },
-                body: JSON.stringify({ code }),
+                body: JSON.stringify( { code : code }),
             });
 
             if (!response.ok) {
@@ -143,9 +150,7 @@ export default class TwoFactorAuth extends Component {
                 placeholder: 'Enter verification code',
                 variant: 'background',
                 id: '2fa-code',
-                label: 'Code',
-                labelPosition: 'left',
-                size: 'xl',
+                size: 'l',
             });
 
             const verifyButton = new Button({
