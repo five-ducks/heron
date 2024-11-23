@@ -12,7 +12,9 @@ export function handleServerMessage(game, data) {
 			game.startOnetoonetGame(data);
             break;
         case 'opponentDisconnected':
-            showDisconnectModal(game, data.message);
+			if (!data['state'] && data['state'] !== 'semifinal') {
+				showDisconnectModal(game, data.message);
+			}
             break;
         case 'gameEnd':
 			if (data.winner === game.playerNumber) {

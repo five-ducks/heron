@@ -74,7 +74,8 @@ class TournamentGameConsumer(BaseGameConsumer):
     async def game_opponent_disconnected(self, event):
         await self.send(text_data=json.dumps({
             'type': 'opponentDisconnected',
-            'message': event['message']
+            'message': event['message'],
+            'state': event['state']
         }))
 
 	# 4강 결과 전송
@@ -84,7 +85,7 @@ class TournamentGameConsumer(BaseGameConsumer):
             'result': event['result'],
             'message': event['message']
         }))
-        
+
 		# 패자는 바로 연결 종료, 승자는 연결 유지
         if event['result'] == 'lose':
             await self.close(code=1000)
@@ -97,23 +98,6 @@ class TournamentGameConsumer(BaseGameConsumer):
             'message': event['message'],
             'round': event['round']
         }))
-        
+
 		# 결승전이 끝났으므로 모든 플레이어 연결 종료
         await self.close(code=1000)
-
-	# 토너먼트 종료
-    async def tournament_result(self, event):
-        await self.send(text_data=json.dumps({
-            'type': 'tournamentResult',
-            'champion': event['champion'],
-            'message': event['message']
-        }))
-
-    async def tournament_status(self, event):
-        await self.send(text_data=json.dumps({
-            'type': 'tournamentStatus',
-            'round': event.get('round', 'waiting'),
-            'state': event.get('state', TournamentState.WAITING),
-            'players': event.get('players', []),
-            'matches': event.get('matches', None)
-        }))
