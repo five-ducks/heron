@@ -48,7 +48,7 @@ export default class TwoFactorAuth extends Component {
             await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
             this.state.isRequestSent = true;
             this.render();
-        
+
         } catch (error) {
             console.error('2FA Request Error:', error);
             await this.showAlert(`오류: ${error.message}`);
@@ -88,13 +88,14 @@ export default class TwoFactorAuth extends Component {
 
     async verify2FA(code) {
         try {
-            const response = await fetch('/api/auth/verify-2fa/', {
+            const resUri = localStorage.getItem('username');
+            const response = await fetch(`/api/auth/2fa/verify/?username=${resUri}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-Token': getCookie('csrftoken'),
                 },
-                body: JSON.stringify( { code : code }),
+                body: JSON.stringify({ code: code }),
             });
 
             if (!response.ok) {

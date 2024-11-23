@@ -92,18 +92,19 @@ class AuthViewSet(viewsets.ViewSet):
                     raise PermissionError(str(detail[0]))
    
             # user객체로 access_token 생성
-            user = serializer.validated_data.get('user')
-            access_token = str(AccessToken.for_user(user))
+            # user = serializer.validated_data.get('user')
+            # access_token = str(AccessToken.for_user(user))
 
-            # 브라우저의 cookie에 access_token을 저장하도록 설정
-            response = Response(status=status.HTTP_200_OK)
-            response.set_cookie(
-                key="access_token",
-                value=access_token,
-                httponly=True,
-                secure=True,
-            )
-            return response
+            # # 브라우저의 cookie에 access_token을 저장하도록 설정
+            # response = Response(status=status.HTTP_200_OK)
+            # response.set_cookie(
+            #     key="access_token",
+            #     value=access_token,
+            #     httponly=True,
+            #     secure=True,
+            # )
+            # return response
+            return Response(status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionError as e:

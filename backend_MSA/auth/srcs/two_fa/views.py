@@ -11,6 +11,7 @@ import qrcode
 import io
 import base64
 from PIL import Image
+from rest_framework_simplejwt.tokens import AccessToken
 
 class TwoFAViewSet(viewsets.ViewSet):
     @extend_schema(
@@ -67,6 +68,7 @@ class TwoFAViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def generate(self, request):
         try:
+            print("ok")
             username = request.query_params.get('username')
             user = Auth.objects.filter(username=username, is_active=True).first()
             device, created = TOTPDevice.objects.get_or_create(user=user, name="default")
@@ -86,10 +88,10 @@ class TwoFAViewSet(viewsets.ViewSet):
             buffer = io.BytesIO()
             img.save(buffer, format="PNG")
             buffer.seek(0)  # 버퍼의 시작 위치로 이동
-
+            print("ok")
             # Base64 인코딩 (선택 사항, JSON 응답에 포함하려면 사용)
             img_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-
+            print("ok")
             # JSON 응답
             return Response(
                 {
@@ -98,5 +100,27 @@ class TwoFAViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_200_OK
             )
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=['post'])
+    def verify(self, request):
+        try:
+            username = request.query_params.get('username')
+            user = Auth.objects.filter(username=username, is_active=True).first()
+            device = TOTPDevice.objects.filter(user=user, name="default").first()
+            print(request.data)
+            if not device or not device.verify_token(request.data.get('code')):
+                raise Exception("Invalid otp_code")
+            
+            access_token = str(AccessToken.for_user(user))
+            response = Response(status=status.HTTP_200_OK)
+            response.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,
+                secure=True,
+            )
+            return response
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
