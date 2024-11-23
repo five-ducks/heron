@@ -37,7 +37,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
 
     async def handle_receive_message(self, data: dict):
         raise NotImplementedError
-    
+
     async def handle_user_info(self):
         raise NotImplementedError
 
