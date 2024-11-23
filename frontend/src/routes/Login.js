@@ -3,7 +3,7 @@ import { Button } from "../components/Button.js";
 import { JoinModal } from "../components/JoinModal/JoinModal.js";
 import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
-import { CustomAlert, quickAlert } from "../components/Alert/Alert.js";
+import { quickAlert } from "../components/Alert/Alert.js";
 
 // New function for login API request
 async function loginUser(username, password) {
@@ -44,20 +44,10 @@ async function authenticate42() {
             window.location.href = data.redirect_url;
         } else {
             const message = await response.json();
-            const alert = new CustomAlert({
-                message: message.error,
-                okButtonText: '확인',
-            });
-            alert.render();
-            await alert.show();
+            await quickAlert(message.error, '확인');
         }
     } catch (error) {
-        const alert = new CustomAlert({
-            message: `Server error: ${error.message}`,
-            okButtonText: '확인',
-        });
-        alert.render();
-        await alert.show();
+        await quickAlert(`에러: ${error.message}`, '확인');
     }
 }
 
@@ -109,12 +99,7 @@ export default class Login extends Component {
                     await loginUser(username, password);
                 }
                 catch (error) {
-                    const alert = new CustomAlert({
-                        message: `Error: ${error.message}`,
-                        okButtonText: '확인',
-                    });
-                    alert.render();
-                    await alert.show();
+                    await quickAlert(`에러: ${error.message}`, '확인');
                 }
             }
         );
