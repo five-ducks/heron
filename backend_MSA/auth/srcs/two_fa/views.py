@@ -1,16 +1,12 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from django.shortcuts import render
 from custom_auth.models import Auth
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample, OpenApiParameter
-from django_otp.oath import totp
-from django.utils.timezone import now
 import qrcode
 import io
 import base64
-from PIL import Image
 from rest_framework_simplejwt.tokens import AccessToken
 
 class TwoFAViewSet(viewsets.ViewSet):
@@ -68,11 +64,9 @@ class TwoFAViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def generate(self, request):
         try:
-            print("ok")
             username = request.query_params.get('username')
             user = Auth.objects.filter(username=username, is_active=True).first()
             device, created = TOTPDevice.objects.get_or_create(user=user, name="default")
-            otp = totp(key=device.bin_key, step=device.step, t0=int(now().timestamp()))
 
             qr = qrcode.QRCode(
                 version=1,
@@ -88,18 +82,12 @@ class TwoFAViewSet(viewsets.ViewSet):
             buffer = io.BytesIO()
             img.save(buffer, format="PNG")
             buffer.seek(0)  # 버퍼의 시작 위치로 이동
-            print("ok")
-            # Base64 인코딩 (선택 사항, JSON 응답에 포함하려면 사용)
+
+            # Base64 인코딩
             img_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-            print("ok")
+
             # JSON 응답
-            return Response(
-                {
-                    "otp": otp,
-                    "qr_code_base64": img_base64  # Base64로 반환
-                },
-                status=status.HTTP_200_OK
-            )
+            return Response({"qr_code": img_base64}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
@@ -109,11 +97,15 @@ class TwoFAViewSet(viewsets.ViewSet):
             username = request.query_params.get('username')
             user = Auth.objects.filter(username=username, is_active=True).first()
             device = TOTPDevice.objects.filter(user=user, name="default").first()
-            print(request.data)
+
+            # TOTP 테이블에 생성된 device가 없거나 인증코드가 유효하지 않으면 에러
             if not device or not device.verify_token(request.data.get('code')):
-                raise Exception("Invalid otp_code")
+                raise Exception("OTP autheticate failed")
             
+            # user객체로 AccessToken 발급
             access_token = str(AccessToken.for_user(user))
+
+            # Response에 cookie로 jwt 저장
             response = Response(status=status.HTTP_200_OK)
             response.set_cookie(
                 key="access_token",

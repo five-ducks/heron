@@ -4,7 +4,6 @@ from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, 
 from django.http import JsonResponse
 from django.conf import settings
 from django.http import HttpResponseRedirect
-from rest_framework_simplejwt.tokens import AccessToken
 import requests
 
 from custom_auth.models import Auth
@@ -41,8 +40,6 @@ def login_redirect(request):
                 elif int(error_code[0]) == 409:
                     raise PermissionError(str(detail[0]))
 
-            print("ok")
-            # response에 AccessToken을 쿠키로 설정
             return HttpResponseRedirect(f"https://localhost/#/login/2fa?username={username}")
         # Auth 테이블에 유저가 없는 경우 회원가입
         else:
@@ -81,7 +78,6 @@ def login_redirect(request):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 def exchange_code_for_token(code):
     # 토큰 교환을 위한 요청 로직
     data = {
@@ -95,7 +91,6 @@ def exchange_code_for_token(code):
     response_data = response.json()
     return response_data.get("access_token")
 
-
 def get_42user_info(token):
     # 42 API를 사용해 사용자 정보 요청
     headers = {"Authorization": f"Bearer {token}"}
@@ -104,6 +99,7 @@ def get_42user_info(token):
 
 
 class OAuthViewSet(viewsets.ViewSet):
+    
     """
     A ViewSet for handling OAuth login via 42 API.
     """

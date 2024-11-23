@@ -46,10 +46,10 @@ export default class TwoFactorAuth extends Component {
 
             // 응답 데이터 파싱
             const data = await response.json();
-            this.state.qrData = data.qr_code_base64; // QR 코드 데이터를 상태에 저장
+            this.state.qrData = data.qr_code; // QR 코드 데이터를 상태에 저장
 
             // QR 코드 생성 및 DOM에 추가
-            const qrCanvas = await this.generateQRCode(data.qr_code_base64);
+            const qrCanvas = await this.generateQRCode(data.qr_code);
             const qrContainer = this.el.querySelector('.qr-image-container');
             if (qrContainer) {
                 qrContainer.innerHTML = '';

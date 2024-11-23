@@ -23,21 +23,19 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from django.contrib import admin
 
-authRouter = DefaultRouter()
-authRouter.register(r'auth', AuthViewSet, basename='auth')
+defaultAuthRouter = DefaultRouter()
+defaultAuthRouter.register(r'auth', AuthViewSet, basename='auth')
 
-oauthRouter = DefaultRouter()
-oauthRouter.register(r'oauth', OAuthViewSet, basename='oauth')
-oauthRouter.register(r'2fa', TwoFAViewSet, basename='2fa')
+customAuthRouter = DefaultRouter()
+customAuthRouter.register(r'oauth', OAuthViewSet, basename='oauth')
+customAuthRouter.register(r'2fa', TwoFAViewSet, basename='2fa')
 
 urlpatterns = [
-    path('schema/', SpectacularAPIView.as_view(), name='schema'), # API 스키마 생성 엔드포인트
-    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'), # Swagger UI 뷰
-    path('auth/', include(oauthRouter.urls)),
-    path('', include(authRouter.urls)),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('', include(defaultAuthRouter.urls)),
+    path('auth/', include(customAuthRouter.urls)),
     path('admin/', admin.site.urls),
 
     path('oauth/login/redirect', login_redirect, name='login42_redirect'),
 ]
-
-print(urlpatterns)

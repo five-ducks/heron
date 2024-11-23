@@ -2,7 +2,6 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiTypes, OpenApiExample
-from rest_framework_simplejwt.tokens import AccessToken
 import requests
 
 from .serializers import (
@@ -91,19 +90,6 @@ class AuthViewSet(viewsets.ViewSet):
                 elif int(error_code[0]) == 409:
                     raise PermissionError(str(detail[0]))
    
-            # user객체로 access_token 생성
-            # user = serializer.validated_data.get('user')
-            # access_token = str(AccessToken.for_user(user))
-
-            # # 브라우저의 cookie에 access_token을 저장하도록 설정
-            # response = Response(status=status.HTTP_200_OK)
-            # response.set_cookie(
-            #     key="access_token",
-            #     value=access_token,
-            #     httponly=True,
-            #     secure=True,
-            # )
-            # return response
             return Response(status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
