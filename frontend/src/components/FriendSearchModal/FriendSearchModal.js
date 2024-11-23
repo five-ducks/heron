@@ -2,6 +2,7 @@ import { Modal } from "../Modal/index.js";
 import { FriendSearchResult } from "./FriendSearchResult.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input/Input.js";
+import { quickAlert } from "../Alert/Alert.js";
 
 export class FriendSearchModal extends Modal {
     constructor() {
@@ -35,39 +36,29 @@ export class FriendSearchModal extends Modal {
     }
 
     async performSearch() {
-        const searchTerm = this.searchInput.getValue();
-
         try {
+            const searchTerm = this.searchInput.getValue();
             const response = await fetch(`api/users/?search=${searchTerm}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-
             this.searchResults.innerHTML = '';
-
             if (response.ok) {
                 const friendList = await response.json();
-
-                if (friendList.length === 0) {
-                    this.searchResults.innerHTML = '<p>친구를 찾을 수 없음.</p>';
-                    return;
-                }
-
                 friendList.forEach(friend => {
                     const friendResult = new FriendSearchResult(friend);
                     this.searchResults.appendChild(friendResult.el);
                     friendResult.friendProfileRender();
                 });
             } else if (response.status === 404) {
-                this.searchResults.innerHTML = '<p>결과 없음.</p>';
+                await quickAlert('검색 결과가 없습니다.');
             } else {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
         } catch (error) {
-            console.error('에러:', error);
-            this.searchResults.innerHTML = '<p>에러</p>';
+            await quickAlert(`친구 검색 중 에러: ${error.message}`);
         }
     }
 

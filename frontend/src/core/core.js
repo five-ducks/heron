@@ -30,12 +30,6 @@ export function getCookie(name) {
 	return null;									// 쿠키 값이 존재하지 않는다면 null을 반환
 }
 
-// function setCookie(name, value, days) {
-// 	const expires = new Date(Date.now() + days * 864e5).toUTCString();
-// 	document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${window.location.hostname}; Secure; SameSite=Lax`;
-// }
-// 일단 사용하지 않아 주석처리 해놨으니, 필요 없다면 지워주세요.
-
 async function routeRender(routes) {
 	if (!location.hash) {
 		history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
@@ -109,3 +103,44 @@ export function selectProfileImg(profileImgIndex) {
 	return profileImg[profileImgIndex]
 }
 
+export function idValidationCheck(id) {
+	const idPattern = /^[a-z0-9]{3,12}$/
+	if (!idPattern.test(id)) {
+		throw new Error('아이디는 3~12자의 영문 소문자와 숫자로만 입력해주세요.')
+	}
+}
+
+export function passwordValidationCheck(password) {
+	const passwordPattern = /^[a-zA-Z0-9]{4,8}$/
+	if (!passwordPattern.test(password)) {
+		throw new Error('비밀번호는 4~8자의 영문 대소문자와 숫자로만 입력해주세요.')
+	}
+}
+
+function checkLength(state, key) {
+	if (state.length > 10) {
+	  throw new Error(`${key}는(은) 10자 이내로 입력해주세요.`);
+	}
+}
+  
+  function checkSpecialCharacters(state, key) {
+	const allowedPattern = /^[a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣\s-_.,?!]*$/;
+	if (!allowedPattern.test(state)) {
+	  throw new Error(`${key}에 허용되지 않은 특수문자가 포함되어 있습니다.`);
+	}
+}
+
+export function stateValidationCheck(state, key) {
+	const keyMapping = {
+		'status_msg': '기분',
+		'macrotext1': 'F1',
+		'macrotext2': 'F2',
+		'macrotext3': 'F3',
+		'macrotext4': 'F4',
+		'macrotext5': 'F5'
+	};
+
+	const displayKey = keyMapping[key] || key;
+	checkLength(state, displayKey);
+	checkSpecialCharacters(state, displayKey);
+}

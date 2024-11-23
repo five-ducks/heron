@@ -27,14 +27,13 @@ export class SelectPage extends Component {
 			</div>
 		`;
 
+		const gameList = this.el.querySelector('.game-list');
 		// 일대일 버튼 생성 및 추가
 		const oneToOneButton = new Button({
 			text: '일대일',
 			style: 'one-to-one',
 			size: 'lg',
-		});
-		const gameList = this.el.querySelector('.game-list');
-
+		}, () => { window.location.hash = '/game/onetoone/'; });
 		gameList.appendChild(oneToOneButton.el);
 
 		// 토너먼트 버튼 생성 및 추가
@@ -42,7 +41,7 @@ export class SelectPage extends Component {
 			text: '토너먼트',
 			style: 'tournament',
 			size: 'lg'
-		});
+		}, () => { window.location.hash = '/game/tournament/'; });
 		gameList.appendChild(tournamentButton.el);
 
 		// 밍키리가 생성한 로딩, 교체 요망
@@ -51,18 +50,5 @@ export class SelectPage extends Component {
 		// 	await this.fakeLoadingProcess();
 		// 	this.loading.remove();
 		// });
-
-		// 1:1 게임 버튼 event listener
-        const onetooneButton = this.el.querySelector('.btn-one-to-one');
-        onetooneButton.addEventListener('click', () => {
-            window.location.hash = '/game/onetoone/';
-        });
-
-		// 미구현 및 에러 방지를 위해 주석 처리
-		// 토너먼트 게임 버튼 event listener
-        // const tournamentButton = this.el.querySelector('.tournament');
-    	// tournamentButton.addEventListener('click', () => {
-        //     window.location.hash = '/game/tournament/';
-        // });
 	}
 }

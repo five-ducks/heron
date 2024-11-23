@@ -1,11 +1,12 @@
-import { Component, getCookie, selectProfileImg } from "../../core/core.js";
+import { Component, getCookie } from "../../core/core.js";
 import { ProfileLevel } from "./ProfileLevel.js";
 import { Button } from "../Button.js";
 import { Input } from "../Input/Input.js";
-import { CustomAlert } from "../Alert/Alert.js";
+import { quickAlert } from "../Alert/Alert.js";
 import { closeWebSocketConnection } from "../../status/status.js";
 import store from "../../store/game.js";
 import { Avatar } from "../Avatar/Avatar.js";
+import { stateValidationCheck } from "../../core/core.js";
 
 export class ProfileSummary extends Component {
 	constructor(props) {
@@ -45,6 +46,7 @@ export class ProfileSummary extends Component {
 			defaultValue: props.status_msg,
 			size: 'l',
 		});
+
 		profileStateInput.el.classList.add('col-10', 'profile-state-input');
 		profileStateArea.appendChild(profileStateInput.el);
 
@@ -56,8 +58,7 @@ export class ProfileSummary extends Component {
 		`;
 		profileWin.classList.add('col-3', 'profile-win');
 		profilebtnArea.appendChild(profileWin);
-		
-1
+
 		const logoutBtn = new Button({
 			style: 'blue',
 			size: 'sm',
@@ -74,24 +75,15 @@ export class ProfileSummary extends Component {
 				const status = response.status;
 				if (status === 200) {
 					closeWebSocketConnection();
-					const alert = new CustomAlert({
-						message: '로그아웃 되었습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
+					await quickAlert('로그아웃 되었습니다.');
 					location.href = '/#/';
 				}
 				else {
-					const alert = new CustomAlert({
-						message: '로그아웃에 실패했습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
+					await quickAlert('로그아웃에 실패했습니다.');
 				}
 			}
 		);
+
 		const withdrawalBtn = new Button({
 			style: 'blue',
 			size: 'sm',
@@ -110,23 +102,11 @@ export class ProfileSummary extends Component {
 				const status = response.status;
 				if (status === 200) {
 					closeWebSocketConnection();
-					document.cookie = 'ppstate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					document.cookie = 'player=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-					const alert = new CustomAlert({
-						message: '회원탈퇴 되었습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
+					await quickAlert('회원탈퇴 되었습니다.');
 					location.href = '/#/';
 				}
 				else {
-					const alert = new CustomAlert({
-						message: '회원탈퇴에 실패했습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
+					await quickAlert('회원탈퇴에 실패했습니다.');
 				}
 			});
 
@@ -155,24 +135,27 @@ export class ProfileSummary extends Component {
 					add_field(`#f${i}`, `macrotext${i}`, macroBlock);
 				}
 
+				// request_body의 유효성 검사
+				try {
+					for (let key in request_body) {
+						console.log(key);
+						console.log(request_body[key]);
+						stateValidationCheck(request_body[key], key)
+					}
+				} catch (e) {
+					await quickAlert(e);
+					return;
+				}
+
 				// props와 request_body를 비교하여 달라진 내용만 request_body에 남기기
 				if (props.status_msg === request_body.status_msg) {
 					delete request_body.status_msg;
 				}
+
 				for (let i = 1; i <= 5; i++) {
 					if (props.macrotext[i - 1] === request_body[`macrotext${i}`]) {
 						delete request_body[`macrotext${i}`];
 					}
-				}
-
-				if (Object.keys(request_body).length === 0) {
-					const alert = new CustomAlert({
-						message: '변경된 내용이 없습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
-					return;
 				}
 
 				const response = await fetch('/api/users/self/', {
@@ -185,21 +168,11 @@ export class ProfileSummary extends Component {
 				});
 				const status = response.status;
 				if (status === 200) {
-					const alert = new CustomAlert({
-						message: '저장되었습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
+					await quickAlert('저장되었습니다.');
 					location.reload();
 				}
 				else {
-					const alert = new CustomAlert({
-						message: '저장에 실패했습니다.',
-						okButtonText: '확인',
-					});
-					alert.render();
-					await alert.show();
+					await quickAlert('저장에 실패했습니다.');
 				}
 			});
 			logoutBtn.el.classList.add('col-3', 'profile-logoutBtn');

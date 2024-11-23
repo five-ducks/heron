@@ -77,7 +77,25 @@ export class Input extends Component {
 	}
 
 	getValue() {
-		return this.el.querySelector('input').value.trim();
+		const value = this.el.querySelector('input').value.trim();
+		let label = '';
+		if (this.el.querySelector('label')) {
+			label = this.el.querySelector('label').textContent;
+		}
+
+		if (!value) {
+			if (label === '') {
+				throw new Error('값을 입력해주세요.');
+			}
+			throw new Error(`${label}을(를) 입력해주세요.`);
+		}
+	
+		// SQL Injection 및 XSS 방지: 특정 패턴 필터링
+		const forbiddenPatterns = /[<>;'"`]/;
+		if (forbiddenPatterns.test(value)) {
+			throw new Error('/[<>;\'"`]/ 문자를 사용할 수 없습니다.');
+		}
+		return value;
 	}
 
 	setValue(value) {
