@@ -2,6 +2,7 @@ import { Component } from "../core/core.js";
 import { Header } from "../components/Header/Header.js";
 import { SelectPage } from "../components/SelectPage/SelectPage.js";
 import { Sidebar } from "../components/Sidebar/Sidebar.js";
+import { MyProfileContent } from "../components/MyProfileContent/MyProfileContent.js";
 import gameStore, { loadUserInfo } from "../store/game.js";
 
 export default class Main extends Component {
@@ -11,25 +12,45 @@ export default class Main extends Component {
                 className: 'main',
             }
         });
+        this.currentView = gameStore.state.currentView;
     }
 
     async render() {
         this.el.innerHTML = /*html*/`
             <div class="head-line row flex-column flex-xxl-row"></div>
-            <div class="body-line row"></div>
+            <div class="body-line row">
+                <div class="main-content col-xxl-9"></div>
+                <div class="sidebar-container col-xxl-3"></div>
+            </div>
         `;
         await loadUserInfo();
-        const header = new Header(gameStore.state.userInfo);
+        const header = new Header(gameStore.state.userInfo, this.switchView.bind(this));
         this.el.querySelector('.head-line').appendChild(header.el);
 
-        // SelectPage 컴포넌트 추가
-        const selectpage = new SelectPage();
-        selectpage.el.classList.add('col-xxl-9');
-        this.el.querySelector('.body-line').appendChild(selectpage.el);
-
-        // Sidebar 컴포넌트 추가
+        // Sidebar 컴포넌트 추가 (항상 표시)
         const sidebar = new Sidebar();
-        sidebar.el.classList.add('col-xxl-3');
-        this.el.querySelector('.body-line').appendChild(sidebar.el);
+        this.el.querySelector('.sidebar-container').appendChild(sidebar.el);
+
+        // 초기 뷰 렌더링
+        this.renderCurrentView();
+    }
+
+    switchView() {
+        this.currentView = this.currentView === 'selectPage' ? 'myProfile' : 'selectPage';
+        this.renderCurrentView();
+    }
+
+    renderCurrentView() {
+        const mainContent = this.el.querySelector('.main-content');
+        mainContent.innerHTML = '';
+        
+        if (this.currentView === 'selectPage') {
+            const selectPage = new SelectPage();
+            mainContent.appendChild(selectPage.el);
+        } else if (this.currentView === 'myProfile') {
+            const myProfileContent = new MyProfileContent();
+            mainContent.appendChild(myProfileContent.el);
+        }
+        localStorage.setItem('currentView', this.currentView);
     }
 }
