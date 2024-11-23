@@ -1,11 +1,15 @@
 .main {
 	width: 100vw;
-	/* 전체 너비 */
 	height: 100vh;
-	/* 전체 높이 */
 	display: flex;
 	flex-direction: column;
-	/* 필요에 따라 추가 */
+}
+  
+/* 모바일 환경에서만 패딩 적용 */
+@media screen and (max-width: 767px) {
+	.main {
+		padding: 120px 0;
+	}
 }
 
 .head-line {
