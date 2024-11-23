@@ -5,6 +5,7 @@ const store = new Store({
     userGameRecords: [],
     userFriends: [],
     userFriendGameRecords: [],
+    currentView: localStorage.getItem('currentView') || 'selectPage',
 });
 
 export default store;

@@ -19,6 +19,7 @@ async function loginUser(username, password) {
 
         if (response.ok) {
             await quickAlert('로그인 성공!', '확인');
+            localStorage.setItem('currentView', 'selectPage');
             window.location.href = '#/main';
         } else if (response.status === 400) {
             await quickAlert('아이디 혹은 비밀번호가 일치하지 않습니다.', '확인');

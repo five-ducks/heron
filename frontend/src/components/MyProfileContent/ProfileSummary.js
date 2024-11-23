@@ -76,6 +76,7 @@ export class ProfileSummary extends Component {
 				if (status === 200) {
 					closeWebSocketConnection();
 					await quickAlert('로그아웃 되었습니다.');
+					localStorage.removeItem('currentView');
 					location.href = '/#/';
 				}
 				else {
