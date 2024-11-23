@@ -48,51 +48,51 @@ export class JoinModal extends Modal {
             size: 'xl',
             text: '완료',
         },
-        async () => {
-            try {
-                const username = nameInput.getValue();
-                const password = pwInput.getValue();
-                const confirmPassword = curpwInput.getValue();
-                idValidationCheck(username);
-                passwordValidationCheck(password);
-                passwordValidationCheck(confirmPassword);
-                if (password !== confirmPassword) {
-                    throw new Error('비밀번호가 일치하지 않습니다.');
+            async () => {
+                try {
+                    const username = nameInput.getValue();
+                    const password = pwInput.getValue();
+                    const confirmPassword = curpwInput.getValue();
+                    idValidationCheck(username);
+                    passwordValidationCheck(password);
+                    passwordValidationCheck(confirmPassword);
+                    if (password !== confirmPassword) {
+                        throw new Error('비밀번호가 일치하지 않습니다.');
+                    }
+
+                    // 요청 데이터 생성
+                    const requestData = {
+                        username,
+                        password,
+                        profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
+                    };
+                    nameInput.setValue('');
+                    pwInput.setValue('');
+                    curpwInput.setValue('');
+
+                    // 요청 전송
+                    const response = await fetch('/api/users/join/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestData),
+                    });
+                    // 응답 처리
+                    if (response.status === 201) {
+                        await quickAlert('회원가입이 완료되었습니다!');
+                        this.close();  // 모달 닫기
+                    } else if (response.status === 400) {
+                        const responseData = await response.json();
+                        const error = responseData.error;  // 오류 메시지 가져오기
+                        await quickAlert(`에러: ${response.status}, ${error}`);
+                    } else {
+                        await quickAlert(`에러: ${response.status}, 알 수 없는 오류가 발생했습니다.`);
+                    }
+                } catch (error) {
+                    await quickAlert(error);
                 }
-    
-                // 요청 데이터 생성
-                const requestData = {
-                    username,
-                    password,
-                    profile_img: this.selectedCharactorIndex, // 선택된 캐릭터 인덱스 포함
-                };
-                nameInput.setValue('');
-                pwInput.setValue('');
-                curpwInput.setValue('');
-    
-                // 요청 전송
-                const response = await fetch('/api/users/join/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestData),
-                });
-                // 응답 처리
-                if (response.status === 201) {
-                    await quickAlert('회원가입이 완료되었습니다!');
-                    this.close();  // 모달 닫기
-                } else if (response.status === 400) {
-                    const responseData = await response.json();
-                    const error = responseData.error;  // 오류 메시지 가져오기
-                    await quickAlert(`에러: ${response.status}, ${error}`);
-                } else {
-                    await quickAlert(`에러: ${response.status}, 알 수 없는 오류가 발생했습니다.`);
-                }
-            } catch (error) {
-                await quickAlert(error);
-            }
-        });
+            });
 
         finishButton.el.classList.add('finish-button');
         this.el.querySelector('.modal-body').append(finishButton.el);

@@ -5,10 +5,22 @@ import { Input } from "../components/Input/Input.js";
 import { getCookie } from "../core/core.js";
 import { quickAlert } from "../components/Alert/Alert.js";
 
+// New function for 2FA login
+function login2FA() {
+    const alert = new CustomAlert({
+        message: '로그인 성공!\n2FA 인증이 필요합니다.',
+        okButtonText: '확인',
+    });
+    alert.render();
+    alert.show();
+    location.href = '#/login/2fa';
+}
+
 // New function for login API request
 async function loginUser(username, password) {
     try {
-        const response = await fetch('/api/users/login/', {
+        window.localStorage.setItem('username', username);
+        const response = await fetch('/api/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -18,11 +30,15 @@ async function loginUser(username, password) {
         });
 
         if (response.ok) {
-            await quickAlert('로그인 성공!', '확인');
-            localStorage.setItem('currentView', 'selectPage');
-            window.location.href = '#/main';
-        } else if (response.status === 400) {
-            await quickAlert('아이디 혹은 비밀번호가 일치하지 않습니다.', '확인');
+            login2FA();
+        } else {
+            const message = await response.json();
+            const alert = new CustomAlert({
+                message: message.error,
+                okButtonText: '확인',
+            });
+            alert.render();
+            await alert.show();
         }
     } catch (error) {
         await quickAlert(`에러: ${error.message}`, '확인');
@@ -32,7 +48,7 @@ async function loginUser(username, password) {
 // New function for 42 authentication API request
 async function authenticate42() {
     try {
-        const response = await fetch('/api/oauth/login/', {
+        const response = await fetch('/api/auth/oauth/login/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,14 +57,20 @@ async function authenticate42() {
         });
 
         if (response.ok) {
-            const data = await response.json();
-            window.location.href = data.redirect_url;
+            login2FA();
+            location.href = '#/login/2fa';
+
         } else {
             const message = await response.json();
             await quickAlert(message.error, '확인');
         }
     } catch (error) {
-        await quickAlert(`에러: ${error.message}`, '확인');
+        const alert = new CustomAlert({
+            message: message.error,
+            okButtonText: '확인',
+        });
+        alert.render();
+        await alert.show();
     }
 }
 
@@ -74,7 +96,7 @@ export default class Login extends Component {
             id: 'nickname',
             label: 'ID',
             labelPosition: 'left',
-			size: 'xl',
+            size: 'xl',
         });
         const inputPW = new Input({
             placeholder: 'Password',
@@ -83,7 +105,7 @@ export default class Login extends Component {
             id: 'password',
             label: 'PW',
             labelPosition: 'left',
-			size: 'xl',
+            size: 'xl',
         });
 
         // Create buttons
@@ -112,6 +134,7 @@ export default class Login extends Component {
         },
             async () => {
                 await authenticate42();
+                location.href = '#/login/2fa';
             }
         );
 

@@ -43,7 +43,7 @@ async function routeRender(routes) {
 	}
 
 	// 세션 스토리지에 로그인 정보가 없는데 /#/ 또는 /#/login이 아닌 경우 /#/ 페이지로 이동
-	if (!getSocketStatus() && location.hash !== '#/' && location.hash !== '#/login') {
+	if (!getSocketStatus() && location.hash !== '#/' && location.hash !== '#/login' && location.hash !== '#/login/2fa') {
 		location.href = '/#/'
 	}
 

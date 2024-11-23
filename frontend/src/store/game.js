@@ -15,7 +15,7 @@ export const loadFriendGameRecords = async () => {
     return new Promise(async (resolve, reject) => {
         try {
             const friendList = store.state.userFriends;
-            const response = await fetch(`/api/matches/search/`, {
+            const response = await fetch(`/api/games/matches/search/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export const loadFriendGameRecords = async () => {
 export const loaduserGameRecords = async () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch(`/api/matches/${store.state.userInfo.username}/`);
+            const response = await fetch(`/api/games/matches/${store.state.userInfo.username}/`);
             if (response.status === 200) {
                 const user = await response.json();
                 store.state.userGameRecords = user.matches;
