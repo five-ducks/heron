@@ -2,7 +2,7 @@ import { Component, getCookie } from "../core/core.js";
 import { Input } from "../components/Input/Input.js";
 import { Button } from "../components/Button.js";
 import { CustomAlert } from "../components/Alert/Alert.js";
-import QRCode from 'qrcode';
+// import QRCode from 'qrcode';
 
 export default class TwoFactorAuth extends Component {
     constructor() {
@@ -38,8 +38,9 @@ export default class TwoFactorAuth extends Component {
 
     async request2FA() {
         try {
-            const response = await fetch('/api/auth/request-2fa/', {
-                method: 'POST',
+            const resUri = localStorage.getItem('username');
+            const response = await fetch(`/api/auth/2fa/generate?username=${resUri}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-Token': getCookie('csrftoken'),
@@ -52,22 +53,23 @@ export default class TwoFactorAuth extends Component {
                 throw new Error('2FA 요청 실패');
             }
 
-            const data = await response.json();
+            // const data = await response.json();
             // 백엔드에서 받은 데이터로 QR 코드 생성
-            const qrCanvas = await this.generateQRCode(data.qrData);
+            // const qrCanvas = await this.generateQRCode(data.qrData);
 
             this.state.isRequestSent = true;
-            this.state.qrData = data.qrData;
+            // this.state.qrData = data.qrData;
             this.render();
 
             // QR 코드 캔버스를 DOM에 추가
-            const qrContainer = this.el.querySelector('.qr-image-container');
-            if (qrContainer) {
-                qrContainer.innerHTML = '';
-                qrContainer.appendChild(qrCanvas);
-            }
+            // const qrContainer = this.el.querySelector('.qr-image-container');
+            // if (qrContainer) {
+            //     qrContainer.innerHTML = '';
+            //     qrContainer.appendChild(qrCanvas);
+            // }
 
-            await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
+            // await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
+            console.log(response);
         } catch (error) {
             console.error('2FA Request Error:', error);
             await this.showAlert(`오류: ${error.message}`);

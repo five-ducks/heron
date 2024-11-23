@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from oauth.views import OAuthViewSet, login_redirect
 from custom_auth.views import AuthViewSet
+from two_fa.views import TwoFAViewSet
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from django.contrib import admin
@@ -27,6 +28,7 @@ authRouter.register(r'auth', AuthViewSet, basename='auth')
 
 oauthRouter = DefaultRouter()
 oauthRouter.register(r'oauth', OAuthViewSet, basename='oauth')
+oauthRouter.register(r'2fa', TwoFAViewSet, basename='2fa')
 
 urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'), # API 스키마 생성 엔드포인트
@@ -37,3 +39,5 @@ urlpatterns = [
 
     path('oauth/login/redirect', login_redirect, name='login42_redirect'),
 ]
+
+print(urlpatterns)

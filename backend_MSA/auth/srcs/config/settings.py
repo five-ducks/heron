@@ -35,6 +35,11 @@ CSRF_TRUSTED_ORIGINS = ['https://localhost']
 
 # Application definition
 INSTALLED_APPS = [
+    'phonenumbers',
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
     'rest_framework',
     'rest_framework_simplejwt',
     'custom_auth.apps.CustomAuthConfig',
@@ -76,6 +81,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    'django_otp.middleware.OTPMiddleware',
     'config.middleware.CookieToAuthorizationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
