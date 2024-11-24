@@ -1,8 +1,9 @@
 from typing import Dict, Optional
 import asyncio
 from django.utils import timezone
-from channels.layers import get_channel_layer
+from channels.db import database_sync_to_async
 from ..elements import GameState
+from ..models import Match
 
 class GameManager:
     def __init__(self, group_manager, match_type='onetoone'):
@@ -236,30 +237,26 @@ class GameManager:
             return
 
         try:
-            from ..models import Match
-            from channels.db import database_sync_to_async
-
-            @database_sync_to_async
-            def save_to_db():
-                try:
-                    username1 = list(self.player_infos.values())[0]['username']
-                    username2 = list(self.player_infos.values())[1]['username']
-
-                    Match.objects.create(
-                        match_username1=username1,
-                        match_username2=username2,
-                        match_result='user1_win' if self.match_result['winner'] == 1 else 'user2_win',
-                        match_start_time=self.match_result['start_time'],
-                        match_end_time=self.match_result['end_time'],
-                        username1_grade=self.match_result['player1_score'],
-                        username2_grade=self.match_result['player2_score'],
-                        match_type=self.match_result['match_type']
-                    )
-                except Exception as e:
-                    print(f"Error in save_to_db: {e}")
-
-            await save_to_db()
+            await self.save_to_db()
         except Exception as e:
             print(f"Error in save_match_result: {e}")
             
+    @database_sync_to_async
+    def save_to_db(self):
+        try:
+            username1 = list(self.player_infos.values())[0]['username']
+            username2 = list(self.player_infos.values())[1]['username']
+
+            Match.objects.create(
+                match_username1=username1,
+                match_username2=username2,
+                match_result='user1_win' if self.match_result['winner'] == 1 else 'user2_win',
+                match_start_time=self.match_result['start_time'],
+                match_end_time=self.match_result['end_time'],
+                username1_grade=self.match_result['player1_score'],
+                username2_grade=self.match_result['player2_score'],
+                match_type=self.match_result['match_type']
+            )
+        except Exception as e:
+            print(f"Error in save_to_db: {e}")
 	
