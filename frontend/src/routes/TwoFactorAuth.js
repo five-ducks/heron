@@ -93,7 +93,6 @@ export default class TwoFactorAuth extends Component {
             // 'username' 파라미터의 값을 추출합니다.
             const username = urlParams.get('username');
 
-            console.log(username);
             const response = await fetch(`/api/auth/2fa/verify/?username=${username}`, {
                 method: 'POST',
                 headers: {
