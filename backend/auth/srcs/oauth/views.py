@@ -15,7 +15,7 @@ from custom_auth.serializers import (
 client_id = settings.CLIENT_ID
 client_secret = settings.CLIENT_SECRET
 
-redirect_uri = "http://localhost:8002/oauth/login/redirect"
+redirect_uri = "http://10.18.204.91:8002/oauth/login/redirect"
 join_api_url = "http://backend-user:8001/internal/users/join/"
 
 
@@ -40,7 +40,7 @@ def login_redirect(request):
                 elif int(error_code[0]) == 409:
                     raise PermissionError(str(detail[0]))
 
-            return HttpResponseRedirect(f"https://localhost/#/login/2fa?username={username}")
+            return HttpResponseRedirect(f"https://10.18.204.91/#/login/2fa?username={username}")
         # Auth 테이블에 유저가 없는 경우 회원가입
         else:
             new_user_data = {"username": username, "password": "42oauth", "profile_img": 1}
@@ -70,7 +70,7 @@ def login_redirect(request):
 
             # 유효성 검사에서 통과하면 회원가입            
             serializer.save()
-            return HttpResponseRedirect("https://localhost")
+            return HttpResponseRedirect("https://10.18.204.91")
     except ValueError as e:
         return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     except PermissionError as e:

@@ -12,7 +12,7 @@ class TournamentState(Enum):
     FINISH = "finish"				# 토너먼트 종료
 
 class TournamentManager:
-    def __init__(self):
+    def __init__(self, group_manager):
         self.state = TournamentState.WAITING
         self.players: List[Dict] = []  # [{channel_name, username, ready}, ...]
         self.matches = {
@@ -22,8 +22,9 @@ class TournamentManager:
         self.semifinal_winners = []
         self.semifinal_losers = set()
         self.champion = None
+        self.group_manager = group_manager
         self.game_managers = {}  # match_id: GameManager
-        self.channel_layer = get_channel_layer()
+        self.channel_layer = group_manager.channel_layer
         self.group_name: Optional[str] = None
 
 	# 플레이어 연결 처리
@@ -47,17 +48,14 @@ class TournamentManager:
 	# 결승 준비 완료 처리
     async def handle_player_ready(self, channel_name: str) -> None:
         try:
-            if self.state != TournamentState.SEMIFINAL_END:
-                return
-
             # 준비 완료 상태
             for winner in self.semifinal_winners:
                 if winner['channel_name'] == channel_name:
                     winner['ready'] = True
                     break
 
-            # 모든 승자가 준비되었는지 확인
-            if all(winner.get('ready', False) for winner in self.semifinal_winners):
+            # 모든 4강전이 종료되었고, 모든 승자가 준비되었는지 확인
+            if len(self.semifinal_winners) == 2 and all(winner.get('ready', False) for winner in self.semifinal_winners):
                 await self.start_final()
 
         except Exception as e:
@@ -86,7 +84,7 @@ class TournamentManager:
                 await self.channel_layer.group_add(match_group, player1['channel_name'])
                 await self.channel_layer.group_add(match_group, player2['channel_name'])
 
-                game_manager = GameManager(match_type='tournament')
+                game_manager = GameManager(self.group_manager, match_type='tournament')
                 self.game_managers[match_id] = game_manager
 
 				# 게임 매니저에 플레이어 연결
@@ -121,7 +119,7 @@ class TournamentManager:
                 await self.channel_layer.group_discard(final_waiting_group, player['channel_name'])
                 await self.channel_layer.group_add(match_group, player['channel_name'])
 
-            game_manager = GameManager(match_type='tournament')
+            game_manager = GameManager(self.group_manager, match_type='tournament')
             self.game_managers[match_id] = game_manager
 
             await game_manager.handle_player_connect(
@@ -236,21 +234,11 @@ class TournamentManager:
 	# 플레이어 비정상 종료 처리
     async def handle_player_disconnect(self, channel_name: str) -> None:
         try:
-            # 정상 종료된 플레이어면 추가 처리하지 않음
-            if channel_name in self.semifinal_losers:
-                self.semifinal_losers.remove(channel_name)
-                return
-
-            # 4강전 승자인 경우 추가 처리하지 않음
-            if self.state == TournamentState.SEMIFINAL_END and \
-               any(winner['channel_name'] == channel_name for winner in self.semifinal_winners):
-                return
-
             # 연결 해제된 플레이어 찾기
             disconnected_player = next((p for p in self.players if p['channel_name'] == channel_name), None)
             if not disconnected_player:
                 return
-
+            
             # 현재 진행 중인 매치 찾기
             current_match = None
             current_game = None
@@ -261,20 +249,19 @@ class TournamentManager:
                     break
 
             if current_game:
-                # 상대방에게 승리 처리
+                # 현재 게임의 상대방에게만 disconnect 메시지 전송
                 opponent_channel = next(ch for ch in current_game.player_infos.keys() if ch != channel_name)
-                await self.handle_match_end(current_match, opponent_channel)
+                await self.channel_layer.send(
+                    opponent_channel,
+                    {
+                        'type': 'game_opponent_disconnected',
+                        'message': f"Player {disconnected_player['username']} has disconnected.",
+                        'state': f"{self.state}"
+                    }
+                )
 
-            # 다른 모든 플레이어에게 알림
-            for player in self.players:
-                if player['channel_name'] != channel_name:
-                    await self.channel_layer.send(
-                        player['channel_name'],
-                        {
-                            'type': 'game_opponent_disconnected',
-                            'message': f"Player {disconnected_player['username']} has disconnected."
-                        }
-                    )
+                # 상대방에게 승리 처리
+                await self.handle_match_end(current_match, opponent_channel)
 
         except Exception as e:
            print(f"Error in handle_player_disconnect: {e}")
@@ -288,11 +275,11 @@ class TournamentManager:
                 if game_manager:
                     # 승리자의 플레이어 번호 찾기 (1 또는 2)
                     winner_number = 1 if list(game_manager.player_infos.keys())[0] == winner_channel else 2
-                    
+
                     # 게임 매니저에서 정리
                     self.game_managers.pop(match_id, None)
                     await game_manager.cleanup()
-                    
+
                     # 4강전 결과 처리
                     await self.handle_semifinal_end(match_id, winner_number)
                     

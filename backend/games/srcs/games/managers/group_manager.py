@@ -1,3 +1,4 @@
+from channels.layers import get_channel_layer
 from typing import Optional
 from .game_manager import GameManager
 from .tournament_manager import TournamentManager
@@ -14,12 +15,13 @@ class GroupManager:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
+            cls._instance.channel_layer = get_channel_layer()
             cls._instance._groups = {}  # group_id: group_info
             cls._instance._game_managers = {}  # group_id: GameManager (1대1용)
             cls._instance._tournament_managers = {}  # group_id: TournamentManager (토너먼트용)
         return cls._instance
 
-    def get_or_create_group(self, group_type: GroupType) -> int:
+    def get_or_create_group(self, group_type: GroupType) -> str:
         # 참여 가능한 기존 그룹 찾기
         for group_id, group_info in self._groups.items():
             if (group_info['type'] == group_type and not group_info['started']):
@@ -28,7 +30,6 @@ class GroupManager:
                     return group_id
 
         # 새 그룹 생성
-        # 토너먼트와 1대1 게임에서 그룹 아이디를 따로 줘야하나?
         new_group_id = str(uuid.uuid4())
         self._groups[new_group_id] = {
             'type': group_type,
@@ -38,9 +39,9 @@ class GroupManager:
 
         # 그룹 타입에 따른 매니저 생성
         if group_type == GroupType.ONETOONE:
-            self._game_managers[new_group_id] = GameManager(match_type='onetoone')
+            self._game_managers[new_group_id] = GameManager(self, match_type='onetoone')
         else:
-            self._tournament_managers[new_group_id] = TournamentManager()
+            self._tournament_managers[new_group_id] = TournamentManager(self)
 
         return new_group_id
 
@@ -69,7 +70,7 @@ class GroupManager:
         
 		# 그룹의 clients 목록에서 유저 제거
         if 'clients' in group_info:
-            group_info['clients'].discard(channel_name)
+            group_info['clients'].remove(channel_name)
 
 		# 그룹에 더 이상 클라이언트가 없으면 그룹 목록에서 삭제
         if not group_info['clients']:

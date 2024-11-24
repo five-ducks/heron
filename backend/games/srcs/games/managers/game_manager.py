@@ -5,13 +5,13 @@ from channels.layers import get_channel_layer
 from ..elements import GameState
 
 class GameManager:
-    def __init__(self, match_type='onetoone'):
+    def __init__(self, group_manager, match_type='onetoone'):
         self.game_state: GameState = None
         self.player_infos: Dict[str, Dict] = {}
         self.game_loop_task: Optional[asyncio.Task] = None
         self.game_start_time: Optional[timezone.datetime] = None
         self.ended_flag: bool = False
-        self.channel_layer = get_channel_layer()
+        self.channel_layer = group_manager.channel_layer
         self.group_name: Optional[str] = None
         self.match_type = match_type  # 게임 타입 저장
         self.match_result = None # 매치 결과 저장
@@ -83,23 +83,23 @@ class GameManager:
                     self.game_loop_task.cancel()
                     self.game_loop_task = None
 
-                # 몰수패 결과 준비 및 저장 (남은 플레이어가 승리)
-                if self.disconnect_handled == False:
-                    remaining_player = [player for player in self.player_infos.values() if player['number'] != self.player_infos[channel_name]['number']][0]
-                    await self.prepare_match_result(remaining_player['number'], is_forfeit=True)
-                    await self.save_match_result()
-                    self.disconnect_handled = True
+					# 몰수패 결과 준비 및 저장 (남은 플레이어가 승리)
+                    if self.disconnect_handled == False:
+                        remaining_player = [player for player in self.player_infos.values() if player['number'] != self.player_infos[channel_name]['number']][0]
+                        await self.prepare_match_result(remaining_player['number'], is_forfeit=True)
+                        await self.save_match_result()
+                        self.disconnect_handled = True
 
-                # 다른 플레이어에게 알림
-                for other_channel in self.player_infos:
-                    if other_channel != channel_name:
-                        await self.channel_layer.send(
-                            other_channel,
-                            {
-                                'type': 'game_opponent_disconnected',
-                                'message': 'Opponent has disconnected.'
-                            }
-                        )
+                    # 다른 플레이어에게 알림
+                    for other_channel in self.player_infos:
+                        if other_channel != channel_name:
+                            await self.channel_layer.send(
+                    			other_channel,
+                    			{
+                    				'type': 'game_opponent_disconnected',
+                    				'message': 'Opponent has disconnected.'
+                    			}
+                    	    )
 
         except Exception as e:
             print(f"Error in handle_player_disconnect: {e}")
@@ -237,7 +237,6 @@ class GameManager:
 
         try:
             from ..models import Match
-            from users.models import User
             from channels.db import database_sync_to_async
 
             @database_sync_to_async

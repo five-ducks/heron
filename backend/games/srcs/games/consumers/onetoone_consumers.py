@@ -37,7 +37,6 @@ class OneToOneGameConsumer(BaseGameConsumer):
             await self.game_manager.handle_message(self.channel_name, data)
 
     async def game_state(self, event):
-        print(f"game_state: {event['state']}")
         await self.send(text_data=json.dumps({
             'type': 'gameState',
             'state': event['state']
