@@ -2,8 +2,8 @@ services:
   backend-user:
     container_name: backend-user
     build: ./backend/users/
-    ports:
-      - 8001:8001
+    expose:
+      - 8001
     volumes:
       - ./backend/users/srcs:/app
     networks:
@@ -20,8 +20,8 @@ services:
   backend-auth:
     container_name: backend-auth
     build: ./backend/auth/
-    ports:
-      - 8002:8002
+    expose:
+      - 8002
     volumes:
       - ./backend/auth/srcs:/app
     networks:
@@ -38,8 +38,8 @@ services:
   backend-game:
     container_name: backend-game
     build: ./backend/games/
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     volumes:
       - ./backend/games/srcs:/app
     networks:
