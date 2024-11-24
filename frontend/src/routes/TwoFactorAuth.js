@@ -7,30 +7,24 @@ export default class TwoFactorAuth extends Component {
     constructor() {
         super({
             props: {
-                className: 'two-factor-auth container row justify-content-center align-items-center',
+                // className: 'two-factor-auth container row justify-content-center align-items-center',
+                className: 'two-factor-auth container flex-column align-items-center',
             }
         });
 
         this.state = {
             isRequestSent: false,
-            qrData: null
+            qrData: null // QR 데이터를 공유 상태로 관리
         };
     }
 
     async request2FA() {
         try {
             const hash = window.location.hash;
-
-            // ? 뒤의 쿼리 문자열 부분을 추출합니다.
             const queryString = hash.split('?')[1];
-
-            // URLSearchParams를 사용하여 쿼리 문자열을 파싱합니다.
             const urlParams = new URLSearchParams(queryString);
-
-            // 'username' 파라미터의 값을 추출합니다.
             const username = urlParams.get('username');
 
-            console.log(username); // '111'
             const response = await fetch(`/api/auth/2fa/generate/?username=${username}`, {
                 method: 'GET',
                 headers: {
@@ -44,42 +38,31 @@ export default class TwoFactorAuth extends Component {
                 throw new Error(errorData.message || '2FA 요청 실패');
             }
 
-            // 응답 데이터 파싱
             const data = await response.json();
             this.state.qrData = data.qr_code; // QR 코드 데이터를 상태에 저장
-
-            // QR 코드 생성 및 DOM에 추가
-            const qrCanvas = await this.generateQRCode(data.qr_code);
-            const qrContainer = this.el.querySelector('.qr-image-container');
-            if (qrContainer) {
-                qrContainer.innerHTML = '';
-                qrContainer.appendChild(qrCanvas);
-            }
-
-            await this.showAlert('QR 코드가 생성되었습니다. 인증 앱으로 스캔해주세요.');
             this.state.isRequestSent = true;
             this.render();
-
         } catch (error) {
             console.error('2FA Request Error:', error);
             await this.showAlert(`오류: ${error.message}`);
         }
     }
 
-    async generateQRCode(base64Data) {
+    async generateQRCode() {
         try {
-            // Base64 데이터를 Blob으로 변환
-            const binary = atob(base64Data);
+            if (!this.state.qrData) {
+                throw new Error('QR 데이터가 없습니다.');
+            }
+
+            const binary = atob(this.state.qrData);
             const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
             const qrBlob = new Blob([bytes], { type: 'image/png' });
-
-            // Blob URL 생성
             const qrUrl = URL.createObjectURL(qrBlob);
+
             const qrCanvas = document.createElement('canvas');
             const qrImage = new Image();
             qrImage.src = qrUrl;
 
-            // Canvas에 QR 코드 이미지를 그림
             await new Promise((resolve, reject) => {
                 qrImage.onload = () => {
                     qrCanvas.width = qrImage.width;
@@ -142,33 +125,37 @@ export default class TwoFactorAuth extends Component {
         await alert.show();
     }
 
+    renderQRCode() {
+        const qrContainer = this.el.querySelector('.qr-image-container');
+        if (qrContainer) {
+            if (this.state.qrData) {
+                this.generateQRCode()
+                    .then(qrCanvas => {
+                        qrContainer.innerHTML = '';
+                        qrContainer.appendChild(qrCanvas);
+                    })
+                    .catch(error => console.error('QR Code rendering error:', error));
+            } else {
+                qrContainer.innerHTML = `<p>QR 데이터를 로드 중입니다...</p>`;
+            }
+        }
+    }
+
     render() {
         this.el.innerHTML = /*html*/`
-            <div class="two-factor-container d-flex flex-column align-items-center gap-4">
-                <h1 class="two-factor-title" style="font-family: var(--title-font);">2-Factor Authentication</h1>
-                <div class="qr-container text-center mb-4">
-                    <div class="qr-image-container mb-3"></div>
-                    ${!this.state.isRequestSent ?
-                `<button class="btn btn-primary" id="generateQR">QR 코드 생성</button>` :
-                `<p class="text-muted">QR 코드를 인증 앱으로 스캔해주세요</p>`
-            }
-                </div>
-                <div class="two-factor-input-container"></div>
-                <div class="button-row d-flex justify-content-center gap-3"></div>
-            </div>
+                <h1 style="font-family: var(--title-font);">2-Factor Authentication</h1>
+                <div class="qr-image-container"></div>
+                ${!this.state.isRequestSent
+                ? `<button class="btn btn-primary" id="generateQR">QR 코드 생성</button>`
+                : `<p>QR 코드를 인증 앱으로 스캔해주세요</p>`}
+                <div class="two-factor-input-container d-flex flex-row gap-3"></div>
         `;
 
-        // QR 코드 생성 버튼 이벤트 리스너
         if (!this.state.isRequestSent) {
-            const generateButton = this.el.querySelector('#generateQR');
-            if (generateButton) {
-                generateButton.addEventListener('click', () => this.request2FA());
-            }
+            this.request2FA()
         } else {
             const inputContainer = this.el.querySelector('.two-factor-input-container');
-            const buttonRow = this.el.querySelector('.button-row');
 
-            // 인증 코드 입력 단계
             const codeInput = new Input({
                 placeholder: 'Enter verification code',
                 variant: 'background',
@@ -178,8 +165,8 @@ export default class TwoFactorAuth extends Component {
 
             const verifyButton = new Button({
                 style: 'gray',
-                size: 'xxl',
-                text: 'Verify'
+                size: 'xl',
+                text: 'Verify',
             }, async () => {
                 const code = codeInput.getValue();
                 if (!code) {
@@ -189,31 +176,11 @@ export default class TwoFactorAuth extends Component {
                 await this.verify2FA(code);
             });
 
-            const resendButton = new Button({
-                style: 'outline',
-                size: 'xxl',
-                text: 'Regenerate QR'
-            }, async () => {
-                await this.request2FA();
-            });
-
             inputContainer.append(codeInput.el);
-            buttonRow.append(verifyButton.el, resendButton.el);
+            codeInput.el.classList.add('col-9');
+            inputContainer.append(verifyButton.el);
         }
 
-
-
-        // 이미 QR 데이터가 있다면 QR 코드 다시 생성
-        if (this.state.qrData) {
-            this.generateQRCode(this.state.qrData)
-                .then(qrCanvas => {
-                    const qrContainer = this.el.querySelector('.qr-image-container');
-                    if (qrContainer) {
-                        qrContainer.innerHTML = '';
-                        qrContainer.appendChild(qrCanvas);
-                    }
-                })
-                .catch(error => console.error('QR Code regeneration error:', error));
-        }
+        this.renderQRCode();
     }
 }
