@@ -51,13 +51,13 @@ export class ProfileSummary extends Component {
 		profileStateArea.appendChild(profileStateInput.el);
 
 		// 승부 요약
-		const profileWin = document.createElement('div');
-		profileWin.innerHTML = /*html*/`
-			<p>승부 요약</p>
-			<span>${props.win_cnt}승 ${props.lose_cnt}패</span>
-		`;
-		profileWin.classList.add('col-3', 'profile-win');
-		profilebtnArea.appendChild(profileWin);
+		// const profileWin = document.createElement('div');
+		// profileWin.innerHTML = /*html*/`
+		// 	<p>승부 요약</p>
+		// 	<span>${props.win_cnt}승 ${props.lose_cnt}패</span>
+		// `;
+		// profileWin.classList.add('col-3', 'profile-win');
+		// profilebtnArea.appendChild(profileWin);
 
 		const logoutBtn = new Button({
 			style: 'blue',
